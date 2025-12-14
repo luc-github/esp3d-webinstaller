@@ -1,8 +1,6 @@
 # ESP3D Web Installer
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-[![GitHub issues](https://img.shields.io/github/issues/luc-github/esp3d-webinstaller)](https://github.com/luc-github/esp3d-webinstaller/issues)
-[![GitHub discussions](https://img.shields.io/github/discussions/luc-github/esp3d-webinstaller)](https://github.com/luc-github/esp3d-webinstaller/discussions)
 
 A modern, browser-based firmware installer for ESP32 devices using the Web Serial API. Flash your ESP32 directly from your browser without installing any software.
 
@@ -360,7 +358,7 @@ This project is licensed under the **GNU Lesser General Public License v3.0** - 
 This project uses the excellent [esptool-js](https://github.com/espressif/esptool-js) library for ESP32 communication.
 
 <a href="https://github.com/espressif/esptool-js">
-  <img src="images/espressif.png" alt="Espressif Systems" width="200">
+  <img src="images/espressif.png" alt="Espressif Systems" width="50">
 </a>
 
 **esptool-js** is developed by [Espressif Systems](https://www.espressif.com/) and is licensed under the Apache License 2.0.
@@ -368,8 +366,9 @@ This project uses the excellent [esptool-js](https://github.com/espressif/esptoo
 ### Other Acknowledgments
 
 - [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) - Browser serial communication
-- All contributors and users of this project
-
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API">
+  <img src="images/mozilla.png" alt="Mozilla" width="50">
+</a>
 ---
 
 Made with ❤️ for the ESP32 community
