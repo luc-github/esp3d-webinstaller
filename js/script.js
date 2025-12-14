@@ -11,7 +11,13 @@ let port = null; // Serial port
 
 // Flash event logging to server
 // Called ONLY at the very end of flash process (after reset + port close)
+// Only works when analytics is enabled (requires PHP backend)
 async function logFlashEvent(projectName, action, success, errorMsg = null, errorCategory = null) {
+    // Skip logging if analytics disabled
+    if (!pageConfig?.analytics) {
+        return;
+    }
+    
     try {
         const logData = {
             project: projectName,
@@ -151,7 +157,13 @@ function getBrowserInfo() {
 }
 
 // Log wrong browser error (called from browser compatibility check)
+// Only works when analytics is enabled (requires PHP backend)
 function logWrongBrowserError() {
+    // Skip if analytics disabled
+    if (!pageConfig?.analytics) {
+        return;
+    }
+    
     const browserInfo = getBrowserInfo();
     logFlashEvent(
         'N/A',
@@ -163,7 +175,13 @@ function logWrongBrowserError() {
 }
 
 // Load flash counts from server and update badges
+// Only works when analytics is enabled (requires PHP backend)
 async function loadFlashCounts() {
+    // Skip if analytics disabled
+    if (!pageConfig?.analytics) {
+        return;
+    }
+    
     try {
         const response = await fetch('get-flash-counts.php');
         if (!response.ok) return;
@@ -178,7 +196,7 @@ async function loadFlashCounts() {
                 const project = carouselProjects[projectIndex];
                 const projectCounts = counts[project.name];
                 
-                if (projectCounts && projectCounts.total > 0) {
+                if (projectCounts && projectCounts.success > 0) {
                     // Find or create flash count badge
                     let flashBadge = card.querySelector('.flash-count-badge');
                     

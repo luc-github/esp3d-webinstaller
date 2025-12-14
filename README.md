@@ -186,6 +186,7 @@ This file configures branding, links, and visual settings.
 
 | Section | Description |
 |---------|-------------|
+| `analytics`|`false` for static hosting (GitHub Pages),`true` for PHP server with logging |
 | `branding` | Logo and favicon paths |
 | `links.github` | "Report Issue" button configuration |
 | `footer` | Footer visibility and legal page links |
@@ -311,6 +312,138 @@ chown www-data:www-data flash-counts.json flash-errors.json
 | Opera | 75+ | ✅ Fully supported |
 | Firefox | - | ❌ No Web Serial API |
 | Safari | - | ❌ No Web Serial API |
+
+## 🚀 Deployment
+
+### GitHub Pages (Static)
+
+1. Set `"analytics": false` in `page-config.json`
+
+2. Remove PHP files (not needed):
+   ```bash
+   rm log-flash.php get-flash-counts.php get-flash-errors.php
+   rm flash-counts.json flash-errors.json
+   ```
+
+3. Push to GitHub and enable GitHub Pages in repository settings.
+
+4. Your installer will be available at `https://username.github.io/repository/`
+
+### PHP Server (With Analytics)
+
+1. Set `"analytics": true` in `page-config.json`
+
+2. Create the secret files directory (see Security section below for placement options)
+
+3. Generate a secret key:
+   ```bash
+   openssl rand -base64 32 > /path/to/secret_files/mykey.txt
+   ```
+
+4. Update the path in `log-flash.php` to match your setup:
+   ```php
+   'secret_key_file' => __DIR__ . '/../secret_files/mykey.txt',
+   ```
+
+5. Set permissions:
+   ```bash
+   chmod 700 /path/to/secret_files/
+   chmod 600 /path/to/secret_files/mykey.txt
+   chmod 644 flash-counts.json flash-errors.json
+   chmod 755 log-flash.php get-flash-counts.php get-flash-errors.php
+   ```
+
+6. Configure allowed origins in `log-flash.php`:
+   ```php
+   'allowed_origins' => [
+       'localhost',
+       'yourdomain.com',
+       'www.yourdomain.com',
+   ],
+   ```
+
+7. Deploy to your PHP-enabled web server.
+
+## 🔒 Security (PHP Server)
+
+When running with `analytics: true`, the following security measures are implemented:
+
+| Security Layer | Description |
+|----------------|-------------|
+| **Secret Key File** | Verifies script runs on legitimate server (file outside web access) |
+| **Rate Limiting** | Max 10 requests/minute, 50 requests/hour per IP |
+| **Input Validation** | Sanitizes all input, limits string lengths |
+| **File Size Limits** | Counts: 1MB max, Errors: 5MB max |
+| **Origin Check** | Validates Referer/Origin header |
+| **Honeypot** | Detects bot submissions |
+| **Payload Limit** | Max 10KB per request |
+
+### Secret Files Placement
+
+#### Option A: Outside web root (Recommended)
+
+Place `secret_files/` at the same level as your web root, not inside it:
+
+```
+/var/www/
+├── webinstaller/            <- Web root (HTTP accessible)
+│   ├── index.html
+│   ├── log-flash.php
+│   ├── flash-counts.json
+│   └── ...
+└── secret_files/            <- Outside web root (NOT HTTP accessible)
+    ├── mykey.txt
+    └── rate_limits.json     <- Auto-generated
+```
+
+In `log-flash.php`, use:
+```php
+'secret_key_file' => __DIR__ . '/../secret_files/mykey.txt',
+'rate_limit_file' => __DIR__ . '/../secret_files/rate_limits.json',
+```
+
+**✅ No additional web server configuration needed** - the directory is simply not served.
+
+#### Option B: Inside web root with access denied
+
+If you cannot place files outside the web root, put `secret_files/` inside and block access:
+
+```
+/var/www/webinstaller/       <- Web root
+├── index.html
+├── log-flash.php
+└── secret_files/            <- Inside web root, access blocked
+    ├── .htaccess            <- Required for Apache
+    ├── mykey.txt
+    └── rate_limits.json
+```
+
+In `log-flash.php`, use:
+```php
+'secret_key_file' => __DIR__ . '/secret_files/mykey.txt',
+'rate_limit_file' => __DIR__ . '/secret_files/rate_limits.json',
+```
+
+**Apache** - Create `secret_files/.htaccess`:
+```apache
+Require all denied
+```
+
+**Nginx** - Add to your server block:
+```nginx
+location /secret_files/ {
+    deny all;
+    return 403;
+}
+```
+
+### Verify Security
+
+Test that `secret_files/` is NOT accessible:
+```bash
+curl -I https://yourdomain.com/secret_files/mykey.txt
+# Should return 403 Forbidden or 404 Not Found
+```
 
 ## 🛠️ Development
 
