@@ -363,12 +363,15 @@ This project uses the excellent [esptool-js](https://github.com/espressif/esptoo
 
 **esptool-js** is developed by [Espressif Systems](https://www.espressif.com/) and is licensed under the Apache License 2.0.
 
-### Other Acknowledgments
+### Web Serial API
 
-- [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API) - Browser serial communication
+Communications with ESP32 are done using [Web Serial API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API).
+
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API">
-  <img src="images/mozilla.png" alt="Mozilla" width="50">
-</a>
----
+  <img src="images/mozilla.png" alt="Mozilla" width="100">
 
+The browser serial communication API from Mozilla.
+
+<br/>
+<br/>
 Made with ❤️ for the ESP32 community
