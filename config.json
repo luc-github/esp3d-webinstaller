@@ -6,9 +6,9 @@
       "enabled": true,
       "description": {
         "en": "Control your FluidNC CNC using bluetooth or serial connection. Professional wireless pendant with jog control, feed rate override, and real-time status display.",
-        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse d'avance et affichage temps réel."
+        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
       },
-      "version": "2.0.0a3",
+      "version": "2.0.0a4",
       "firmware": [
         { "path": "fluidnc/bootloader.bin", "offset": "0x1000" },
         { "path": "fluidnc/partitions.bin", "offset": "0x8000" },
@@ -19,8 +19,8 @@
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "badge": {
-        "en": "Test Version 2025/12/4",
-        "fr": "Version Test 2025/12/4"
+        "en": "Test Version 2025/12/14",
+        "fr": "Version Test 2025/12/14"
       }
     },
     {
