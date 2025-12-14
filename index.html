@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Web Installer</title>
+    <link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-container">
+                <img id="headerLogo" class="header-logo" src="" alt="Logo">
+                
+                <div class="header-content">
+                    <h1 id="title">ESP32 Web Installer</h1>
+                    <p id="subtitle">Flash your ESP32 directly from your browser</p>
+                </div>
+                
+                <div class="header-actions" id="headerActions">
+                    <!-- Buttons will be added dynamically -->
+                    <div class="language-selector">
+                        <select id="languageSelect" onchange="changeLanguage()">
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Browser compatibility warning -->
+            <div id="browserWarning" class="browser-warning">
+                <strong>⚠️ Browser Not Supported</strong>
+                <p id="browserWarningText"></p>
+            </div>
+
+            <div class="section section-compact">
+                <div id="projectCards" class="project-cards">
+                    <!-- 3D Carousel will be built here dynamically -->
+                </div>
+            </div>
+
+            <div id="flashSection" class="flash-section">
+                <h2 id="flashTitle">Flash Firmware</h2>
+                
+                <div class="alert alert-info" id="projectInfo">
+                    <strong id="selectedProjectName"></strong>
+                    <p id="selectedProjectDesc"></p>
+                    <div id="projectDocLink" style="margin-top: 10px; display: none;">
+                        <a id="docLinkButton" href="#" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; color: #667eea; text-decoration: none; font-weight: 500;">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                            <span id="docLinkText">Documentation</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Flash button instruction (simplified, detailed in modal) -->
+                <div id="flashInstruction" class="flash-instruction">
+                    <p id="instructionText1">
+                        <!-- Text will be set by JavaScript translation -->
+                    </p>
+                </div>
+
+                <!-- Flash Options -->
+                <div id="flashOptions" class="flash-options">
+                    <label class="flash-option-item">
+                        <input type="checkbox" id="eraseAllCheckbox" class="flash-checkbox">
+                        <span class="flash-option-label" id="eraseAllLabel">
+                            Erase all flash memory
+                        </span>
+                        <span class="flash-option-hint" id="eraseAllHint">
+                            (recommended for clean install)
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Progress bar -->
+                <div id="progressContainer" class="progress-container">
+                    <div class="progress-text">
+                        <span class="progress-label" id="progressLabel">Preparing...</span>
+                        <span class="progress-percent" id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressBarFill"></div>
+                    </div>
+                    <div class="progress-status" id="progressStatus">Ready to start</div>
+                </div>
+
+                <!-- Console logs with collapse -->
+                <div id="consoleWrapper" class="console-wrapper">
+                    <div class="console-header" onclick="toggleConsole()">
+                        <span class="console-title">Console Logs</span>
+                        <button class="console-toggle" id="consoleToggle">
+                            <span class="console-toggle-icon" id="consoleToggleIcon">▼</span>
+                            <span id="consoleToggleText">Hide</span>
+                        </button>
+                    </div>
+                    <div class="console-body" id="consoleBody">
+                        <div id="consoleContainer" class="console-container">
+                            <div class="console-line info" id="consoleReady">[INFO] Ready to connect...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flash button -->
+                <button id="flashButton" class="flash-button" onclick="startFlash()">
+                    <!-- Text will be set by JavaScript translation -->
+                </button>
+            </div>
+        </div>
+        
+        <!-- BOOT Button Modal -->
+        <div id="bootModal" class="boot-modal">
+            <div class="boot-modal-content">
+                <div class="boot-modal-icon">⚠️</div>
+                <h2 id="bootModalTitle">Press BOOT Button Now!</h2>
+                <p id="bootModalText">
+                    <strong>Hold the BOOT button</strong> on your ESP32 board now.<br>
+                    Keep holding until you see "Connected" message.<br><br>
+                    The button may be labeled as <strong>BOOT</strong>, <strong>FLASH</strong>, or <strong>GPIO0</strong>.
+                </p>
+                <button class="boot-modal-close" onclick="closeBootModal()">I'm Holding It</button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div id="footer" class="footer" style="display: none;">
+            <p id="footerText"></p>
+            <div id="footerLinks" class="footer-links"></div>
+        </div>
+    </div>
+
+    <!-- ESPLoader.js - Import as module -->
+    <script type="module">
+        import { Transport, ESPLoader } from 'https://unpkg.com/esptool-js@0.4.5/bundle.js';
+        
+        // Make available globally for our script
+        window.esptooljs = { Transport, ESPLoader };
+    </script>
+    
+    <script src="script.js?v=1.0.0"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "branding": {
+    "logo": "images/powered-logo.png",
+    "favicon": "images/favicon.ico"
+  },
+  "links": {
+    "github": {
+      "enabled": true,
+      "url": "https://github.com/your-username/your-repo/issues/new"
+    }
+  },
+  "footer": {
+    "enabled": true,
+    "links": [
+      {
+        "key": "privacyPolicy",
+        "url": "https://example.com/privacy"
+      },
+      {
+        "key": "termsOfService",
+        "url": "https://example.com/terms"
+      }
+    ]
+  },
+  "browser_compatibility": {
+    "show_warning": true,
+    "supported_browsers": ["Chrome", "Edge", "Opera"]
+  },
+  "theme": {
+    "primary_color": "#667eea",
+    "secondary_color": "#764ba2",
+    "success_color": "#00ff00",
+    "error_color": "#ff5555",
+    "warning_color": "#ffaa00"
+  }
+}

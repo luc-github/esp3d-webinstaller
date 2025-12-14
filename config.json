@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "id": "btpendantfluidnc",
+      "name": "Pibot CNC pendant V4.0 (FluidNC)",
+      "enabled": true,
+      "description": {
+        "en": "Control your FluidNC CNC using bluetooth or serial connection. Professional wireless pendant with jog control, feed rate override, and real-time status display.",
+        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse d'avance et affichage temps réel."
+      },
+      "version": "2.0.0a3",
+      "firmware": [
+        { "path": "fluidnc/bootloader.bin", "offset": "0x1000" },
+        { "path": "fluidnc/partitions.bin", "offset": "0x8000" },
+        { "path": "fluidnc/firmware.bin",   "offset": "0x10000" }
+      ],
+      "image": "images/pibot_cnc_pendant_4.0.png",
+      "icon": "images/fluidnc.svg",
+      "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "badge": {
+        "en": "Test Version 2025/12/4",
+        "fr": "Version Test 2025/12/4"
+      }
+    },
+    {
+      "id": "btpendantgrblhal",
+      "name": "Pibot CNC pendant V4.0 (grblHAL)",
+      "enabled": false,
+      "description": {
+        "en": "Control your grblHAL CNC using bluetooth or serial connection. Compatible with grblHAL firmware, featuring advanced machining controls.",
+        "fr": "Contrôlez votre CNC grblHAL avec bluetooth ou connection série. Compatible avec le firmware grblHAL, avec contrôles d'usinage avancés."
+      },
+      "version": "1.0.0",
+      "firmware": "firmwaregrblhal.bin",
+      "image": "images/pibot_cnc_pendant_4.0.png",
+      "icon": "images/grblHAL.svg",
+      "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "badge": {
+        "en": "Coming Soon",
+        "fr": "Bientôt"
+      }
+    }
+  ]
+}
