@@ -14,11 +14,11 @@
     "links": [
       {
         "key": "privacyPolicy",
-        "url": "https://example.com/privacy"
+        "url": "privacy.html"
       },
       {
         "key": "termsOfService",
-        "url": "https://example.com/terms"
+        "url": "terms.html"
       }
     ]
   },

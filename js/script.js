@@ -11,7 +11,7 @@ let port = null; // Serial port
 
 // Flash event logging to server
 // Called ONLY at the very end of flash process (after reset + port close)
-async function logFlashEvent(projectName, action, success, errorMsg = null) {
+async function logFlashEvent(projectName, action, success, errorMsg = null, errorCategory = null) {
     try {
         const logData = {
             project: projectName,
@@ -22,6 +22,12 @@ async function logFlashEvent(projectName, action, success, errorMsg = null) {
         
         if (errorMsg) {
             logData.error = errorMsg;
+            logData.errorCategory = errorCategory || categorizeError(errorMsg);
+            logData.context = {
+                browser: getBrowserInfo(),
+                stage: currentStage || 'unknown',
+                userAgent: navigator.userAgent
+            };
         }
         
         console.log(`Logging flash event for "${projectName}"...`);
@@ -46,6 +52,114 @@ async function logFlashEvent(projectName, action, success, errorMsg = null) {
         // Silent fail - don't interrupt user experience
         console.warn('Could not log flash event:', error);
     }
+}
+
+// Categorize error based on error message
+function categorizeError(errorMsg) {
+    const msg = errorMsg.toLowerCase();
+    
+    // User actions
+    if (msg.includes('no port selected') || msg.includes('user cancelled')) {
+        return 'user_cancel';
+    }
+    
+    // Port issues
+    if (msg.includes('failed to execute \'open\'') || 
+        msg.includes('port is already open') ||
+        msg.includes('access denied') ||
+        msg.includes('port may be in use')) {
+        return 'port_busy';
+    }
+    
+    // Connection/timeout issues
+    if (msg.includes('timeout') || 
+        msg.includes('timed out') ||
+        msg.includes('failed to connect') ||
+        msg.includes('no response')) {
+        return 'connection_timeout';
+    }
+    
+    // Download/network issues
+    if (msg.includes('failed to download') || 
+        msg.includes('network') ||
+        msg.includes('fetch') ||
+        msg.includes('http')) {
+        return 'download_failed';
+    }
+    
+    // Hardware/chip issues
+    if (msg.includes('chip') || 
+        msg.includes('flash') ||
+        msg.includes('memory') ||
+        msg.includes('stub') ||
+        msg.includes('bootloader')) {
+        return 'hardware_error';
+    }
+    
+    // Browser compatibility
+    if (msg.includes('serial') && msg.includes('not supported') ||
+        msg.includes('navigator.serial') ||
+        msg.includes('undefined')) {
+        return 'wrong_browser';
+    }
+    
+    return 'flash_error';
+}
+
+// Get browser information for error context
+function getBrowserInfo() {
+    const ua = navigator.userAgent;
+    let browser = 'Unknown';
+    let version = '';
+    
+    if (ua.includes('Chrome') && !ua.includes('Edg')) {
+        browser = 'Chrome';
+        const match = ua.match(/Chrome\/(\d+)/);
+        if (match) version = match[1];
+    } else if (ua.includes('Edg')) {
+        browser = 'Edge';
+        const match = ua.match(/Edg\/(\d+)/);
+        if (match) version = match[1];
+    } else if (ua.includes('Firefox')) {
+        browser = 'Firefox';
+        const match = ua.match(/Firefox\/(\d+)/);
+        if (match) version = match[1];
+    } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
+        browser = 'Safari';
+        const match = ua.match(/Version\/(\d+)/);
+        if (match) version = match[1];
+    } else if (ua.includes('Opera')) {
+        browser = 'Opera';
+        const match = ua.match(/Opera\/(\d+)/);
+        if (match) version = match[1];
+    }
+    
+    // Detect OS
+    let os = 'Unknown';
+    if (ua.includes('Windows')) os = 'Windows';
+    else if (ua.includes('Mac')) os = 'macOS';
+    else if (ua.includes('Linux')) os = 'Linux';
+    else if (ua.includes('Android')) os = 'Android';
+    else if (ua.includes('iOS') || ua.includes('iPhone')) os = 'iOS';
+    
+    return {
+        name: browser,
+        version: version,
+        os: os,
+        webSerial: 'serial' in navigator
+    };
+}
+
+// Log wrong browser error (called from browser compatibility check)
+function logWrongBrowserError() {
+    const browserInfo = getBrowserInfo();
+    logFlashEvent(
+        'N/A',
+        'browser_check',
+        false,
+        `Unsupported browser: ${browserInfo.name} ${browserInfo.version} on ${browserInfo.os}`,
+        'wrong_browser'
+    );
 }
 
 // Load flash counts from server and update badges
@@ -85,15 +199,15 @@ async function loadFlashCounts() {
                         }
                     }
                     
-                    // Update badge content with GitHub-style icon
+                    // Update badge content with GitHub-style icon (show only success count)
                     flashBadge.innerHTML = `
                         <svg class="flash-icon" viewBox="0 0 16 16" width="16" height="16">
                             <path fill="currentColor" d="M8 0L0 8l8 8 8-8-8-8zm0 1.5L14.5 8 8 14.5 1.5 8 8 1.5z"/>
                             <path fill="currentColor" d="M8 4L5 8h2v4l3-4H8V4z"/>
                         </svg>
-                        <span>${projectCounts.total.toLocaleString()}</span>
+                        <span>${projectCounts.success.toLocaleString()}</span>
                     `;
-                    flashBadge.title = `Success: ${projectCounts.success} | Failed: ${projectCounts.failed}`;
+                    flashBadge.title = `${projectCounts.success} successful flashes`;
                 }
             }
         });
@@ -284,6 +398,9 @@ function checkBrowserCompatibility() {
             flashBtn.disabled = true;
             flashBtn.textContent = 'Browser Not Supported';
         }
+        
+        // Log wrong browser error for analytics
+        logWrongBrowserError();
     }
 }
 

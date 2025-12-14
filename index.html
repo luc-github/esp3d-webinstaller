@@ -138,14 +138,14 @@
         </div>
     </div>
 
-    <!-- ESPLoader.js - Import as module -->
+    <!-- ESPLoader.js - Local bundle (version 0.4.5) -->
     <script type="module">
-        import { Transport, ESPLoader } from 'https://unpkg.com/esptool-js@0.4.5/bundle.js';
+        import { Transport, ESPLoader } from './js/esptool-bundle.js';
         
         // Make available globally for our script
         window.esptooljs = { Transport, ESPLoader };
     </script>
     
-    <script src="script.js?v=1.0.0"></script>
+    <script src="js/script.js?v=1.0.0"></script>
 </body>
 </html>
