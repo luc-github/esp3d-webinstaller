@@ -1441,3 +1441,35 @@ esp-web-install-button button:hover {
     margin: 6px 0;  /* Reduced from 12px */
     line-height: 1.5;
 }
+
+/* ===== MOBILE OVERLAP FIX ===== */
+@media (max-width: 768px) {
+    /* Hide side cards to prevent overlap on mobile */
+    .project-card.position--1,
+    .project-card.position-1 {
+        display: none !important;
+    }
+    
+    /* Ensure center card is visible with normal positioning */
+    .project-card.position-0 {
+        transform: translateX(0) translateZ(0) rotateY(0deg) scale(1) !important;
+        position: relative !important;
+        opacity: 1 !important;
+        z-index: 10 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Hide side cards on small mobile too */
+    .project-card.position--1,
+    .project-card.position-1 {
+        display: none !important;
+    }
+    
+    /* Center card normal positioning */
+    .project-card.position-0 {
+        transform: translateX(0) translateZ(0) rotateY(0deg) scale(1) !important;
+        position: relative !important;
+        opacity: 1 !important;
+    }
+}
