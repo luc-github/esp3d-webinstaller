@@ -41,28 +41,33 @@
     "error_color": "#ff5555",
     "warning_color": "#ffaa00"
   },
-  "start_sound": {
+   "audio_feedback": {
     "enabled": true,
-    "path": "sounds/start.mp3",
-    "volume": 0.7
-  },
-  "success_sound": {
-    "enabled": true,
-    "path": "sounds/success.mp3",
-    "volume": 0.8
-  },
-  "error_sounds": {
-    "enabled": true,
+    "verbosity": "verbose",
     "volume": 0.7,
-    "sounds": {
-      "user_cancel": "sounds/cancel.mp3",
-      "connection_timeout": "sounds/timeout.mp3",
-      "port_busy": "sounds/busy.mp3",
-      "hardware_error": "sounds/hardware-error.mp3",
-      "download_failed": "sounds/download-error.mp3",
-      "wrong_browser": "sounds/browser-error.mp3",
-      "flash_error": "sounds/flash-error.mp3",
-      "default": "sounds/error.mp3"
+    "events": {
+      "start": "",
+      "dialog_open": "sounds/[lang]/select-port.mp3",
+      "port_selected": "sounds/[lang]/port-selected.mp3",
+      "boot_prompt": "sounds/[lang]/press-boot.mp3",
+      "connecting": "sounds/[lang]/connecting.mp3",
+      "connected": "sounds/[lang]/connected.mp3",
+      "erasing": "",
+      "erase_complete": "",
+      "flashing_start": "sounds/[lang]/flashing-start.mp3",
+      "flashing_progress": "sounds/[lang]/progress.mp3",
+      "writing_complete": "",
+      "rebooting": "",
+      "success": "sounds/[lang]/success.mp3",
+      "error": "sounds/[lang]/error.mp3",
+      "error_user_cancel": "sounds/[lang]/cancel.mp3",
+      "error_connection_timeout": "sounds/[lang]/timeout.mp3",
+      "error_port_busy": "sounds/[lang]/busy.mp3",
+      "error_hardware_error": "sounds/[lang]/hardware-error.mp3",
+      "error_download_failed": "sounds/[lang]/download-error.mp3",
+      "error_wrong_browser": "sounds/[lang]/browser-error.mp3",
+      "error_flash_error": "sounds/[lang]/flash-error.mp3"
+      
     }
   }
 }

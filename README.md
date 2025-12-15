@@ -195,28 +195,20 @@ This file configures branding, links, and visual settings.
     "warning_color": "#ffaa00"
   },
   },
-  "start_sound": {
-    "enabled": true,
-    "path": "sounds/start.mp3",
-    "volume": 0.7
   },
-  "success_sound": {
-    "enabled": true,
-    "path": "sounds/success.mp3",
-    "volume": 0.8
   },
-  "error_sounds": {
+  "audio_feedback": {
     "enabled": true,
+    "verbosity": "normal",
     "volume": 0.7,
-    "sounds": {
-      "user_cancel": "sounds/cancel.mp3",
-      "connection_timeout": "sounds/timeout.mp3",
-      "port_busy": "sounds/busy.mp3",
-      "hardware_error": "sounds/hardware-error.mp3",
-      "download_failed": "sounds/download-error.mp3",
-      "wrong_browser": "sounds/browser-error.mp3",
-      "flash_error": "sounds/flash-error.mp3",
-      "default": "sounds/error.mp3"
+    "events": {
+      "start": "sounds/[lang]/start.mp3",
+      "boot_prompt": "sounds/[lang]/press-boot.mp3",
+      "connected": "sounds/[lang]/connected.mp3",
+      "erasing": "sounds/[lang]/erasing.mp3",
+      "flashing_start": "sounds/[lang]/flashing-start.mp3",
+      "success": "sounds/[lang]/success.mp3",
+      "error": "sounds/error.mp3"
     }
   }
 }
@@ -229,9 +221,7 @@ This file configures branding, links, and visual settings.
 | `footer` | Footer visibility and legal page links |
 | `browser_compatibility` | Warning for unsupported browsers |
 | `theme` | Color scheme (CSS variables) |
-| `start_sound` | Start sound configuration (optional) |
-| `success_sound` | Success sound configuration (optional) |
-| `error_sounds` | Error sounds configuration (optional) |
+| `audio_feedback` | Audio notification system (optional) |
 
 #### Languages Configuration
 
@@ -274,118 +264,258 @@ No code changes needed - the language selector updates automatically!
 
 #### Audio Notification System
 
-The audio notification system provides audio feedback at three key moments during the flashing process. All sounds are **completely optional** and **fully configurable**.
+The audio notification system provides real-time audio feedback throughout the entire flashing process. All sounds are **completely optional** and **fully configurable** with three verbosity levels.
 
-**Three types of sounds:**
+**Verbosity Levels:**
 
-1. **Start Sound** 🚀 - Plays when flash begins ("Ok let's go!")
-2. **Success Sound** 🎉 - Plays when flash completes successfully
-3. **Error Sounds** ❌ - Different sounds for different error types
+- **Minimal** 🔇 - Essential sounds only (start, success, error)
+- **Normal** 🔊 - Key milestones (recommended for most users)
+- **Verbose** 📢 - Every step with detailed feedback
 
-##### Start Sound Configuration
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `enabled` | boolean | `false` | Enable/disable start sound |
-| `path` | string | `"sounds/start.mp3"` | Path to the MP3 file |
-| `volume` | number | `0.7` | Volume level (0.0 to 1.0) |
-
-##### Success Sound Configuration
+##### Configuration
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `enabled` | boolean | `false` | Enable/disable success sound |
-| `path` | string | `"sounds/success.mp3"` | Path to the MP3 file |
-| `volume` | number | `0.7` | Volume level (0.0 to 1.0) |
+| `enabled` | boolean | `false` | Enable/disable audio feedback |
+| `verbosity` | string | `"normal"` | Audio level: `"minimal"`, `"normal"`, or `"verbose"` |
+| `volume` | number | `0.7` | Global volume (0.0 to 1.0) |
+| `events` | object | `{}` | Map of events to sound files |
 
-##### Error Sounds Configuration
+##### Audio Events by Verbosity Level
 
-Error sounds are categorized by error type, providing precise audio feedback.
+**Minimal (3 events):**
+- `start` - Flash process begins
+- `success` - Flash completed successfully
+- `error` - Flash failed (categorized by error type)
+
+**Normal (7 events):**
+All minimal events plus:
+- `boot_prompt` - "Press and hold BOOT button"
+- `connected` - Connected to ESP32
+- `erasing` - Erasing flash memory
+- `flashing_start` - Writing firmware begins
+
+**Verbose (14 events):**
+All normal events plus:
+- `dialog_open` - Port selection dialog opens
+- `port_selected` - User selected a port
+- `connecting` - Attempting connection
+- `erase_complete` - Erase finished
+- `flashing_progress` - Progress milestones (25%, 50%, 75%)
+- `writing_complete` - All data written
+- `rebooting` - Device rebooting
+
+##### Error Categories
+
+Error sounds are automatically categorized:
+
+| Category | Triggered when | Example sound |
+|----------|----------------|---------------|
+| `user_cancel` | User cancelled port selection | Soft/gentle tone |
+| `connection_timeout` | Timeout connecting to ESP32 | Clock/timeout beep |
+| `port_busy` | Port in use by another app | Busy signal |
+| `hardware_error` | ESP32 chip/flash error | Critical error beep |
+| `download_failed` | Firmware download failed | Download error |
+| `wrong_browser` | Unsupported browser | Browser error |
+| `flash_error` | Generic flash error | Standard error beep |
+
+##### Configuration
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `enabled` | boolean | `false` | Enable/disable error sounds |
-| `volume` | number | `0.7` | Global volume for all error sounds |
-| `sounds` | object | `{}` | Map of error categories to sound files |
+| `enabled` | boolean | `false` | Enable/disable audio feedback |
+| `verbosity` | string | `"normal"` | Audio level: `"minimal"`, `"normal"`, or `"verbose"` |
+| `volume` | number | `0.7` | Global volume (0.0 to 1.0) |
+| `events` | object | `{}` | Map of events to sound files |
 
-**Error Categories:**
+##### Multilingual Audio Support
 
-| Category | When it occurs | Suggested sound |
-|----------|----------------|-----------------|
-| `user_cancel` | User cancelled port selection | Soft/gentle sound |
-| `connection_timeout` | Timeout connecting to ESP32 | Clock ticking or timeout beep |
-| `port_busy` | Serial port in use by another app | Busy signal |
-| `hardware_error` | ESP32 chip or flash memory error | Critical error beep |
-| `download_failed` | Failed to download firmware files | Download error sound |
-| `wrong_browser` | Unsupported browser | Incompatible beep |
-| `flash_error` | Generic flash/write error | Standard error beep |
-| `default` | Any other error | General error sound |
+Audio files can be organized by language using the `[lang]` placeholder in paths. The system automatically replaces `[lang]` with the current language code.
 
-**Complete example:**
+**Example configuration:**
+```json
+"audio_feedback": {
+  "enabled": true,
+  "events": {
+    "start": "sounds/[lang]/start.mp3",
+    "boot_prompt": "sounds/[lang]/press-boot.mp3",
+    "connected": "sounds/[lang]/connected.mp3",
+    "success": "sounds/[lang]/success.mp3",
+    "error": "sounds/error.mp3"
+  }
+}
+```
 
+**File structure:**
+```
+sounds/
+├── en/
+│   ├── start.mp3              "Ok let's go!"
+│   ├── press-boot.mp3         "Press and hold BOOT button"
+│   ├── connected.mp3          "Connected"
+│   └── success.mp3            "Success!"
+├── fr/
+│   ├── start.mp3              "C'est parti !"
+│   ├── press-boot.mp3         "Appuyez sur BOOT"
+│   ├── connected.mp3          "Connecté"
+│   └── success.mp3            "Succès !"
+└── error.mp3                  ← Universal sound (no translation)
+```
+
+**How it works:**
+- User selects English → `sounds/[lang]/start.mp3` becomes `sounds/en/start.mp3`
+- User selects French → `sounds/[lang]/start.mp3` becomes `sounds/fr/start.mp3`
+
+**Mix and match:**
+You can combine multilingual and universal sounds. Use `[lang]` for verbal messages that need translation, and direct paths for universal sound effects (beeps, tones).
+
+##### Audio Events by Verbosity Level
+##### Audio Events by Verbosity Level
+
+**Minimal (3 events):**
+- `start` - Flash process begins
+- `success` - Flash completed successfully
+- `error` - Flash failed (categorized by error type)
+
+**Normal (7 events):**
+All minimal events plus:
+- `boot_prompt` - "Press and hold BOOT button"
+- `connected` - Connected to ESP32
+- `erasing` - Erasing flash memory
+- `flashing_start` - Writing firmware begins
+
+**Verbose (14 events):**
+All normal events plus:
+- `dialog_open` - Port selection dialog opens
+- `port_selected` - User selected a port
+- `connecting` - Attempting connection
+- `erase_complete` - Erase finished
+- `flashing_progress` - Progress milestones (25%, 50%, 75%)
+- `writing_complete` - All data written
+- `rebooting` - Device rebooting
+
+##### Error Categories
+
+Error sounds are automatically categorized:
+
+| Category | Triggered when | Example sound |
+|----------|----------------|---------------|
+| `user_cancel` | User cancelled port selection | Soft/gentle tone |
+| `connection_timeout` | Timeout connecting to ESP32 | Clock/timeout beep |
+| `port_busy` | Port in use by another app | Busy signal |
+| `hardware_error` | ESP32 chip/flash error | Critical error beep |
+| `download_failed` | Firmware download failed | Download error |
+| `wrong_browser` | Unsupported browser | Browser error |
+| `flash_error` | Generic flash error | Standard error beep |
+
+##### Configuration Examples
+
+**Minimal (essentials only):**
 ```json
 {
-  "start_sound": {
+  "audio_feedback": {
     "enabled": true,
-    "path": "sounds/start.mp3",
-    "volume": 0.7
-  },
-  "success_sound": {
-    "enabled": true,
-    "path": "sounds/success.mp3",
-    "volume": 0.8
-  },
-  "error_sounds": {
-    "enabled": true,
+    "verbosity": "minimal",
     "volume": 0.7,
-    "sounds": {
-      "user_cancel": "sounds/cancel.mp3",
-      "connection_timeout": "sounds/timeout.mp3",
-      "port_busy": "sounds/busy.mp3",
-      "hardware_error": "sounds/hardware-error.mp3",
-      "download_failed": "sounds/download-error.mp3",
-      "wrong_browser": "sounds/browser-error.mp3",
-      "flash_error": "sounds/flash-error.mp3",
-      "default": "sounds/error.mp3"
+    "events": {
+      "start": "sounds/start.mp3",
+      "success": "sounds/success.mp3",
+      "error": "sounds/error.mp3"
     }
   }
 }
 ```
 
-**Minimal setup (just success):**
-
+**Normal (recommended):**
 ```json
 {
-  "success_sound": {
-    "enabled": true
+  "audio_feedback": {
+    "enabled": true,
+    "verbosity": "normal",
+    "volume": 0.7,
+    "events": {
+      "start": "sounds/start.mp3",
+      "boot_prompt": "sounds/press-boot.mp3",
+      "connected": "sounds/connected.mp3",
+      "erasing": "sounds/erasing.mp3",
+      "flashing_start": "sounds/flashing-start.mp3",
+      "success": "sounds/success.mp3",
+      "error": "sounds/error.mp3",
+      "error_user_cancel": "sounds/cancel.mp3",
+      "error_connection_timeout": "sounds/timeout.mp3",
+      "error_port_busy": "sounds/busy.mp3",
+      "error_hardware_error": "sounds/hardware-error.mp3"
+    }
   }
 }
 ```
 
-**File structure with sounds:**
+**Verbose (full experience):**
+```json
+{
+  "audio_feedback": {
+    "enabled": true,
+    "verbosity": "verbose",
+    "volume": 0.7,
+    "events": {
+      "start": "sounds/start.mp3",
+      "dialog_open": "sounds/select-port.mp3",
+      "port_selected": "sounds/port-selected.mp3",
+      "boot_prompt": "sounds/press-boot.mp3",
+      "connecting": "sounds/connecting.mp3",
+      "connected": "sounds/connected.mp3",
+      "erasing": "sounds/erasing.mp3",
+      "erase_complete": "sounds/erase-complete.mp3",
+      "flashing_start": "sounds/flashing-start.mp3",
+      "flashing_progress": "sounds/progress.mp3",
+      "writing_complete": "sounds/writing-complete.mp3",
+      "rebooting": "sounds/rebooting.mp3",
+      "success": "sounds/success.mp3",
+      "error": "sounds/error.mp3",
+      "error_user_cancel": "sounds/cancel.mp3",
+      "error_connection_timeout": "sounds/timeout.mp3",
+      "error_port_busy": "sounds/busy.mp3",
+      "error_hardware_error": "sounds/hardware-error.mp3",
+      "error_download_failed": "sounds/download-error.mp3",
+      "error_wrong_browser": "sounds/browser-error.mp3",
+      "error_flash_error": "sounds/flash-error.mp3"
+    }
+  }
+}
+```
 
+**File structure:**
 ```
 esp3d-webinstaller/
-├── index.html
-├── page-config.json
 ├── sounds/
-│   ├── start.mp3              ← Start sound
-│   ├── success.mp3            ← Success sound
-│   ├── cancel.mp3             ← User cancelled
-│   ├── timeout.mp3            ← Connection timeout
-│   ├── busy.mp3               ← Port busy
-│   ├── hardware-error.mp3     ← Hardware error
-│   ├── download-error.mp3     ← Download failed
-│   ├── browser-error.mp3      ← Wrong browser
-│   ├── flash-error.mp3        ← Flash error
-│   └── error.mp3              ← Default error
+│   ├── start.mp3              # Flash begins
+│   ├── select-port.mp3        # Dialog opens (verbose)
+│   ├── port-selected.mp3      # Port selected (verbose)
+│   ├── press-boot.mp3         # BOOT button prompt
+│   ├── connecting.mp3         # Connecting (verbose)
+│   ├── connected.mp3          # Connected successfully
+│   ├── erasing.mp3            # Erasing flash
+│   ├── erase-complete.mp3     # Erase done (verbose)
+│   ├── flashing-start.mp3     # Writing begins
+│   ├── progress.mp3           # Progress milestone (verbose)
+│   ├── writing-complete.mp3   # Writing done (verbose)
+│   ├── rebooting.mp3          # Rebooting device (verbose)
+│   ├── success.mp3            # Success!
+│   ├── error.mp3              # Generic error
+│   ├── cancel.mp3             # User cancelled
+│   ├── timeout.mp3            # Connection timeout
+│   ├── busy.mp3               # Port busy
+│   ├── hardware-error.mp3     # Hardware error
+│   ├── download-error.mp3     # Download failed
+│   ├── browser-error.mp3      # Wrong browser
+│   └── flash-error.mp3        # Flash error
 └── ...
 ```
 
 **Getting sound files:**
-- Generate with text-to-speech: [ttsmaker.com](https://ttsmaker.com/)
-- Download sound effects: [freesound.org](https://freesound.org/), [mixkit.co](https://mixkit.co/)
-- Keep files under 500KB for fast loading
+- Text-to-speech: [ttsmaker.com](https://ttsmaker.com/)
+- Sound effects: [freesound.org](https://freesound.org/), [mixkit.co](https://mixkit.co/)
+- Keep files under 500KB each
 
 ## 📊 Logging and Analytics
 
