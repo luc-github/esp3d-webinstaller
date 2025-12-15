@@ -519,8 +519,8 @@ esp3d-webinstaller/
 
 > [!NOTE]
 >
-> Current sounds were maid using [elevenlabs](https://elevenlabs.io/) and [Akito](https://elevenlabs.io/) voice.
-> 
+> All current sounds were created using [Elevenlabs](https://elevenlabs.io/) text-to-speech technology and the "Akito" voice preset.
+>
 > Certain sounds can be too long to play instantly. Because they are queued, playback may be delayed and fall out of sync with real-time actions. In these cases, omit sounds for steps that are too close in timing to preserve a natural audio flow.
 
 ## 📊 Logging and Analytics
