@@ -68,6 +68,8 @@ body {
 .header-content h1 {
     word-wrap: break-word;
     overflow-wrap: break-word;
+    white-space: normal; /* Allow normal wrapping */
+    hyphens: none; /* Disable hyphenation */
 }
 
 .header-actions {
@@ -111,6 +113,7 @@ body {
 .header h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
+    word-spacing: 100vw; /* Force each word to stay on its own line if needed, preventing orphaned letters */
 }
 
 .header p {
@@ -941,14 +944,14 @@ esp-web-install-button button:hover {
     --carousel-opacity: 0.5;
     --carousel-depth: -180px;
     --carousel-transition: 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);  /* Bounce effect */
-    --carousel-height: 600px;  /* Increased from 480px */
+    --carousel-height: 700px;  /* Increased from 600px to prevent cutoff */
 }
 
 /* ===== CAROUSEL CONTAINER ===== */
 .carousel-wrapper {
     margin: 30px 0;
-    padding: 40px 0;
-    overflow: hidden;
+    padding: 60px 0; /* Increased from 40px to prevent cutoff */
+    overflow: visible; /* Changed from hidden to visible */
     position: relative;
 }
 
@@ -1182,6 +1185,7 @@ esp-web-install-button button:hover {
     :root {
         --carousel-spacing: 360px;
         --carousel-rotation: 45deg;
+        --carousel-height: 650px;
     }
     
     .project-card {
@@ -1189,11 +1193,72 @@ esp-web-install-button button:hover {
     }
 }
 
+/* Tablet-specific adjustments */
+@media (max-width: 992px) and (min-width: 769px) {
+    .header {
+        padding: 30px;
+    }
+    
+    .header h1 {
+        font-size: 2.2em;
+    }
+    
+    .content {
+        padding: 30px;
+    }
+}
+
 @media (max-width: 768px) {
     :root {
         --carousel-spacing: 320px;
         --carousel-rotation: 40deg;
-        --carousel-height: 420px;
+        --carousel-height: 550px; /* Adjusted for mobile */
+    }
+    
+    body {
+        padding: 10px; /* Reduce padding on mobile */
+    }
+    
+    .header {
+        padding: 20px; /* Reduce header padding on mobile */
+    }
+    
+    .header h1 {
+        font-size: 1.8em; /* Smaller font on mobile */
+        word-spacing: normal; /* Reset word-spacing for mobile */
+    }
+    
+    .header p {
+        font-size: 0.95em; /* Smaller subtitle */
+    }
+    
+    .header-container {
+        flex-direction: column; /* Stack elements vertically on mobile */
+        gap: 15px;
+    }
+    
+    .header-logo {
+        position: static; /* Remove absolute positioning on mobile */
+        transform: none;
+        height: 80px; /* Smaller logo on mobile */
+        margin: 0 auto;
+    }
+    
+    .header-content {
+        max-width: 100%;
+        padding-right: 0;
+        text-align: center;
+    }
+    
+    .header-actions {
+        position: static; /* Remove absolute positioning on mobile */
+        transform: none;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .content {
+        padding: 20px; /* Reduce content padding */
     }
     
     .project-card {
@@ -1224,11 +1289,33 @@ esp-web-install-button button:hover {
 @media (max-width: 480px) {
     :root {
         --carousel-spacing: 280px;
-        --carousel-height: 380px;
+        --carousel-height: 500px; /* Adjusted for small screens */
+    }
+    
+    .header h1 {
+        font-size: 1.5em; /* Even smaller on very small screens */
+    }
+    
+    .header p {
+        font-size: 0.9em;
+    }
+    
+    .header-logo {
+        height: 60px; /* Smaller logo */
+    }
+    
+    .content {
+        padding: 15px;
     }
     
     .project-card {
         width: 260px;
+    }
+    
+    .carousel-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
     }
     
     /* Show only active card on very small screens */
