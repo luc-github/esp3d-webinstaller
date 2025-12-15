@@ -10,6 +10,8 @@ let selectedProject = null;
 let translations = {}; // Will be loaded from lang files
 let esploader = null; // ESPLoader instance
 let port = null; // Serial port
+let firstUserInteractionDone = false; // Track first click for browser check audio
+let browserErrorSoundPlayed = false; // Track if browser error sound already played
 
 // Audio queue system to prevent sound overlap
 let audioQueue = [];
@@ -24,18 +26,24 @@ async function processAudioQueue() {
     isPlayingAudio = true;
     const { soundPath, volume, event } = audioQueue.shift();
     
+    // Log what's playing
+    console.log(`🔊 Playing audio: ${event} | Path: ${soundPath} | Volume: ${volume} | Queue remaining: ${audioQueue.length}`);
+    
     try {
         const audio = new Audio(soundPath);
         audio.volume = volume;
         
         // Wait for audio to finish playing
         await new Promise((resolve, reject) => {
-            audio.onended = resolve;
+            audio.onended = () => {
+                console.log(`✅ Finished audio: ${event}`);
+                resolve();
+            };
             audio.onerror = reject;
             audio.play().catch(reject);
         });
     } catch (error) {
-        console.log(`Could not play audio for ${event}:`, error);
+        console.log(`❌ Could not play audio for ${event}:`, error);
     }
     
     isPlayingAudio = false;
@@ -648,6 +656,28 @@ function selectProject(project) {
         return;
     }
     
+    // Check browser compatibility FIRST - if not supported, don't allow selection
+    if (!navigator.serial) {
+        // Play error sound on first click
+        if (!firstUserInteractionDone) {
+            firstUserInteractionDone = true;
+            console.log('%c⚠️ Browser not supported - Web Serial API not available', 'color: #ff5555; font-weight: bold;');
+            playAudioFeedback('error_wrong_browser');
+        }
+        
+        // Show warning in console but don't select project
+        const consoleContainer = document.getElementById('consoleContainer');
+        consoleContainer.innerHTML = '';
+        addLog('⚠️ Browser not supported. Please use Chrome, Edge, or Opera.', 'error');
+        addLog('Web Serial API is required for flashing ESP32 devices.', 'warning');
+        
+        // Hide flash section
+        document.getElementById('flashSection').classList.remove('active');
+        document.getElementById('flashInstruction').classList.remove('active');
+        
+        return; // Don't proceed with project selection
+    }
+    
     selectedProject = project;
     
     // Update UI - remove all selected classes first
@@ -833,10 +863,8 @@ async function flashESP32() {
             updateProgress(20, 'Erasing all flash...', 'This may take 10-15 seconds');
         }
         
-        // Audio: Erase complete (will play after erase finishes, before writing starts)
-        setTimeout(() => playAudioFeedback('erase_complete'), 1000);
-        
         let flashingStartAudioPlayed = false;  // Flag to play audio only once
+        let eraseCompleteAudioPlayed = false;  // Flag for erase complete audio
         let lastProgressMilestone = -1;  // Track last milestone played (-1 = none, 0 = 25%, 1 = 50%, 2 = 75%)
         
         await esploader.writeFlash({
@@ -849,9 +877,16 @@ async function flashESP32() {
             reportProgress: (fileIndex, written, total) => {
                 const percent = Math.floor((written / total) * 100);
                 
-                // Audio: Flashing start (only once at the beginning)
+                // Audio: Erase complete (only once, when writing actually starts)
+                if (!eraseCompleteAudioPlayed && fileIndex === 0 && written > 0) {
+                    playAudioFeedback('erase_complete');
+                    eraseCompleteAudioPlayed = true;
+                }
+                
+                // Audio: Flashing start (right after erase complete)
                 if (!flashingStartAudioPlayed && fileIndex === 0 && written > 0) {
                     playAudioFeedback('flashing_start');
+
                     flashingStartAudioPlayed = true;
                 }
                 
@@ -1167,6 +1202,14 @@ async function initialize() {
 
 // Start when DOM is ready
 document.addEventListener('DOMContentLoaded', initialize);
+
+// Track first real user click (not programmatic)
+document.addEventListener('click', () => {
+    if (!firstUserInteractionDone) {
+        firstUserInteractionDone = true;
+        console.log('✅ First user interaction detected');
+    }
+}, { capture: true }); // Use capture to catch before other handlers
 
 // ===== BOOT MODAL FUNCTIONS =====
 
@@ -1670,6 +1713,38 @@ function selectProjectByIndex(index) {
         }
         
         // No console spam - user sees disabled card, that's enough
+        return;
+    }
+    
+    // Check browser compatibility - if not supported, treat like disabled project
+    if (!navigator.serial) {
+        // Play error sound ONLY if:
+        // 1. User has actually clicked something (not on automatic selection at page load)
+        // 2. Sound has not been played yet
+        if (firstUserInteractionDone && !browserErrorSoundPlayed) {
+            playAudioFeedback('error_wrong_browser');
+            browserErrorSoundPlayed = true; // Mark as played, won't play again
+        } else if (!firstUserInteractionDone) {
+            // Mark that we need to play sound on first real interaction
+            console.log('%c⚠️ Browser not supported - Web Serial API not available', 'color: #ff5555; font-weight: bold;');
+        }
+        
+        // Don't select project
+        selectedProject = null;
+        
+        // Hide flash section
+        if (flashSection) {
+            flashSection.classList.remove('active');
+        }
+        
+        // Show warning in console
+        const consoleContainer = document.getElementById('consoleContainer');
+        if (consoleContainer) {
+            consoleContainer.innerHTML = '';
+            addLog('⚠️ Browser not supported. Please use Chrome, Edge, or Opera.', 'error');
+            addLog('Web Serial API is required for flashing ESP32 devices.', 'warning');
+        }
+        
         return;
     }
     
