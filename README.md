@@ -520,8 +520,8 @@ esp3d-webinstaller/
 > [!NOTE]
 >### Note
 > Current sounds were maid using [elevenlabs](https://elevenlabs.io/) and [Akito](https://elevenlabs.io/) voice.
-
- >Some sounds can be too longs to play, so because they queued have some delay to be played and be late compare to actions, in that case, remove some sounds for steps which are too close in execution to keep a natural flow.
+> 
+> Some sounds can be too longs to play, so because they queued have some delay to be played and be late compare to actions, in that case, remove some sounds for steps which are too close in execution to keep a natural flow.
 
 ## 📊 Logging and Analytics
 
