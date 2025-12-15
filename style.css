@@ -1153,7 +1153,7 @@ esp-web-install-button button:hover {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-top: 30px;
+    margin-top: 60px;  /* Increased to push indicators below panel */
     padding: 20px 0;
 }
 
@@ -1471,5 +1471,88 @@ esp-web-install-button button:hover {
         transform: translateX(0) translateZ(0) rotateY(0deg) scale(1) !important;
         position: relative !important;
         opacity: 1 !important;
+    }
+}
+
+/* ===== MOBILE NAVIGATION INDICATORS FIX ===== */
+@media (max-width: 768px) {
+    /* Push indicators much further down on mobile to avoid overlapping "Learn more" button */
+    .carousel-indicators {
+        margin-top: 120px !important;  /* Increased from 60px for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Even more spacing on small mobile */
+    .carousel-indicators {
+        margin-top: 140px !important;
+    }
+}
+
+
+/* ===== DESKTOP SPACING FIXES - TIGHTER ===== */
+@media (min-width: 769px) {
+    /* Fix 1: Minimal padding to prevent image cutoff on desktop */
+    .carousel-wrapper {
+        padding: 20px 0 !important;  /* Reduced from 40px - much tighter */
+        margin: 10px 0 !important;   /* Reduced from 20px */
+    }
+    
+    /* Fix 2: Minimal margin between title and carousel on desktop */
+    .section-compact {
+        margin: 5px 0 !important;    /* Reduced from 10px - very tight */
+        padding-top: 0px !important; /* Removed padding */
+    }
+    
+    /* Fix 3: Minimal space between panel and indicators on desktop */
+    .carousel-indicators {
+        margin-top: 20px !important;  /* Reduced from 40px - much tighter */
+        padding: 10px 0 !important;   /* Reduced from 15px */
+    }
+}
+
+/* ===== DESKTOP TITLE AND SPACING FIXES ===== */
+@media (min-width: 769px) {
+    /* Fix title to stay on one line on desktop */
+    .header h1 {
+        word-spacing: normal !important;  /* Remove word-spacing that breaks title into 3 lines */
+        white-space: nowrap !important;   /* Keep title on one line */
+    }
+    
+    /* Reduce header padding to reduce top margin */
+    .header {
+        padding: 25px 40px !important;  /* Reduced from 40px top/bottom */
+    }
+    
+    /* Even tighter carousel wrapper to prevent image cutoff */
+    .carousel-wrapper {
+        padding: 10px 0 !important;  /* Reduced from 20px - minimal padding */
+        margin: 5px 0 !important;    /* Reduced from 10px */
+    }
+    
+    /* Ensure carousel has proper height without extra space */
+    .carousel-container {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+}
+
+
+/* ===== MAX WIDTH FIX FOR LARGE SCREENS ===== */
+@media (min-width: 1201px) {
+    /* Lock max-width at 1200px - use 1200px responsive layout for larger screens */
+    .container {
+        max-width: 1200px !important;  /* Lock container width at 1200px */
+    }
+    
+    /* Force 1200px responsive settings on larger screens */
+    :root {
+        --carousel-spacing: 360px;     /* Same as 1200px breakpoint */
+        --carousel-rotation: 45deg;
+        --carousel-height: 650px;
+    }
+    
+    .project-card {
+        width: 300px !important;       /* Same as 1200px breakpoint */
     }
 }
