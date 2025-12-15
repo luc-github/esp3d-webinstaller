@@ -157,6 +157,19 @@ This file configures branding, links, and visual settings.
     "logo": "images/powered-logo.png",
     "favicon": "images/favicon.ico"
   },
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "default": true
+    },
+    {
+      "code": "fr",
+      "name": "Français"
+    }
+  ],
+  "links": {
   "links": {
     "github": {
       "enabled": true,
@@ -180,36 +193,199 @@ This file configures branding, links, and visual settings.
     "success_color": "#00ff00",
     "error_color": "#ff5555",
     "warning_color": "#ffaa00"
+  },
+  },
+  "start_sound": {
+    "enabled": true,
+    "path": "sounds/start.mp3",
+    "volume": 0.7
+  },
+  "success_sound": {
+    "enabled": true,
+    "path": "sounds/success.mp3",
+    "volume": 0.8
+  },
+  "error_sounds": {
+    "enabled": true,
+    "volume": 0.7,
+    "sounds": {
+      "user_cancel": "sounds/cancel.mp3",
+      "connection_timeout": "sounds/timeout.mp3",
+      "port_busy": "sounds/busy.mp3",
+      "hardware_error": "sounds/hardware-error.mp3",
+      "download_failed": "sounds/download-error.mp3",
+      "wrong_browser": "sounds/browser-error.mp3",
+      "flash_error": "sounds/flash-error.mp3",
+      "default": "sounds/error.mp3"
+    }
   }
 }
 ```
 
-| Section | Description |
-|---------|-------------|
 | `analytics`|`false` for static hosting (GitHub Pages),`true` for PHP server with logging |
 | `branding` | Logo and favicon paths |
+| `languages` | Available languages configuration |
 | `links.github` | "Report Issue" button configuration |
 | `footer` | Footer visibility and legal page links |
 | `browser_compatibility` | Warning for unsupported browsers |
 | `theme` | Color scheme (CSS variables) |
+| `start_sound` | Start sound configuration (optional) |
+| `success_sound` | Success sound configuration (optional) |
+| `error_sounds` | Error sounds configuration (optional) |
 
-### `lang/*.json` - Translations
+#### Languages Configuration
 
-Add or modify language files in the `lang/` directory. Each file should contain all UI strings:
+The `languages` section configures which languages are available. The language selector automatically hides when only one language is configured.
+
+| Option | Type | Required | Description |
+|--------|------|----------|-------------|
+| `code` | string | Yes | Language code (must match filename in `lang/` folder) |
+| `name` | string | Yes | Display name in language selector |
+| `default` | boolean | No | Set to `true` for default language (only one) |
+
+**Examples:**
+
+```json
+// Multiple languages (selector visible)
+"languages": [
+  { "code": "en", "name": "English", "default": true },
+  { "code": "fr", "name": "Français" },
+  { "code": "es", "name": "Español" }
+]
+
+// Single language (selector hidden)
+"languages": [
+  { "code": "en", "name": "English", "default": true }
+]
+
+// If omitted, defaults to English only
+```
+
+**Adding a new language:**
+
+1. Create translation file: `lang/es.json` (copy from `lang/en.json`)
+2. Translate all values in the file
+3. Add to `page-config.json`:
+   ```json
+   { "code": "es", "name": "Español" }
+   ```
+
+No code changes needed - the language selector updates automatically!
+
+#### Audio Notification System
+
+The audio notification system provides audio feedback at three key moments during the flashing process. All sounds are **completely optional** and **fully configurable**.
+
+**Three types of sounds:**
+
+1. **Start Sound** 🚀 - Plays when flash begins ("Ok let's go!")
+2. **Success Sound** 🎉 - Plays when flash completes successfully
+3. **Error Sounds** ❌ - Different sounds for different error types
+
+##### Start Sound Configuration
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | `false` | Enable/disable start sound |
+| `path` | string | `"sounds/start.mp3"` | Path to the MP3 file |
+| `volume` | number | `0.7` | Volume level (0.0 to 1.0) |
+
+##### Success Sound Configuration
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | `false` | Enable/disable success sound |
+| `path` | string | `"sounds/success.mp3"` | Path to the MP3 file |
+| `volume` | number | `0.7` | Volume level (0.0 to 1.0) |
+
+##### Error Sounds Configuration
+
+Error sounds are categorized by error type, providing precise audio feedback.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | `false` | Enable/disable error sounds |
+| `volume` | number | `0.7` | Global volume for all error sounds |
+| `sounds` | object | `{}` | Map of error categories to sound files |
+
+**Error Categories:**
+
+| Category | When it occurs | Suggested sound |
+|----------|----------------|-----------------|
+| `user_cancel` | User cancelled port selection | Soft/gentle sound |
+| `connection_timeout` | Timeout connecting to ESP32 | Clock ticking or timeout beep |
+| `port_busy` | Serial port in use by another app | Busy signal |
+| `hardware_error` | ESP32 chip or flash memory error | Critical error beep |
+| `download_failed` | Failed to download firmware files | Download error sound |
+| `wrong_browser` | Unsupported browser | Incompatible beep |
+| `flash_error` | Generic flash/write error | Standard error beep |
+| `default` | Any other error | General error sound |
+
+**Complete example:**
 
 ```json
 {
-  "flashFirmware": "Flash Firmware",
-  "flashButton": "Install Firmware",
-  "browserWarning": "Your browser doesn't support Web Serial API...",
-  ...
+  "start_sound": {
+    "enabled": true,
+    "path": "sounds/start.mp3",
+    "volume": 0.7
+  },
+  "success_sound": {
+    "enabled": true,
+    "path": "sounds/success.mp3",
+    "volume": 0.8
+  },
+  "error_sounds": {
+    "enabled": true,
+    "volume": 0.7,
+    "sounds": {
+      "user_cancel": "sounds/cancel.mp3",
+      "connection_timeout": "sounds/timeout.mp3",
+      "port_busy": "sounds/busy.mp3",
+      "hardware_error": "sounds/hardware-error.mp3",
+      "download_failed": "sounds/download-error.mp3",
+      "wrong_browser": "sounds/browser-error.mp3",
+      "flash_error": "sounds/flash-error.mp3",
+      "default": "sounds/error.mp3"
+    }
+  }
 }
 ```
 
-To add a new language:
-1. Copy `lang/en.json` to `lang/xx.json` (where `xx` is the language code)
-2. Translate all values
-3. Add the option to the language selector in `index.html`
+**Minimal setup (just success):**
+
+```json
+{
+  "success_sound": {
+    "enabled": true
+  }
+}
+```
+
+**File structure with sounds:**
+
+```
+esp3d-webinstaller/
+├── index.html
+├── page-config.json
+├── sounds/
+│   ├── start.mp3              ← Start sound
+│   ├── success.mp3            ← Success sound
+│   ├── cancel.mp3             ← User cancelled
+│   ├── timeout.mp3            ← Connection timeout
+│   ├── busy.mp3               ← Port busy
+│   ├── hardware-error.mp3     ← Hardware error
+│   ├── download-error.mp3     ← Download failed
+│   ├── browser-error.mp3      ← Wrong browser
+│   ├── flash-error.mp3        ← Flash error
+│   └── error.mp3              ← Default error
+└── ...
+```
+
+**Getting sound files:**
+- Generate with text-to-speech: [ttsmaker.com](https://ttsmaker.com/)
+- Download sound effects: [freesound.org](https://freesound.org/), [mixkit.co](https://mixkit.co/)
+- Keep files under 500KB for fast loading
 
 ## 📊 Logging and Analytics
 

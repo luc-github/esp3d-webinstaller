@@ -9,6 +9,91 @@ let translations = {}; // Will be loaded from lang files
 let esploader = null; // ESPLoader instance
 let port = null; // Serial port
 
+// Play congratulations sound on successful flash
+function playCongratulationsSound() {
+    // Check if sound is configured in page-config.json
+    if (!pageConfig?.success_sound?.enabled) {
+        return; // Sound disabled in config
+    }
+    
+    const soundPath = pageConfig.success_sound.path || 'sounds/congratulations.mp3';
+    const volume = pageConfig.success_sound.volume || 0.7;
+    
+    try {
+        // Create audio element
+        const audio = new Audio(soundPath);
+        
+        // Set volume (0.0 to 1.0)
+        audio.volume = volume;
+        
+        // Play the sound
+        audio.play().catch(error => {
+            console.log('Could not play congratulations sound:', error);
+            // Silently fail if sound cannot be played
+        });
+    } catch (error) {
+        console.log('Audio not supported or file not found:', error);
+    }
+}
+
+// Play start sound when flash begins
+function playStartSound() {
+    // Check if sound is configured in page-config.json
+    if (!pageConfig?.start_sound?.enabled) {
+        return; // Sound disabled in config
+    }
+    
+    const soundPath = pageConfig.start_sound.path || 'sounds/start.mp3';
+    const volume = pageConfig.start_sound.volume || 0.7;
+    
+    try {
+        // Create audio element
+        const audio = new Audio(soundPath);
+        
+        // Set volume (0.0 to 1.0)
+        audio.volume = volume;
+        
+        // Play the sound
+        audio.play().catch(error => {
+            console.log('Could not play start sound:', error);
+            // Silently fail if sound cannot be played
+        });
+    } catch (error) {
+        console.log('Audio not supported or file not found:', error);
+    }
+}
+
+// Play error sound on flash failure - categorized by error type
+function playErrorSound(errorMessage) {
+    // Check if error sounds are configured
+    if (!pageConfig?.error_sounds?.enabled) {
+        return; // Sounds disabled in config
+    }
+    
+    const volume = pageConfig.error_sounds.volume || 0.7;
+    const sounds = pageConfig.error_sounds.sounds || {};
+    
+    // Categorize error and get appropriate sound
+    const category = categorizeError(errorMessage);
+    const soundPath = sounds[category] || sounds.default || 'sounds/error.mp3';
+    
+    try {
+        // Create audio element
+        const audio = new Audio(soundPath);
+        
+        // Set volume (0.0 to 1.0)
+        audio.volume = volume;
+        
+        // Play the sound
+        audio.play().catch(error => {
+            console.log('Could not play error sound:', error);
+            // Silently fail if sound cannot be played
+        });
+    } catch (error) {
+        console.log('Audio not supported or file not found:', error);
+    }
+}
+
 // Flash event logging to server
 // Called ONLY at the very end of flash process (after reset + port close)
 // Only works when analytics is enabled (requires PHP backend)
@@ -598,18 +683,18 @@ async function startFlash() {
         toggleConsole();
     }
     
-    // Disable flash button during process
+    // Hide flash button during process (cleaner than disabled state)
     const flashBtn = document.getElementById('flashButton');
-    flashBtn.disabled = true;
-    flashBtn.textContent = translate('connecting') || 'Connecting...';
+    flashBtn.style.display = 'none';
+    
+    // Play start sound
+    playStartSound();
     
     try {
         await flashESP32();
-        flashBtn.textContent = translate('flashButton');
-        flashBtn.disabled = false;
+        flashBtn.style.display = 'block'; // Show button again
     } catch (error) {
-        flashBtn.textContent = translate('flashButton');
-        flashBtn.disabled = false;
+        flashBtn.style.display = 'block'; // Show button again on error
     }
 }
 
@@ -733,6 +818,10 @@ async function flashESP32() {
         updateProgress(100, 'Flash complete!', 'Firmware written successfully');
         
         addLog('🎉 Flash completed successfully!', 'success');
+        
+        // Play congratulations sound
+        playCongratulationsSound();
+        
         addLog('🔄 Rebooting ESP32...', 'success');
         
         // Step 8: Hard reset
@@ -754,6 +843,9 @@ async function flashESP32() {
         
         addLog(`❌ Error: ${error.message}`, 'error');
         console.error('Flash error:', error);
+        
+        // Play error sound with category
+        playErrorSound(error.message);
         
         // Log flash failure to server
         logFlashEvent(
@@ -927,23 +1019,61 @@ function changeLanguage() {
     }
 }
 
+// Setup language selector based on config
+function setupLanguageSelector(languages) {
+    const languageSelect = document.getElementById('languageSelect');
+    const languageSelectorDiv = document.querySelector('.language-selector');
+    
+    if (!languageSelect || !languageSelectorDiv) {
+        return;
+    }
+    
+    // If only one language, hide the selector completely
+    if (languages.length <= 1) {
+        languageSelectorDiv.style.display = 'none';
+        return;
+    }
+    
+    // Clear existing options
+    languageSelect.innerHTML = '';
+    
+    // Add options from config
+    languages.forEach(lang => {
+        const option = document.createElement('option');
+        option.value = lang.code;
+        option.textContent = lang.name;
+        languageSelect.appendChild(option);
+    });
+    
+    // Set selected value
+    languageSelect.value = currentLang;
+    
+    // Show the selector
+    languageSelectorDiv.style.display = 'block';
+}
+
 // Initialize
 async function initialize() {
     // Load page configuration first
     await loadPageConfig();
     
-    // Load both language files
-    await loadTranslations('en');
-    await loadTranslations('fr');
+    // Load languages from config
+    const languages = pageConfig?.languages || [
+        { code: 'en', name: 'English', default: true }
+    ];
     
-    // Set initial language
-    const savedLang = localStorage.getItem('language') || 'en';
+    // Load all configured language files
+    for (const lang of languages) {
+        await loadTranslations(lang.code);
+    }
+    
+    // Set initial language (from localStorage or default from config)
+    const defaultLang = languages.find(l => l.default)?.code || languages[0].code;
+    const savedLang = localStorage.getItem('language') || defaultLang;
     currentLang = savedLang;
     
-    const languageSelect = document.getElementById('languageSelect');
-    if (languageSelect) {
-        languageSelect.value = savedLang;
-    }
+    // Setup language selector
+    setupLanguageSelector(languages);
     
     // Load project config
     await loadConfig();

@@ -4,6 +4,13 @@
     "logo": "images/powered-logo.png",
     "favicon": "images/favicon.ico"
   },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "default": true
+    }
+  ],
   "links": {
     "github": {
       "enabled": true,
@@ -33,5 +40,29 @@
     "success_color": "#00ff00",
     "error_color": "#ff5555",
     "warning_color": "#ffaa00"
+  },
+  "start_sound": {
+    "enabled": true,
+    "path": "sounds/start.mp3",
+    "volume": 0.7
+  },
+  "success_sound": {
+    "enabled": true,
+    "path": "sounds/success.mp3",
+    "volume": 0.8
+  },
+  "error_sounds": {
+    "enabled": true,
+    "volume": 0.7,
+    "sounds": {
+      "user_cancel": "sounds/cancel.mp3",
+      "connection_timeout": "sounds/timeout.mp3",
+      "port_busy": "sounds/busy.mp3",
+      "hardware_error": "sounds/hardware-error.mp3",
+      "download_failed": "sounds/download-error.mp3",
+      "wrong_browser": "sounds/browser-error.mp3",
+      "flash_error": "sounds/flash-error.mp3",
+      "default": "sounds/error.mp3"
+    }
   }
 }
