@@ -517,6 +517,10 @@ esp3d-webinstaller/
 - Sound effects: [freesound.org](https://freesound.org/), [mixkit.co](https://mixkit.co/)
 - Keep files under 500KB each
 
+> [!NOTE]
+>### Note
+> Current sounds were maid using [elevenlabs](https://elevenlabs.io/) and Akito voice, some sounds can be too longs and because they queued have some delay to be played and be late compare to actions, in that case, remove some sounds for steps which are too close in execution to keep a natural flow.
+
 ## 📊 Logging and Analytics
 
 The installer includes a logging system to track flash statistics and errors, helping you understand usage patterns and debug issues.
