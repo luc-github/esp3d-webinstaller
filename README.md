@@ -1,4 +1,4 @@
-# ESP3D Web Installer
+# ESP3D Web Installer ![Development](https://img.shields.io/badge/dynamic/json?label=Development&query=$.devt&color=green&url=https://raw.githubusercontent.com/luc-github/ESP3D-webinstaller/refs/heads/main/info.json)
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
