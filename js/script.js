@@ -488,16 +488,45 @@ function githubIcon() {
 function updateFooter() {
     if (!pageConfig || !pageConfig.footer) return;
     
+    const footer = document.getElementById('footer');
     const footerText = document.getElementById('footerText');
     const footerLinks = document.getElementById('footerLinks');
     
-    // Footer text - use translation
-    footerText.textContent = translate('footerCopyright');
+    // Show footer if configured
+    if (pageConfig.footer.enabled) {
+        footer.style.display = 'block';
+    }
+    
+    // Create footer content with version
+    const versionSpan = document.createElement('span');
+    versionSpan.id = 'version-info';
+    versionSpan.className = 'version-info';
+    versionSpan.textContent = 'Loading...';
+    
+    // Footer text with version - use translation
+    footerText.innerHTML = '';
+    footerText.appendChild(versionSpan);
+    
+    const separator1 = document.createElement('span');
+    separator1.className = 'footer-separator';
+    separator1.textContent = ' • ';
+    footerText.appendChild(separator1);
+    
+    const copyrightSpan = document.createElement('span');
+    copyrightSpan.textContent = translate('footerCopyright');
+    footerText.appendChild(copyrightSpan);
     
     // Footer links - use translations with keys
     footerLinks.innerHTML = '';
     if (pageConfig.footer.links && pageConfig.footer.links.length > 0) {
-        pageConfig.footer.links.forEach(link => {
+        pageConfig.footer.links.forEach((link, index) => {
+            if (index > 0) {
+                const sep = document.createElement('span');
+                sep.className = 'footer-separator';
+                sep.textContent = ' • ';
+                footerLinks.appendChild(sep);
+            }
+            
             const a = document.createElement('a');
             a.href = link.url;
             a.target = '_blank';
@@ -506,6 +535,9 @@ function updateFooter() {
             footerLinks.appendChild(a);
         });
     }
+    
+    // Update version info after creating the element
+    updateFooterVersion();
 }
 
 // Update page texts (title, subtitle, etc.)
