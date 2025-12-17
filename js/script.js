@@ -1,7 +1,6 @@
 // ESP32 Web Installer - ESPLoader.js Version
 // Full control over UI/UX, no Shadow DOM, no imposed dialogs
-
-const WEBINSTALLER_VERSION = "2.0.0"; // Version with multilingual audio support
+// Version is defined in version.js
 
 let currentLang = 'en';
 let config = null;
@@ -1192,12 +1191,32 @@ async function initialize() {
     // Load flash counts and display badges
     loadFlashCounts();
     
+    // Update footer with version info
+    updateFooterVersion();
+    
     // Log version info
     console.log(`%c🚀 ESP32 Web Installer v${WEBINSTALLER_VERSION}`, 'font-weight: bold; font-size: 14px; color: #667eea;');
-    console.log(`%c📅 Build: ${new Date().toISOString().split('T')[0]}`, 'color: #888;');
+    console.log(`%c📅 Build: ${WEBINSTALLER_BUILD_DATE}`, 'color: #888;');
     console.log(`%c🌍 Language: ${currentLang}`, 'color: #888;');
+    if (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME) {
+        console.log(`%c✨ Codename: ${WEBINSTALLER_CODENAME}`, 'color: #888;');
+    }
     
     addLog('ESP32 Web Installer ready (ESPLoader.js)', 'success');
+}
+
+// Update footer with version information
+function updateFooterVersion() {
+    const versionElement = document.getElementById('version-info');
+    if (versionElement) {
+        let versionText = `v${WEBINSTALLER_VERSION}`;
+        if (typeof WEBINSTALLER_BUILD_DATE !== 'undefined' && WEBINSTALLER_BUILD_DATE) {
+            versionText += ` - ${WEBINSTALLER_BUILD_DATE}`;
+        }
+        versionElement.textContent = versionText;
+        versionElement.title = `ESP32 Web Installer ${WEBINSTALLER_VERSION}` + 
+                                (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME ? ` "${WEBINSTALLER_CODENAME}"` : '');
+    }
 }
 
 // Start when DOM is ready
