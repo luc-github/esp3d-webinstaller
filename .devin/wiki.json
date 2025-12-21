@@ -1,0 +1,300 @@
+{
+  "repo_notes": [
+    {
+      "content": ""
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "Introduce the ESP3D Web Installer, explaining what it is, its key features, browser requirements, and deployment options",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Getting Started now",
+      "purpose": "Guide users through using the installer, from selecting projects to flashing firmware",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Quick Start Guide",
+      "purpose": "Step-by-step instructions for flashing firmware, including BOOT button usage",
+      "parent": "Getting Started",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Troubleshooting",
+      "purpose": "Common issues, error categories, and solutions for flashing problems",
+      "parent": "Getting Started",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Architecture",
+      "purpose": "High-level system architecture, component relationships, and data flow diagrams",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Frontend Architecture",
+      "purpose": "Detailed breakdown of browser-based components including HTML, JavaScript, and CSS layers",
+      "parent": "Architecture",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Backend Architecture",
+      "purpose": "Optional PHP backend services, security layers, and data storage",
+      "parent": "Architecture",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Firmware Flashing Process",
+      "purpose": "Detailed sequence of operations during firmware flashing, from connection to completion",
+      "parent": "Architecture",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "User Interface",
+      "purpose": "Complete documentation of the web interface components and their interactions",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "HTML Structure",
+      "purpose": "Document the index.html structure, components, and DOM hierarchy",
+      "parent": "User Interface",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "CSS Styling System",
+      "purpose": "Comprehensive guide to the styling system including theme, responsive design, and component styles",
+      "parent": "User Interface",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "3D Project Carousel",
+      "purpose": "Deep dive into the 3D carousel implementation, positioning system, and user interactions",
+      "parent": "User Interface",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Console and Progress Display",
+      "purpose": "Documentation of real-time feedback systems including console logs and progress indicators",
+      "parent": "User Interface",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Application Logic",
+      "purpose": "Core JavaScript logic that orchestrates the entire application",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Initialization System",
+      "purpose": "How the application loads configurations, translations, and initializes components",
+      "parent": "Application Logic",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Project Management",
+      "purpose": "Project selection, carousel management, and metadata handling",
+      "parent": "Application Logic",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Flash Orchestration",
+      "purpose": "Detailed explanation of the flashESP32() function and flashing workflow coordination",
+      "parent": "Application Logic",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "ESP Communication Layer",
+      "purpose": "How esptool-bundle.js enables Web Serial API communication with ESP32 devices",
+      "parent": "Application Logic",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Configuration System",
+      "purpose": "Complete guide to the JSON-based configuration architecture",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Page Configuration",
+      "purpose": "Detailed documentation of page-config.json including branding, theme, audio, and browser compatibility",
+      "parent": "Configuration System",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Project Definitions",
+      "purpose": "How to define firmware projects in config.json including firmware arrays and metadata",
+      "parent": "Configuration System",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Firmware Specifications",
+      "purpose": "Understanding firmware binaries, flash offsets, and bootloader configurations",
+      "parent": "Configuration System",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Internationalization",
+      "purpose": "Multi-language system architecture and translation management",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Language Files",
+      "purpose": "Structure and content of language JSON files with examples from English and French",
+      "parent": "Internationalization",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Translation System",
+      "purpose": "How runtime language switching works and translation key resolution",
+      "parent": "Internationalization",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Audio Feedback System",
+      "purpose": "Comprehensive documentation of the multi-language audio notification system",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Audio Configuration",
+      "purpose": "Configuring audio events, verbosity levels, and language-specific sound paths",
+      "parent": "Audio Feedback System",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Audio Queue System",
+      "purpose": "How the audio queue prevents overlap and manages sequential playback",
+      "parent": "Audio Feedback System",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Audio Assets and C2PA",
+      "purpose": "Audio file structure, language organization, and C2PA provenance metadata",
+      "parent": "Audio Feedback System",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Backend Services",
+      "purpose": "Optional PHP backend for analytics and logging",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    }
+  ]
+}
