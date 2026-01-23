@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pibot CNC Pendant Firmware</title>
+    <style>
+
+:root {
+    --color-fg-default: #1f2328;
+    --color-fg-muted: #656d76;
+    --color-bg-default: #ffffff;
+    --color-border-default: #d0d7de;
+    --color-accent-fg: #0969da;
+    --color-accent-emphasis: #0969da;
+    --color-success-fg: #1a7f37;
+    --color-danger-fg: #d1242f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-fg-default);
+    background-color: var(--color-bg-default);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: 2em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--color-border-default);
+}
+
+h2 {
+    font-size: 1.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--color-border-default);
+}
+
+h3 {
+    font-size: 1.25em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+a {
+    color: var(--color-accent-fg);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 16px;
+    padding-left: 2em;
+}
+
+li {
+    margin-top: 4px;
+}
+
+li + li {
+    margin-top: 4px;
+}
+
+/* Nested lists */
+ul ul, ol ul, ul ol, ol ol {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 85%;
+    padding: 0.2em 0.4em;
+    background-color: rgba(175, 184, 193, 0.2);
+    border-radius: 6px;
+}
+
+pre {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 85%;
+    padding: 16px;
+    overflow: auto;
+    line-height: 1.45;
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+pre code {
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+blockquote {
+    margin: 0 0 16px 0;
+    padding: 0 1em;
+    color: var(--color-fg-muted);
+    border-left: 0.25em solid var(--color-border-default);
+}
+
+hr {
+    height: 0.25em;
+    padding: 0;
+    margin: 24px 0;
+    background-color: var(--color-border-default);
+    border: 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid var(--color-border-default);
+}
+
+table th {
+    font-weight: 600;
+    background-color: #f6f8fa;
+}
+
+table tr:nth-child(2n) {
+    background-color: #f6f8fa;
+}
+
+strong {
+    font-weight: 600;
+}
+
+em {
+    font-style: italic;
+}
+
+sub {
+    font-size: 75%;
+    color: var(--color-fg-muted);
+}
+
+/* Emoji support */
+.emoji {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Anchor links */
+a[id] {
+    display: block;
+    position: relative;
+    top: -10px;
+    visibility: hidden;
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white;
+    }
+    .container {
+        max-width: none;
+        padding: 20px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>Pibot CNC Pendant Firmware</h1>
+
+<h2>v2.0.0a7 - Public Alpha</h2>
+
+<p><em>2026-01-13 to 2026-01-23</em></p>
+
+<p>This release introduces several new features and improvements to the CNC pendant firmware, including a firmware update from SD card, improved transitions, and various bug fixes.</p>
+
+<h2>📋 Table of Contents</h2>
+
+<ul>
+<li><a href="#new-features">🚀 New Features</a></li>
+<ul>
+<li><a href="#firmware-update-from-sd-card">Firmware Update from SD Card</a></li>
+<li><a href="#swap">Allow RX/TX Pin Swap</a></li>
+</ul>
+<li><a href="#bug-fixes">🐛 Bug Fixes</a></li>
+<li><a href="#improvements">💪 Improvements</a></li>
+<li><a href="#other-changes">📝 Other Changes</a></li>
+
+<a id="new-features"></a>
+
+</ul>
+<h2>🚀 New Features</h2>
+
+<a id="firmware-update-from-sd-card"></a>
+
+<h3>Firmware Update from SD Card</h3>
+
+<p>Users can now update the firmware directly from an SD card, with a screen update during the process.</p>
+
+<a id="swap"></a>
+
+<h3>Allow RX/TX Pin Swap</h3>
+
+<p>The firmware now allows users to swap the RX/TX pins to work around issues with the BLE module.</p>
+
+
+<a id="bug-fixes"></a>
+
+<h2>🐛 Bug Fixes</h2>
+
+<ul>
+<li><strong>Fix Crash Due to Missing Initialization</strong>: The firmware has been updated to fix a crash issue related to missing initialization on the input screen.</li>
+<li><strong>Fix Race Conditions in Jog Screen and Message Handling</strong>: Several race condition issues have been addressed, including in the jog screen and message handling, to improve the overall stability of the firmware.</li>
+
+<a id="improvements"></a>
+
+</ul>
+<h2>💪 Improvements</h2>
+
+<ul>
+<li><strong>Potentiometer Sensitivity Control</strong>: The firmware now includes a sensitivity control for the potentiometer to avoid auto wake-up due to reading variations.</li>
+<li><strong>Rotary Encoder buffer reset</strong>: The rotary encoder buffer now reset for each screen creation to prevent stale data from causing weird behavior.</li>
+<li><strong>Increase Message List Size</strong>: The size of the message list has been increased, and a rotary encoder handler has been added to improve the message list navigation.</li>
+<li><strong>Rewrite of Firmware Component</strong>: The firmware component has been rewritten to include a list of the 10 most recent messages, improving the overall firmware structure.</li>
+<li><strong>Improved transition API</strong>:The firmware now uses a new transition API to provide smoother and more consistent screen transitions, improving the overall user experience</li>
+
+<a id="other-changes"></a>
+
+</ul>
+<h2>📝 Other Changes</h2>
+
+<ul>
+<li><strong>Remove arbitrary timers</strong>: Removed arbitrary timers that were causing unexpected behavior in certain scenarios, using event based approach instead.</li>
+<li><strong>Remove Unused Settings</strong>: Unused settings have been removed from the firmware, reducing its footprint.</li>
+
+</ul>
+<hr>
+<p><em>Generated by Release Agent on 2026-01-23 12:53</em></p>
+
+    </div>
+</body>
+</html>

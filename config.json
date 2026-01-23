@@ -1,5 +1,29 @@
 {
   "projects": [
+  {
+      "id": "btpendantfluidnc",
+      "name": "Firmware for\nPibot CNC pendant V4.0",
+      "enabled": true,
+      "description": {
+        "en": "Control your FluidNC CNC using bluetooth or serial connection. Professional wireless pendant with jog control, feed rate override, and real-time status display.",
+        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
+      },
+      "version": "2.0.0a7",
+      "releaseNotes": "https://webinstaller.esp3d.io/firmware/fluidnc8mb/releasenotes.html",
+      "firmware": [
+        { "path": "fluidnc8mb/bootloader.bin", "offset": "0x1000" },
+        { "path": "fluidnc8mb/partitions.bin", "offset": "0x8000" },
+        { "path": "fluidnc8mb/firmware.bin",   "offset": "0x10000" }
+      ],
+      "image": "images/pibot_cnc_pendant_4.0.png",
+      "icon": "images/fluidnc.svg",
+      "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "badge": {
+        "en": "Test Version 8MB 2026/01/24",
+        "fr": "Version Test 8MB 2026/01/24"
+      }
+    },
     {
       "id": "btpendantfluidnc",
       "name": "Firmware for\nPibot CNC pendant V4.0",
@@ -8,20 +32,20 @@
         "en": "Control your FluidNC CNC using bluetooth or serial connection. Professional wireless pendant with jog control, feed rate override, and real-time status display.",
         "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
       },
-      "version": "2.0.0a6",
-      "releaseNotes": "https://webinstaller.esp3d.io/firmware/fluidnc/releasenotes.html",
+      "version": "2.0.0a7",
+      "releaseNotes": "https://webinstaller.esp3d.io/firmware/fluidnc4mb/releasenotes.html",
       "firmware": [
-        { "path": "fluidnc/bootloader.bin", "offset": "0x1000" },
-        { "path": "fluidnc/partitions.bin", "offset": "0x8000" },
-        { "path": "fluidnc/firmware.bin",   "offset": "0x10000" }
+        { "path": "fluidnc4mb/bootloader.bin", "offset": "0x1000" },
+        { "path": "fluidnc4mb/partitions.bin", "offset": "0x8000" },
+        { "path": "fluidnc4mb/firmware.bin",   "offset": "0x10000" }
       ],
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon": "images/fluidnc.svg",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "badge": {
-        "en": "Test Version 2026/01/11",
-        "fr": "Version Test 2026/01/11"
+        "en": "Test Version 4MB 2026/01/24",
+        "fr": "Version Test 4MB 2026/01/24"
       }
     },
     {
