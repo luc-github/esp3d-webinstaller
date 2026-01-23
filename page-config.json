@@ -41,8 +41,21 @@
     "error_color": "#ff5555",
     "warning_color": "#ffaa00"
   },
-   "audio_feedback": {
+  "error_logging": {
     "enabled": true,
+    "categories": {
+      "user_cancel": false,
+      "port_busy": true,
+      "connection_timeout": true,
+      "download_failed": true,
+      "hardware_error": true,
+      "wrong_browser": false,
+      "flash_error": true,
+      "unknown": true
+    }
+  },
+   "audio_feedback": {
+    "enabled": false,
     "verbosity": "verbose",
     "volume": 0.7,
     "events": {

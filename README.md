@@ -17,8 +17,9 @@ A modern, browser-based firmware installer for ESP32 devices using the Web Seria
 - **Multi-project support** - Configure multiple firmware projects with a 3D carousel selector
 - **Multi-language support** - English and French included, easily extensible
 - **Progress tracking** - Real-time progress bar and detailed console logs
-- **Error categorization** - Detailed error logging for debugging and improvement
+- **Error categorization** - Detailed error logging with configurable filtering
 - **Flash statistics** - Track successful flashes per project
+- **Release notes link** - Clickable version with 📋 icon linking to release notes
 - **Fully customizable** - Branding, colors, footer links via configuration files
 - **Privacy-focused** - All firmware flashing happens locally in your browser
 - **Offline capable** - No external CDN dependencies (ESPTool.js hosted locally)
@@ -120,6 +121,7 @@ This file defines the firmware projects available in the installer.
         "fr": "Description française de votre projet"
       },
       "version": "1.0.0",
+      "releaseNotes": "https://github.com/your-repo/releases/tag/v1.0.0",
       "firmware": [
         { "path": "my-project/bootloader.bin", "offset": "0x1000" },
         { "path": "my-project/partitions.bin", "offset": "0x8000" },
@@ -145,6 +147,7 @@ This file defines the firmware projects available in the installer.
 | `enabled` | boolean | Set to `false` to show as "coming soon" |
 | `description` | object | Localized descriptions (en, fr, etc.) |
 | `version` | string | Firmware version displayed on the card |
+| `releaseNotes` | string | URL to release notes (optional). If set, version becomes clickable with 📋 icon |
 | `firmware` | array/string | Firmware files with flash offsets |
 | `image` | string | Project card image (optional) |
 | `icon` | string | Small icon for the card header (optional) |
@@ -226,7 +229,41 @@ This file configures branding, links, and visual settings.
 | `footer` | Footer visibility and legal page links |
 | `browser_compatibility` | Warning for unsupported browsers |
 | `theme` | Color scheme (CSS variables) |
+| `error_logging` | Configure which error categories are logged (optional) |
 | `audio_feedback` | Audio notification system (optional) |
+
+#### Error Logging Configuration
+
+The `error_logging` section allows you to filter which error categories are sent to the server. This is useful to ignore common user actions like cancelling the port selection dialog.
+
+```json
+"error_logging": {
+  "enabled": true,
+  "categories": {
+    "user_cancel": false,
+    "port_busy": true,
+    "connection_timeout": true,
+    "download_failed": true,
+    "hardware_error": true,
+    "wrong_browser": false,
+    "flash_error": true,
+    "unknown": true
+  }
+}
+```
+
+| Category | Default | Description |
+|----------|---------|-------------|
+| `user_cancel` | `false` | User cancelled port selection or operation |
+| `port_busy` | `true` | Serial port in use by another application |
+| `connection_timeout` | `true` | Timeout connecting to ESP32 (BOOT button not pressed) |
+| `download_failed` | `true` | Failed to download firmware files |
+| `hardware_error` | `true` | Chip or flash memory error |
+| `wrong_browser` | `false` | Browser doesn't support Web Serial API |
+| `flash_error` | `true` | Generic flash error |
+| `unknown` | `true` | Uncategorized errors |
+
+Set a category to `false` to stop logging that error type. If `error_logging` section is omitted, all errors are logged by default.
 
 #### Languages Configuration
 

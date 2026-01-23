@@ -1,7 +1,12 @@
 {
-    "Pibot CNC pendant V4.0 (FluidNC)": {
-        "total": 0,
+    "Firmware for\nPibot CNC pendant V4.0": {
+        "total": 91,
+        "success": 40,
+        "failed": 51
+    },
+    "N\/A": {
+        "total": 20,
         "success": 0,
-        "failed": 0
+        "failed": 20
     }
 }

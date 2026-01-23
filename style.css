@@ -420,6 +420,42 @@ body {
     flex-shrink: 0;
 }
 
+/* Clickable version link with release notes */
+.project-version-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: #667eea;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.project-version-link:hover {
+    color: #764ba2;
+}
+
+.project-version-link .version-text {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+}
+
+.project-version-link:hover .version-text {
+    text-decoration-style: solid;
+}
+
+.project-version-link .version-icon {
+    font-size: 1em;
+    opacity: 0.8;
+    transition: transform 0.2s ease;
+}
+
+.project-version-link:hover .version-icon {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
 /* Flash count badge (GitHub style) */
 .flash-count-badge {
     display: inline-flex;

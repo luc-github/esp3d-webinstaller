@@ -143,8 +143,20 @@ async function logFlashEvent(projectName, action, success, errorMsg = null, erro
         };
         
         if (errorMsg) {
+            const category = errorCategory || categorizeError(errorMsg);
+            
+            // Check if this error category should be logged
+            const errorLogging = pageConfig?.error_logging;
+            if (errorLogging?.enabled !== false) {
+                // If error_logging.categories exists, check if this category is enabled
+                if (errorLogging?.categories && errorLogging.categories[category] === false) {
+                    console.log(`Skipping error logging for category "${category}" (disabled in config)`);
+                    return;
+                }
+            }
+            
             logData.error = errorMsg;
-            logData.errorCategory = errorCategory || categorizeError(errorMsg);
+            logData.errorCategory = category;
             logData.context = {
                 browser: getBrowserInfo(),
                 stage: currentStage || 'unknown',
@@ -1515,12 +1527,25 @@ function createProjectCard(project, index) {
         badgesContainer.appendChild(badgeEl);
     }
     
-    // Version
+    // Version (clickable with icon if releaseNotes exists)
     if (project.version) {
-        const version = document.createElement('span');
-        version.className = 'project-version';
-        version.textContent = `Version: ${project.version}`;
-        badgesContainer.appendChild(version);
+        if (project.releaseNotes) {
+            // Create clickable version link with "What's New" icon
+            const versionLink = document.createElement('a');
+            versionLink.className = 'project-version project-version-link';
+            versionLink.href = project.releaseNotes;
+            versionLink.target = '_blank';
+            versionLink.rel = 'noopener';
+            versionLink.title = translate('whatsNew') || "What's New";
+            versionLink.innerHTML = `<span class="version-text">Version: ${project.version}</span><span class="version-icon">📋</span>`;
+            badgesContainer.appendChild(versionLink);
+        } else {
+            // Plain text version (no link)
+            const version = document.createElement('span');
+            version.className = 'project-version';
+            version.textContent = `Version: ${project.version}`;
+            badgesContainer.appendChild(version);
+        }
     }
     
     // Flash count badge will be added here by loadFlashCounts()
