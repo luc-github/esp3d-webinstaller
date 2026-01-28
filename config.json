@@ -1,7 +1,7 @@
 {
   "projects": [
   {
-      "id": "btpendantfluidnc",
+      "id": "btpendantfluidnc8",
       "name": "Firmware for\nPibot CNC pendant V4.0",
       "enabled": true,
       "description": {
@@ -25,7 +25,7 @@
       }
     },
     {
-      "id": "btpendantfluidnc",
+      "id": "btpendantfluidnc4",
       "name": "Firmware for\nPibot CNC pendant V4.0",
       "enabled": true,
       "description": {

@@ -238,17 +238,24 @@ function checkHoneypot($data, $config) {
  * Validate and sanitize input data
  */
 function validateInput($data) {
-    // Required fields
-    if (!isset($data['project']) || empty($data['project'])) {
-        return ['valid' => false, 'error' => 'Missing project name'];
+    // Required field: projectId (unique identifier)
+    if (!isset($data['projectId']) || empty($data['projectId'])) {
+        return ['valid' => false, 'error' => 'Missing project ID'];
     }
     
-    // Sanitize project name (max 100 chars, alphanumeric + spaces + basic punctuation)
-    $project = substr($data['project'], 0, 100);
-    $project = preg_replace('/[^a-zA-Z0-9\s\.\-\_\(\)]/', '', $project);
+    // Sanitize project ID (max 50 chars, alphanumeric + basic punctuation)
+    $projectId = substr($data['projectId'], 0, 50);
+    $projectId = preg_replace('/[^a-zA-Z0-9\-\_]/', '', $projectId);
     
-    if (empty($project)) {
-        return ['valid' => false, 'error' => 'Invalid project name'];
+    if (empty($projectId)) {
+        return ['valid' => false, 'error' => 'Invalid project ID'];
+    }
+    
+    // Optional project name for display (max 100 chars)
+    $projectName = null;
+    if (isset($data['projectName']) && !empty($data['projectName'])) {
+        $projectName = substr($data['projectName'], 0, 100);
+        $projectName = preg_replace('/[^a-zA-Z0-9\s\.\-\_\(\)\n]/', '', $projectName);
     }
     
     // Validate success field
@@ -286,7 +293,8 @@ function validateInput($data) {
     return [
         'valid' => true,
         'data' => [
-            'project' => $project,
+            'projectId' => $projectId,
+            'projectName' => $projectName,
             'success' => $success,
             'action' => $action,
             'error' => $error,
@@ -390,21 +398,26 @@ if (file_exists($config['counts_file'])) {
     $counts = json_decode(file_get_contents($config['counts_file']), true) ?? [];
 }
 
-$projectName = $cleanData['project'];
+$projectId = $cleanData['projectId'];
+$projectName = $cleanData['projectName'];
 
-if (!isset($counts[$projectName])) {
-    $counts[$projectName] = [
+if (!isset($counts[$projectId])) {
+    $counts[$projectId] = [
+        'name' => $projectName,
         'total' => 0,
         'success' => 0,
         'failed' => 0
     ];
+} else if ($projectName && $counts[$projectId]['name'] !== $projectName) {
+    // Update name if it changed
+    $counts[$projectId]['name'] = $projectName;
 }
 
-$counts[$projectName]['total']++;
+$counts[$projectId]['total']++;
 if ($cleanData['success']) {
-    $counts[$projectName]['success']++;
+    $counts[$projectId]['success']++;
 } else {
-    $counts[$projectName]['failed']++;
+    $counts[$projectId]['failed']++;
 }
 
 $countResult = file_put_contents(
@@ -434,7 +447,8 @@ if (!$cleanData['success'] && $cleanData['error'] && checkFileSize($config['erro
     $errorEntry = [
         'id' => uniqid('err_'),
         'timestamp' => $cleanData['timestamp'],
-        'project' => $cleanData['project'],
+        'projectId' => $cleanData['projectId'],
+        'projectName' => $cleanData['projectName'],
         'action' => $cleanData['action'],
         'error' => $cleanData['error'],
         'category' => $cleanData['errorCategory'] ?? 'unknown'
@@ -479,5 +493,5 @@ if ($countResult === false) {
 http_response_code(200);
 echo json_encode([
     'success' => true,
-    'counts' => $counts[$projectName]
+    'counts' => $counts[$projectId]
 ]);

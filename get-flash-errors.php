@@ -5,7 +5,8 @@
  * 
  * Query parameters:
  * - category: Filter by error category (user_cancel, port_busy, connection_timeout, etc.)
- * - project: Filter by project name
+ * - projectId: Filter by project ID (new)
+ * - project: Filter by project ID (alias for backward compatibility)
  * - limit: Number of entries to return (default: 50, max: 500)
  * - offset: Pagination offset (default: 0)
  * - summary: If "true", return only summary statistics
@@ -31,7 +32,7 @@ if (file_exists($errorsFile)) {
 
 // Get query parameters
 $category = $_GET['category'] ?? null;
-$project = $_GET['project'] ?? null;
+$projectId = $_GET['projectId'] ?? $_GET['project'] ?? null; // Support both for backward compatibility
 $limit = min((int)($_GET['limit'] ?? 50), 500);
 $offset = max((int)($_GET['offset'] ?? 0), 0);
 $summaryOnly = ($_GET['summary'] ?? '') === 'true';
@@ -57,15 +58,16 @@ if ($summaryOnly) {
     // Add per-project stats
     $projectStats = [];
     foreach ($errors['entries'] as $entry) {
-        $proj = $entry['project'];
-        if (!isset($projectStats[$proj])) {
-            $projectStats[$proj] = [];
+        // Support both old format (project) and new format (projectId)
+        $projId = $entry['projectId'] ?? $entry['project'] ?? 'unknown';
+        if (!isset($projectStats[$projId])) {
+            $projectStats[$projId] = [];
         }
         $cat = $entry['category'];
-        if (!isset($projectStats[$proj][$cat])) {
-            $projectStats[$proj][$cat] = 0;
+        if (!isset($projectStats[$projId][$cat])) {
+            $projectStats[$projId][$cat] = 0;
         }
-        $projectStats[$proj][$cat]++;
+        $projectStats[$projId][$cat]++;
     }
     $summary['projectStats'] = $projectStats;
     
@@ -82,9 +84,11 @@ if ($category) {
     });
 }
 
-if ($project) {
-    $filtered = array_filter($filtered, function($entry) use ($project) {
-        return $entry['project'] === $project;
+if ($projectId) {
+    $filtered = array_filter($filtered, function($entry) use ($projectId) {
+        // Support both old format (project) and new format (projectId)
+        $entryProjectId = $entry['projectId'] ?? $entry['project'] ?? null;
+        return $entryProjectId === $projectId;
     });
 }
 
@@ -105,7 +109,7 @@ $response = [
     'hasMore' => ($offset + $limit) < $totalFiltered,
     'filters' => [
         'category' => $category,
-        'project' => $project
+        'projectId' => $projectId
     ],
     'entries' => $paginated
 ];

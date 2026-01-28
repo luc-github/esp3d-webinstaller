@@ -128,7 +128,7 @@ function playErrorSound(errorMessage) {
 // Flash event logging to server
 // Called ONLY at the very end of flash process (after reset + port close)
 // Only works when analytics is enabled (requires PHP backend)
-async function logFlashEvent(projectName, action, success, errorMsg = null, errorCategory = null) {
+async function logFlashEvent(projectId, projectName, action, success, errorMsg = null, errorCategory = null) {
     // Skip logging if analytics disabled
     if (!pageConfig?.analytics) {
         return;
@@ -136,7 +136,8 @@ async function logFlashEvent(projectName, action, success, errorMsg = null, erro
     
     try {
         const logData = {
-            project: projectName,
+            projectId: projectId,
+            projectName: projectName,
             action: action,
             success: success,
             timestamp: new Date().toISOString()
@@ -294,6 +295,7 @@ function logWrongBrowserError() {
     
     const browserInfo = getBrowserInfo();
     logFlashEvent(
+        'browser_check',
         'N/A',
         'browser_check',
         false,
@@ -322,7 +324,7 @@ async function loadFlashCounts() {
             const projectIndex = parseInt(card.dataset.index);
             if (projectIndex >= 0 && projectIndex < carouselProjects.length) {
                 const project = carouselProjects[projectIndex];
-                const projectCounts = counts[project.name];
+                const projectCounts = counts[project.id];
                 
                 if (projectCounts && projectCounts.success > 0) {
                     // Find or create flash count badge
@@ -986,7 +988,7 @@ async function flashESP32() {
         addLog('✓ Serial port closed', 'info');
         
         // Log flash success ONLY at the very end (after everything complete)
-        logFlashEvent(selectedProject.name, 'flash', true);
+        logFlashEvent(selectedProject.id, selectedProject.name, 'flash', true);
         
     } catch (error) {
         // Close modal on error
@@ -1000,6 +1002,7 @@ async function flashESP32() {
         
         // Log flash failure to server
         logFlashEvent(
+            selectedProject ? selectedProject.id : 'unknown',
             selectedProject ? selectedProject.name : 'Unknown',
             'flash',
             false,
