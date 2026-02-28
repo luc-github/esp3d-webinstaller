@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - ESP32 Web Installer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .content h2 {
+            color: #667eea;
+            margin: 30px 0 15px 0;
+            font-size: 1.3em;
+        }
+        
+        .content h2:first-child {
+            margin-top: 0;
+        }
+        
+        .content p {
+            margin-bottom: 15px;
+        }
+        
+        .content ul {
+            margin: 15px 0 15px 30px;
+        }
+        
+        .content li {
+            margin-bottom: 8px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .data-table th,
+        .data-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #f5f5f5;
+            color: #667eea;
+        }
+        
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Privacy Policy</h1>
+            <p>ESP32 Web Installer by ESP3D</p>
+        </div>
+        
+        <div class="content">
+            <p><strong>Last updated:</strong> December 2024</p>
+            
+            <h2>Overview</h2>
+            <p>
+                This Privacy Policy explains how the ESP32 Web Installer ("we", "our", "the Service") 
+                collects, uses, and protects information when you use our firmware flashing tool.
+            </p>
+            
+            <div class="highlight-box">
+                <strong>Summary:</strong> We collect minimal anonymous data for improving our service. 
+                We do not collect personal information, and all data stays on our servers.
+            </div>
+            
+            <h2>Information We Collect</h2>
+            <p>When you use the ESP32 Web Installer, we may collect the following anonymous information:</p>
+            
+            <table class="data-table">
+                <tr>
+                    <th>Data</th>
+                    <th>Purpose</th>
+                    <th>Retention</th>
+                </tr>
+                <tr>
+                    <td>Flash success/failure count</td>
+                    <td>Service statistics</td>
+                    <td>Indefinitely</td>
+                </tr>
+                <tr>
+                    <td>Error messages</td>
+                    <td>Debugging and improvement</td>
+                    <td>Last 500 entries</td>
+                </tr>
+                <tr>
+                    <td>Browser type and version</td>
+                    <td>Compatibility analysis</td>
+                    <td>Last 500 entries</td>
+                </tr>
+                <tr>
+                    <td>Operating system</td>
+                    <td>Compatibility analysis</td>
+                    <td>Last 500 entries</td>
+                </tr>
+                <tr>
+                    <td>Timestamp of flash attempt</td>
+                    <td>Usage patterns</td>
+                    <td>Last 500 entries</td>
+                </tr>
+            </table>
+            
+            <h2>Information We Do NOT Collect</h2>
+            <ul>
+                <li>Your name, email, or any personal identifiers</li>
+                <li>IP addresses</li>
+                <li>Location data</li>
+                <li>Device serial numbers</li>
+                <li>Any data transmitted to/from your ESP32 device</li>
+                <li>Cookies or tracking identifiers</li>
+            </ul>
+            
+            <h2>How We Use Information</h2>
+            <p>The anonymous data we collect is used to:</p>
+            <ul>
+                <li>Display flash success statistics on the installer page</li>
+                <li>Identify and fix common errors</li>
+                <li>Improve browser and hardware compatibility</li>
+                <li>Monitor service health</li>
+            </ul>
+            
+            <h2>Data Storage and Security</h2>
+            <p>
+                All data is stored on our servers and is not shared with third parties. 
+                Error logs are automatically limited to the 500 most recent entries to minimize data retention.
+            </p>
+            
+            <h2>Web Serial API</h2>
+            <p>
+                This tool uses the Web Serial API to communicate with your ESP32 device. 
+                The serial communication happens directly between your browser and your device. 
+                We cannot see, intercept, or store any data transmitted over this connection.
+            </p>
+            
+            <h2>Third-Party Services</h2>
+            <p>
+                This installer uses the open-source ESPTool.js library, which is hosted locally 
+                on our servers. No external CDN or third-party services are loaded when using this tool.
+            </p>
+            
+            <h2>Your Rights</h2>
+            <p>Since we do not collect personal information, there is no personal data to access, modify, or delete. The anonymous statistics cannot be linked back to individual users.</p>
+            
+            <h2>Changes to This Policy</h2>
+            <p>
+                We may update this Privacy Policy from time to time. 
+                Any changes will be reflected on this page with an updated "Last updated" date.
+            </p>
+            
+            <h2>Contact</h2>
+            <p>
+                If you have questions about this Privacy Policy, please contact us at:
+                <br><a href="https://github.com/luc-github/esp3d-webinstaller/discussions">contact</a>
+            </p>
+            
+            <a href="index.html" class="back-link">← Back to ESP32 Web Installer</a>
+        </div>
+        
+        <div class="footer">
+            © 2024 ESP3D. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>

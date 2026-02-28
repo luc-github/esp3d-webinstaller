@@ -202,61 +202,39 @@ a[id] {
     <div class="container">
 <h1>Pibot CNC Pendant Firmware</h1>
 
-<h2>v2.0.0a7 - Public Alpha</h2>
+<h2>v2.0.0a9 - Public Alpha</h2>
 
-<p><em>2026-01-13 to 2026-01-23</em></p>
+<p><em>2026-01-31 to 2026-02-14</em></p>
 
-<p>This release introduces several new features and improvements to the CNC pendant firmware, including a firmware update from SD card, improved transitions, and various bug fixes.</p>
+<p>This release introduces improvements to realtime command handling, touch screen responsiveness, and overall system stability for the pibot-cnc-pendant-firmware.</p>
 
 <h2>📋 Table of Contents</h2>
 
 <ul>
-<li><a href="#new-features">🚀 New Features</a></li>
-<ul>
-<li><a href="#firmware-update-from-sd-card">Firmware Update from SD Card</a></li>
-<li><a href="#swap">Allow RX/TX Pin Swap</a></li>
-</ul>
 <li><a href="#bug-fixes">🐛 Bug Fixes</a></li>
 <li><a href="#improvements">💪 Improvements</a></li>
 <li><a href="#other-changes">📝 Other Changes</a></li>
 
-<a id="new-features"></a>
-
-</ul>
-<h2>🚀 New Features</h2>
-
-<a id="firmware-update-from-sd-card"></a>
-
-<h3>Firmware Update from SD Card</h3>
-
-<p>Users can now update the firmware directly from an SD card, with a screen update during the process.</p>
-
-<a id="swap"></a>
-
-<h3>Allow RX/TX Pin Swap</h3>
-
-<p>The firmware now allows users to swap the RX/TX pins to work around issues with the BLE module.</p>
-
-
 <a id="bug-fixes"></a>
 
+</ul>
 <h2>🐛 Bug Fixes</h2>
 
 <ul>
-<li><strong>Fix Crash Due to Missing Initialization</strong>: The firmware has been updated to fix a crash issue related to missing initialization on the input screen.</li>
-<li><strong>Fix Race Conditions in Jog Screen and Message Handling</strong>: Several race condition issues have been addressed, including in the jog screen and message handling, to improve the overall stability of the firmware.</li>
+<li><strong>Fix lvgl event overloading</strong>: Resolved an issue where lvgl events were being overloaded, causing performance degradation and unresponsiveness in the touch screen interface.</li>
+<li><strong>Fix press/Release Buttons logic</strong>: Corrected the logic for press/release buttons to ensure proper state management and responsiveness.</li>
+<li><strong>Fixed Axis Button Style Issue</strong>: Resolved a problem where the axis button style was not properly applied on 5-6 axis screens.</li>
+<li><strong>Miscellaneous Fixes and Updates</strong>: Addressed various minor issues, including homing error handling, Bluetooth message fragmentation, and other small glitches.</li>
 
 <a id="improvements"></a>
 
 </ul>
 <h2>💪 Improvements</h2>
-
 <ul>
-<li><strong>Potentiometer Sensitivity Control</strong>: The firmware now includes a sensitivity control for the potentiometer to avoid auto wake-up due to reading variations.</li>
-<li><strong>Rotary Encoder buffer reset</strong>: The rotary encoder buffer now reset for each screen creation to prevent stale data from causing weird behavior.</li>
-<li><strong>Increase Message List Size</strong>: The size of the message list has been increased, and a rotary encoder handler has been added to improve the message list navigation.</li>
-<li><strong>Rewrite of Firmware Component</strong>: The firmware component has been rewritten to include a list of the 10 most recent messages, improving the overall firmware structure.</li>
-<li><strong>Improved transition API</strong>:The firmware now uses a new transition API to provide smoother and more consistent screen transitions, improving the overall user experience</li>
+<li><strong>Improve Touch Screen Interaction</strong>: The touch screen input handling has been optimized, reducing potential issues with UART task contention and improving overall responsiveness.</li>
+<li><strong>Improved Connection Detection</strong>: Enhanced the connection detection flow for serial and external module Bluetooth connections.</li>
+<li><strong>Improved Realtime Command Handling</strong>: The firmware now uses a new priority API for realtime commands, improving their responsiveness and reliability.</li>
+<li><strong>Task and Performance Tuning</strong>: Optimized lvgl task management over communication tasks, including moving the UART task to a separate core and adjusting LVGL task priority and stack size for improved responsiveness and system stability.</li>
 
 <a id="other-changes"></a>
 
@@ -264,13 +242,14 @@ a[id] {
 <h2>📝 Other Changes</h2>
 
 <ul>
-<li><strong>Remove arbitrary timers</strong>: Removed arbitrary timers that were causing unexpected behavior in certain scenarios, using event based approach instead.</li>
-<li><strong>Remove Unused Settings</strong>: Unused settings have been removed from the firmware, reducing its footprint.</li>
+<li><strong>Documentation and Release Notes</strong>: Collected and organized release documents, including user documentation and release notes, for a more comprehensive and informative release.</li>
+<li><strong>Streamlined Code and Naming</strong>: Performed general code cleaning and updated naming conventions for improved readability and maintainability.</li>
+<li><strong>Logging and Debugging Enhancements</strong>: Improved the logging system, adding timestamp, comment, and warning level features for better debugging and error reporting.</li>
+
 
 </ul>
 <hr>
-<p><em>Generated by Release Agent on 2026-01-23 12:53</em></p>
-
+<p><em>Generated by Release Agent on 2026-02-14 19:09</em></p>
     </div>
 </body>
 </html>
