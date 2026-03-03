@@ -40,5 +40,6 @@
   "consoleReady": "[INFO] Ready to connect...",
   "configLoaded": "Configuration loaded successfully",
   "projectSelected": "Project selected",
-  "projectDisabled": "Project Not Available"
+  "projectDisabled": "Project Not Available",
+  "downloadFirmware": "Download firmware for offline use"
 }

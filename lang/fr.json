@@ -40,5 +40,6 @@
   "consoleReady": "[INFO] Prêt à se connecter...",
   "configLoaded": "Configuration chargée avec succès",
   "projectSelected": "Projet sélectionné",
-  "projectDisabled": "Projet Non Disponible"
+  "projectDisabled": "Projet Non Disponible",
+  "downloadFirmware": "Télécharger le firmware pour utilisation hors ligne"
 }

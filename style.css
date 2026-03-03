@@ -1460,8 +1460,8 @@ esp-web-install-button button:hover {
     display: flex;
     justify-content: center;  /* Center links */
     gap: 20px;
-    margin-top: 8px;  /* Reduced from 16px */
-    padding: 6px 0;  /* Reduced from 12px */
+    margin-top: 2px;
+    padding: 4px 0;
     flex-wrap: wrap;
 }
 
@@ -1503,9 +1503,11 @@ esp-web-install-button button:hover {
 /* ===== PROJECT ICON CENTERED ===== */
 .project-icon-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px 0;  /* Reduced from 20px */
+    padding: 10px 0 2px 0;
+    gap: 4px;
 }
 
 .project-icon {
@@ -1514,7 +1516,23 @@ esp-web-install-button button:hover {
     object-fit: contain;
 }
 
-.project-content {
+/* Firmware download link - below project icon */
+.firmware-download-link {
+    color: #999;
+    transition: color 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.firmware-download-link:hover {
+    color: #4fc3f7;
+    transform: scale(1.15);
+}
+
+.firmware-download-icon {
+    display: block;
+}
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -1551,7 +1569,7 @@ esp-web-install-button button:hover {
 
 .project-description {
     padding: 0 20px;
-    margin: 6px 0;  /* Reduced from 12px */
+    margin: 2px 0 6px 0;
     line-height: 1.5;
 }
 

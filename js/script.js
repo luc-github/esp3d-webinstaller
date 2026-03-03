@@ -1563,7 +1563,7 @@ function createProjectCard(project, index) {
     description.textContent = project.description[currentLang] || project.description.en;
     card.appendChild(description);
     
-    // Icon centered between description and links
+    // Project icon centered between description and links
     if (project.icon) {
         const iconContainer = document.createElement('div');
         iconContainer.className = 'project-icon-container';
@@ -1572,6 +1572,22 @@ function createProjectCard(project, index) {
         icon.src = project.icon;
         icon.alt = '';
         iconContainer.appendChild(icon);
+        
+        // Firmware download link (displayed to the right of the project icon)
+        if (project.downloadFirmware) {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = project.downloadFirmware;
+            downloadLink.download = '';
+            downloadLink.className = 'firmware-download-link';
+            downloadLink.title = translate('downloadFirmware') || 'Download firmware for offline use';
+            downloadLink.innerHTML = `<svg class="firmware-download-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>`;
+            iconContainer.appendChild(downloadLink);
+        }
+        
         card.appendChild(iconContainer);
     }
     

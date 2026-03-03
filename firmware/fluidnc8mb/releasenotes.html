@@ -202,39 +202,72 @@ a[id] {
     <div class="container">
 <h1>Pibot CNC Pendant Firmware</h1>
 
-<h2>v2.0.0a9 - Public Alpha</h2>
+<h2>v2.0.0a11 - Public Alpha</h2>
 
-<p><em>2026-01-31 to 2026-02-14</em></p>
+<p><em>2026-02-14 to 2026-03-02</em></p>
 
-<p>This release introduces improvements to realtime command handling, touch screen responsiveness, and overall system stability for the pibot-cnc-pendant-firmware.</p>
+<p>This release focuses on improving the Bluetooth connectivity and pairing experience for the CNC pendant firmware.</p>
 
 <h2>📋 Table of Contents</h2>
 
 <ul>
+<li><a href="#new-features">🚀 New Features</a></li>
+<ul>
+<li><a href="#bluetooth-pin-code-support">Bluetooth PIN Code Support</a></li>
+<li><a href="#dedicated-connection-status-screen">Dedicated Connection Status Screen</a></li>
+<li><a href="#factory-partition">Factory partition</a></li>
+</ul>
 <li><a href="#bug-fixes">🐛 Bug Fixes</a></li>
 <li><a href="#improvements">💪 Improvements</a></li>
 <li><a href="#other-changes">📝 Other Changes</a></li>
 
-<a id="bug-fixes"></a>
+<a id="new-features"></a>
 
 </ul>
+<h2>🚀 New Features</h2>
+
+<a id="bluetooth-pin-code-support"></a>
+
+<h3>Bluetooth PIN Code Support</h3>
+
+<p>Users can now customize the Bluetooth PIN code (4-digit or 6-digit) for both legacy and BLE connections. This allows easier pairing with CNC controllers or other devices.</p>
+
+<a id="dedicated-connection-status-screen"></a>
+
+<h3>Dedicated Connection Status Screen</h3>
+
+<p>A new dedicated screen has been added to display the current Bluetooth connection status, including the ability to disconnect and forget the paired device.</p>
+
+<a id="factory-partition"></a>
+
+<h3>Factory Partition</h3>
+
+<p>Implement factory partition with custom bootloader to allow for easier recovery and re-flashing of the firmware in case of issues during updates or development. It allows to choose booting partition if several are available and update firmware from SD card without needing to connect to a computer.</p>
+
+<p>The Factory partition is accessible when pressing Right button (Button 3) before and during boot, a beep at press, inform you get the bootloader get the request, then you can release and hear a new melody, then factory partition is displayed.    </p>
+
+<p>If no button is pressed during boot, the firmware will boot from the normal partition as usual.</p>
+
+<p>User documentation will be updated later to explain how to use the factory partition and how to do firmware updates from SD card.</p>
+
+<blockquote><p>[!WARNING]</p></blockquote>
+<blockquote><p>This new feature breaks the previous partition scheme and requires a full re-flash (bootloader/partitions/firmware) of the firmware to update to this version.</p></blockquote>
+<p>On 4MB device there is not more space for OTA updates, so to do update you need to use the factory partition and flash the firmware from SD card. The firmware update file will be available as download from web installer page, and you can copy it to the SD card, then use the factory partition to flash it.</p>
+
+<a id="bug-fixes"></a>
+
 <h2>🐛 Bug Fixes</h2>
 
 <ul>
-<li><strong>Fix lvgl event overloading</strong>: Resolved an issue where lvgl events were being overloaded, causing performance degradation and unresponsiveness in the touch screen interface.</li>
-<li><strong>Fix press/Release Buttons logic</strong>: Corrected the logic for press/release buttons to ensure proper state management and responsiveness.</li>
-<li><strong>Fixed Axis Button Style Issue</strong>: Resolved a problem where the axis button style was not properly applied on 5-6 axis screens.</li>
-<li><strong>Miscellaneous Fixes and Updates</strong>: Addressed various minor issues, including homing error handling, Bluetooth message fragmentation, and other small glitches.</li>
+<li><strong>Unwanted Warnings Removed</strong>: Several unwanted error/warning messages from the ESP-IDF libraries have been disabled to improve the overall logging and avoid noise on console output.</li>
 
 <a id="improvements"></a>
 
 </ul>
 <h2>💪 Improvements</h2>
+
 <ul>
-<li><strong>Improve Touch Screen Interaction</strong>: The touch screen input handling has been optimized, reducing potential issues with UART task contention and improving overall responsiveness.</li>
-<li><strong>Improved Connection Detection</strong>: Enhanced the connection detection flow for serial and external module Bluetooth connections.</li>
-<li><strong>Improved Realtime Command Handling</strong>: The firmware now uses a new priority API for realtime commands, improving their responsiveness and reliability.</li>
-<li><strong>Task and Performance Tuning</strong>: Optimized lvgl task management over communication tasks, including moving the UART task to a separate core and adjusting LVGL task priority and stack size for improved responsiveness and system stability.</li>
+<li><strong>Bluetooth Connection Stability Improvements</strong>: Several changes have been made to improve the stability and responsiveness of Bluetooth connections, including the use of new priority APIs for real-time commands.</li>
 
 <a id="other-changes"></a>
 
@@ -242,14 +275,12 @@ a[id] {
 <h2>📝 Other Changes</h2>
 
 <ul>
-<li><strong>Documentation and Release Notes</strong>: Collected and organized release documents, including user documentation and release notes, for a more comprehensive and informative release.</li>
-<li><strong>Streamlined Code and Naming</strong>: Performed general code cleaning and updated naming conventions for improved readability and maintainability.</li>
-<li><strong>Logging and Debugging Enhancements</strong>: Improved the logging system, adding timestamp, comment, and warning level features for better debugging and error reporting.</li>
+<li><strong>Bluetooth PIN Code Defaults Updated</strong>: The default Bluetooth PIN code has been changed to '0000' for legacy connections and '000000' for BLE connections to align with common industry standards.</li>
 
 
 </ul>
 <hr>
-<p><em>Generated by Release Agent on 2026-02-14 19:09</em></p>
+<p><em>Generated by Release Agent on 2026-03-02 17:26</em></p>
     </div>
 </body>
 </html>
