@@ -1,8 +1,37 @@
 RewriteEngine On
+
+# === Force HTTPS ===
 RewriteCond %{ENV:HTTPS} !on
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Disable cache for HTML, CSS, JS, JSON
+# ==============================================================
+# === ENABLE SSI (Server Side Includes) for dynamic title ===
+# ==============================================================
+Options +Includes
+AddOutputFilter INCLUDES .html
+XBitHack On
+
+# ==============================================================
+# === MAINTENANCE MODE (enabled only if the file exists) ===
+# ==============================================================
+# To enable   → create an empty file named ".maintenance.on" at the root
+# To disable  → simply delete this file
+
+# 1. Set environment variable ONLY for YOUR IP (when maintenance file exists)
+RewriteCond %{DOCUMENT_ROOT}/.maintenance.on -f
+RewriteRule ^ - [E=MAINTENANCE_MODE:1]
+
+# 2. Redirect EVERYONE ELSE (only if maintenance file exists)
+RewriteCond %{DOCUMENT_ROOT}/.maintenance.on -f
+RewriteCond %{REMOTE_ADDR} !^114\.37\.135\.124$
+RewriteCond %{REMOTE_ADDR} !^2001:b011:2020:70c7:c4d8:322e:e99d:efcb$
+RewriteCond %{REQUEST_URI} !^/maintenance\.html$ [NC]
+RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot|otf|php)$ [NC]
+RewriteRule ^ /maintenance.html [R=302,L]
+
+# ==============================================================
+# === Disable browser cache (always active) ===
+# ==============================================================
 <FilesMatch "\.(html|css|js|json|bin)$">
     Header set Cache-Control "no-cache, no-store, must-revalidate"
     Header set Pragma "no-cache"

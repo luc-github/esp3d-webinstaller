@@ -9,6 +9,9 @@ let selectedProject = null;
 let translations = {}; // Will be loaded from lang files
 let esploader = null; // ESPLoader instance
 let port = null; // Serial port
+let monitorPort = null; // Serial port for monitor
+let monitorReader = null; // Monitor reader reference
+let monitorRunning = false; // Monitor state flag
 let firstUserInteractionDone = false; // Track first click for browser check audio
 let browserErrorSoundPlayed = false; // Track if browser error sound already played
 
@@ -777,23 +780,33 @@ async function startFlash() {
         return;
     }
     
+    // Prevent flashing while monitor is running
+    if (monitorRunning) {
+        addLog('⚠️ Stop the serial monitor before flashing', 'warning');
+        return;
+    }
+    
     // Auto-expand console if collapsed (needed for browser port dialog interaction)
     if (consoleCollapsed) {
         toggleConsole();
     }
     
-    // Hide flash button during process (cleaner than disabled state)
+    // Hide flash button and hide monitor button during process
     const flashBtn = document.getElementById('flashButton');
+    const monitorBtn = document.getElementById('monitorButton');
     flashBtn.style.display = 'none';
+    if (monitorBtn) monitorBtn.style.display = 'none';
     
     // Play start sound
     playStartSound();
     
     try {
         await flashESP32();
-        flashBtn.style.display = 'block'; // Show button again
+        flashBtn.style.display = 'block';
     } catch (error) {
-        flashBtn.style.display = 'block'; // Show button again on error
+        flashBtn.style.display = 'block';
+    } finally {
+        if (monitorBtn) monitorBtn.style.display = 'block';
     }
 }
 
@@ -809,6 +822,8 @@ async function flashESP32() {
     // Audio: Dialog opening
     playAudioFeedback('dialog_open');
     
+    let transport = null;
+    
     try {
         // Step 1: Request port from user (NO modal yet - let user select port first)
         currentStage = 'connecting';
@@ -819,14 +834,25 @@ async function flashESP32() {
         // Audio: Port selected
         playAudioFeedback('port_selected');
         
-        // NOW show BOOT modal - user needs to hold BOOT for connection
-        showBootModal();
+        // Check if no_reset mode is selected (device already in download mode)
+        const noResetCheckbox = document.getElementById('noResetCheckbox');
+        const noResetMode = noResetCheckbox && noResetCheckbox.checked;
         
-        // Audio: Boot button prompt
-        playAudioFeedback('boot_prompt');
+        if (noResetMode) {
+            // No reset mode: show instructions modal and wait for user to confirm
+            addLog('🔧 No Reset mode selected', 'info');
+            await showNoResetModal();
+            addLog('🔧 User confirmed device is in download mode', 'info');
+        } else {
+            // Normal mode: show BOOT modal - user needs to hold BOOT for connection
+            showBootModal();
+            
+            // Audio: Boot button prompt
+            playAudioFeedback('boot_prompt');
+        }
         
         // Step 2: Create transport (don't open port yet - ESPLoader will do it)
-        const transport = new esptooljs.Transport(port);
+        transport = new esptooljs.Transport(port);
         
         // Step 3: Create ESPLoader with custom terminal for our console
         const terminal = {
@@ -857,15 +883,20 @@ async function flashESP32() {
             debugLogging: false
         });
         
-        // Step 5: Connect to chip (this will open the port internally)
+        // Step 5: Connect to chip
+        const connectMode = noResetMode ? "no_reset" : "default_reset";
         addLog('🔌 Connecting to ESP32...', 'info');
-        addLog('⚠️ HOLD the BOOT button NOW until you see "Connected"!', 'warning');
-        updateProgress(10, 'Connecting...', 'Hold BOOT button now!');
+        if (noResetMode) {
+            addLog('🔧 No Reset: hold BOOT + press RESET before clicking flash, then release BOOT', 'warning');
+        } else {
+            addLog('⚠️ HOLD the BOOT button NOW until you see "Connected"!', 'warning');
+        }
+        updateProgress(10, 'Connecting...', noResetMode ? 'No Reset mode' : 'Hold BOOT button now!');
         
         // Audio: Connecting
         playAudioFeedback('connecting');
         
-        const chip = await esploader.main();
+        const chip = await esploader.main(connectMode);
         
         // Close modal on successful connection
         closeBootModal();
@@ -883,6 +914,28 @@ async function flashESP32() {
         updateProgress(15, 'Downloading...', 'Fetching firmware files');
         
         const fileArray = await prepareFirmwareFiles(selectedProject);
+        
+        // Diagnostic: log details for each file before flashing
+        addLog(`📋 ${fileArray.length} file(s) ready to flash:`, 'info');
+        for (let i = 0; i < fileArray.length; i++) {
+            const f = fileArray[i];
+            addLog(`  [${i}] ${f.path} | addr=0x${f.address.toString(16)} | size=${f.data.length} bytes`, 'info');
+        }
+        
+        // Validate partition table file integrity (magic bytes 0xAA 0x50)
+        const partFile = fileArray.find(f => f.path && f.path.toLowerCase().includes('partition'));
+        if (partFile) {
+            const magic1 = partFile.data.charCodeAt(0);
+            const magic2 = partFile.data.charCodeAt(1);
+            addLog(`🔍 Partition table check: size=${partFile.data.length}, magic=0x${magic1.toString(16).padStart(2,'0')} 0x${magic2.toString(16).padStart(2,'0')}`, 'info');
+            if (magic1 !== 0xAA || magic2 !== 0x50) {
+                addLog('⚠️ WARNING: Partition table magic bytes invalid! Expected 0xAA 0x50', 'error');
+            } else {
+                addLog('✅ Partition table magic bytes OK', 'success');
+            }
+        } else {
+            addLog('⚠️ WARNING: No partition table file found in firmware list!', 'error');
+        }
         
         updateProgress(20, 'Ready to flash', 'All files downloaded');
         
@@ -912,54 +965,97 @@ async function flashESP32() {
         let eraseCompleteAudioPlayed = false;  // Flag for erase complete audio
         let lastProgressMilestone = -1;  // Track last milestone played (-1 = none, 0 = 25%, 1 = 50%, 2 = 75%)
         
-        await esploader.writeFlash({
-            fileArray: fileArray,
-            flashSize: "keep",
-            flashMode: "keep",
-            flashFreq: "keep",
-            eraseAll: eraseAll,  // Use checkbox value
-            compress: true,
-            reportProgress: (fileIndex, written, total) => {
-                const percent = Math.floor((written / total) * 100);
-                
-                // Audio: Erase complete (only once, when writing actually starts)
-                if (!eraseCompleteAudioPlayed && fileIndex === 0 && written > 0) {
-                    playAudioFeedback('erase_complete');
-                    eraseCompleteAudioPlayed = true;
+        // Diagnostic: track erase timing and per-file write status
+        const eraseStartTime = Date.now();
+        let firstWriteTime = null;
+        let lastFileIndex = -1;  // Track file transitions during write
+        
+        addLog(`⏱️ writeFlash() starting at ${new Date().toLocaleTimeString()} (eraseAll=${eraseAll})`, 'info');
+        
+        try {
+            await esploader.writeFlash({
+                fileArray: fileArray,
+                flashSize: "keep",
+                flashMode: "keep",
+                flashFreq: "keep",
+                eraseAll: eraseAll,  // Use checkbox value
+                compress: true,
+                reportProgress: (fileIndex, written, total) => {
+                    const percent = Math.floor((written / total) * 100);
+                    
+                    // Diagnostic: measure time between erase start and first actual write
+                    if (!firstWriteTime && written > 0) {
+                        firstWriteTime = Date.now();
+                        const eraseDuration = ((firstWriteTime - eraseStartTime) / 1000).toFixed(1);
+                        addLog(`⏱️ Erase→first write: ${eraseDuration}s (eraseAll=${eraseAll})`, 'info');
+                    }
+                    
+                    // Diagnostic: log when a new file starts being written
+                    if (fileIndex !== lastFileIndex) {
+                        if (lastFileIndex >= 0) {
+                            const prevFile = fileArray[lastFileIndex];
+                            addLog(`✅ File [${lastFileIndex}] ${prevFile.path} write completed`, 'success');
+                        }
+                        const curFile = fileArray[fileIndex];
+                        addLog(`📝 File [${fileIndex}] starting: ${curFile.path} (${curFile.data.length} bytes at 0x${curFile.address.toString(16)})`, 'info');
+                        lastFileIndex = fileIndex;
+                    }
+                    
+                    // Audio: Erase complete (only once, when writing actually starts)
+                    if (!eraseCompleteAudioPlayed && fileIndex === 0 && written > 0) {
+                        playAudioFeedback('erase_complete');
+                        eraseCompleteAudioPlayed = true;
+                    }
+                    
+                    // Audio: Flashing start (right after erase complete)
+                    if (!flashingStartAudioPlayed && fileIndex === 0 && written > 0) {
+                        playAudioFeedback('flashing_start');
+                        flashingStartAudioPlayed = true;
+                    }
+                    
+                    // Update global progress
+                    writtenBytes = fileArray.slice(0, fileIndex).reduce((sum, f) => sum + f.data.length, 0) + written;
+                    const globalPercent = calculateGlobalProgress();
+                    updateProgress(globalPercent, 'Writing firmware...', `File ${fileIndex + 1}/${fileArray.length} - ${percent}%`);
+                    
+                    // Audio: Progress milestones based on GLOBAL progress (25%, 50%, 75%)
+                    // Only play each milestone once
+                    if (globalPercent >= 75 && lastProgressMilestone < 2) {
+                        lastProgressMilestone = 2;
+                        playAudioFeedback('flashing_progress');
+                    } else if (globalPercent >= 50 && lastProgressMilestone < 1) {
+                        lastProgressMilestone = 1;
+                        playAudioFeedback('flashing_progress');
+                    } else if (globalPercent >= 25 && lastProgressMilestone < 0) {
+                        lastProgressMilestone = 0;
+                        playAudioFeedback('flashing_progress');
+                    }
+                    
+                    // Only log every 10%
+                    if (percent % 10 === 0 && written > 0) {
+                        const fileName = fileArray[fileIndex].path || `file ${fileIndex}`;
+                        addLog(`📝 Writing ${fileName}... ${percent}%`, 'info');
+                    }
                 }
-                
-                // Audio: Flashing start (right after erase complete)
-                if (!flashingStartAudioPlayed && fileIndex === 0 && written > 0) {
-                    playAudioFeedback('flashing_start');
-
-                    flashingStartAudioPlayed = true;
-                }
-                
-                // Update global progress
-                writtenBytes = fileArray.slice(0, fileIndex).reduce((sum, f) => sum + f.data.length, 0) + written;
-                const globalPercent = calculateGlobalProgress();
-                updateProgress(globalPercent, 'Writing firmware...', `File ${fileIndex + 1}/${fileArray.length} - ${percent}%`);
-                
-                // Audio: Progress milestones based on GLOBAL progress (25%, 50%, 75%)
-                // Only play each milestone once
-                if (globalPercent >= 75 && lastProgressMilestone < 2) {
-                    lastProgressMilestone = 2;
-                    playAudioFeedback('flashing_progress');
-                } else if (globalPercent >= 50 && lastProgressMilestone < 1) {
-                    lastProgressMilestone = 1;
-                    playAudioFeedback('flashing_progress');
-                } else if (globalPercent >= 25 && lastProgressMilestone < 0) {
-                    lastProgressMilestone = 0;
-                    playAudioFeedback('flashing_progress');
-                }
-                
-                // Only log every 10%
-                if (percent % 10 === 0 && written > 0) {
-                    const fileName = fileArray[fileIndex].path || `file ${fileIndex}`;
-                    addLog(`📝 Writing ${fileName}... ${percent}%`, 'info');
-                }
+            });
+        } catch (flashError) {
+            // Diagnostic: detailed error with progress context
+            const elapsed = ((Date.now() - eraseStartTime) / 1000).toFixed(1);
+            addLog(`❌ writeFlash() FAILED after ${elapsed}s`, 'error');
+            addLog(`📊 Progress at failure: ${writtenBytes}/${totalBytes} bytes (${lastFileIndex >= 0 ? fileArray[lastFileIndex].path : 'before first write'})`, 'error');
+            if (!firstWriteTime) {
+                addLog(`⚠️ Failure occurred DURING ERASE (no write started yet)`, 'error');
             }
-        });
+            throw flashError;  // Re-throw to hit the outer catch
+        }
+        
+        // Diagnostic: log last file completion and summary
+        if (lastFileIndex >= 0) {
+            const lastFile = fileArray[lastFileIndex];
+            addLog(`✅ File [${lastFileIndex}] ${lastFile.path} write completed`, 'success');
+        }
+        const totalDuration = ((Date.now() - eraseStartTime) / 1000).toFixed(1);
+        addLog(`📊 writeFlash() completed: ${fileArray.length} files, ${totalBytes} bytes in ${totalDuration}s`, 'success');
         
         currentStage = 'done';
         updateProgress(100, 'Flash complete!', 'Firmware written successfully');
@@ -974,8 +1070,21 @@ async function flashESP32() {
         // Audio: Rebooting (BEFORE success sound so order is correct in queue)
         playAudioFeedback('rebooting');
         
-        // Step 8: Hard reset
-        await esploader.hardReset();
+        // Step 8: Hard reset - force RTS toggle to reboot the chip
+        // In no_reset mode, esploader.after() may not reset properly,
+        // so we also do a manual RTS toggle via the transport
+        try {
+            await esploader.after("hard_reset");
+        } catch (e) {
+            // Fallback: manual RTS toggle for hard reset
+        }
+        try {
+            await transport.setRTS(true);
+            await new Promise(r => setTimeout(r, 100));
+            await transport.setRTS(false);
+        } catch (e) {
+            // RTS toggle failed - user will need to manually reset
+        }
         
         addLog('✅ Your device is ready to use!', 'success');
         
@@ -983,16 +1092,27 @@ async function flashESP32() {
         playCongratulationsSound();
         addLog('👉 You can disconnect the USB cable', 'info');
         
-        // Step 9: Cleanup
-        await port.close();
+        // Step 9: Cleanup - disconnect transport first to release reader/writer locks
+        try {
+            await transport.disconnect();
+        } catch (e) {
+            // Transport may already be disconnected
+        }
+        try {
+            await port.close();
+        } catch (e) {
+            // Port may already be closed by transport.disconnect()
+        }
+        port = null;
         addLog('✓ Serial port closed', 'info');
         
         // Log flash success ONLY at the very end (after everything complete)
         logFlashEvent(selectedProject.id, selectedProject.name, 'flash', true);
         
     } catch (error) {
-        // Close modal on error
+        // Close modals on error
         closeBootModal();
+        confirmNoResetReady();
         
         addLog(`❌ Error: ${error.message}`, 'error');
         console.error('Flash error:', error);
@@ -1026,12 +1146,20 @@ async function flashESP32() {
         
         // Try to cleanup
         try {
-            if (port && port.readable) {
+            if (typeof transport !== 'undefined' && transport) {
+                await transport.disconnect();
+            }
+        } catch (e) {
+            // Transport cleanup failed, try direct port close
+        }
+        try {
+            if (port) {
                 await port.close();
             }
         } catch (e) {
-            console.error('Cleanup error:', e);
+            // Port may already be closed
         }
+        port = null;
         
         throw error;
     }
@@ -1124,8 +1252,16 @@ function changeLanguage() {
     const bootModalText = document.getElementById('bootModalText');
     const bootModalButton = document.querySelector('.boot-modal-close');
     if (bootModalTitle) bootModalTitle.textContent = translate('bootModalTitle');
-    if (bootModalText) bootModalText.textContent = translate('bootModalText');
+    if (bootModalText) bootModalText.innerHTML = translate('bootModalText');
     if (bootModalButton) bootModalButton.textContent = translate('bootModalButton');
+    
+    // Update no reset modal texts
+    const noResetModalTitle = document.getElementById('noResetModalTitle');
+    const noResetModalText = document.getElementById('noResetModalText');
+    const noResetModalButton = document.getElementById('noResetModalButton');
+    if (noResetModalTitle) noResetModalTitle.textContent = translate('noResetModalTitle');
+    if (noResetModalText) noResetModalText.innerHTML = translate('noResetModalText');
+    if (noResetModalButton) noResetModalButton.textContent = translate('noResetModalButton');
     
     // Update console toggle text
     const consoleToggleText = document.getElementById('consoleToggleText');
@@ -1142,6 +1278,18 @@ function changeLanguage() {
     const eraseAllHint = document.getElementById('eraseAllHint');
     if (eraseAllLabel) eraseAllLabel.textContent = translate('eraseAllLabel');
     if (eraseAllHint) eraseAllHint.textContent = translate('eraseAllHint');
+    
+    // Update no reset option texts
+    const noResetLabel = document.getElementById('noResetLabel');
+    const noResetHint = document.getElementById('noResetHint');
+    if (noResetLabel) noResetLabel.textContent = translate('noResetLabel');
+    if (noResetHint) noResetHint.textContent = translate('noResetHint');
+    
+    // Update monitor button text (only if not actively monitoring)
+    if (!monitorRunning) {
+        const monitorButton = document.getElementById('monitorButton');
+        if (monitorButton) monitorButton.textContent = translate('monitorButton');
+    }
     
     // Update page config texts (title, subtitle from page-config.json)
     updatePageTexts();
@@ -1277,6 +1425,175 @@ document.addEventListener('click', () => {
     }
 }, { capture: true }); // Use capture to catch before other handlers
 
+// ===== SERIAL MONITOR FUNCTIONS =====
+
+// Start or stop serial monitor
+async function toggleSerialMonitor() {
+    if (monitorRunning) {
+        await stopSerialMonitor();
+    } else {
+        await startSerialMonitor();
+    }
+}
+
+// Start serial monitor - opens port and reads incoming data
+async function startSerialMonitor() {
+    // Auto-expand console if collapsed
+    if (consoleCollapsed) {
+        toggleConsole();
+    }
+    
+    const monitorBtn = document.getElementById('monitorButton');
+    
+    try {
+        addLog('🔌 Opening serial monitor...', 'info');
+        addLog('⚠️ Browser will ask you to select a COM port', 'warning');
+        
+        // Request port from user
+        monitorPort = await navigator.serial.requestPort();
+        
+        // Get baudrate from config or default to 115200
+        const monitorBaudrate = pageConfig?.serial_monitor?.baudrate || 115200;
+        
+        // Try to open port - it may already be open from a failed flash
+        try {
+            await monitorPort.open({ baudRate: monitorBaudrate });
+        } catch (openError) {
+            if (openError.message.includes('already open')) {
+                // Port is still open from a previous operation - try to close and reopen
+                addLog('⚠️ Port was still open, reconnecting...', 'warning');
+                try {
+                    await monitorPort.close();
+                } catch (e) {
+                    // Ignore close errors
+                }
+                await monitorPort.open({ baudRate: monitorBaudrate });
+            } else {
+                throw openError;
+            }
+        }
+        
+        addLog(`✅ Serial monitor connected at ${monitorBaudrate} baud`, 'success');
+        addLog('📡 Listening... (click "Stop Monitor" to disconnect)', 'info');
+        
+        // Update button to show "Stop" state
+        monitorRunning = true;
+        updateMonitorButton();
+        
+        // Start reading loop
+        monitorReader = monitorPort.readable.getReader();
+        const decoder = new TextDecoder();
+        let lineBuffer = '';
+        
+        while (monitorRunning) {
+            try {
+                const { value, done } = await monitorReader.read();
+                if (done) {
+                    break;
+                }
+                if (value) {
+                    // Decode bytes and handle line-by-line output
+                    lineBuffer += decoder.decode(value, { stream: true });
+                    
+                    // Split on newlines and log complete lines
+                    const lines = lineBuffer.split('\n');
+                    // Keep last incomplete line in buffer
+                    lineBuffer = lines.pop() || '';
+                    
+                    for (const line of lines) {
+                        const trimmed = line.replace(/\r$/, '');
+                        if (trimmed.length > 0) {
+                            addLog(trimmed, 'info');
+                        }
+                    }
+                }
+            } catch (readError) {
+                if (monitorRunning) {
+                    // Unexpected read error
+                    addLog(`❌ Monitor read error: ${readError.message}`, 'error');
+                }
+                break;
+            }
+        }
+        
+        // Flush remaining buffer
+        if (lineBuffer.trim().length > 0) {
+            addLog(lineBuffer.trim(), 'info');
+        }
+        
+    } catch (error) {
+        if (error.message.includes('No port selected')) {
+            addLog('ℹ️ Monitor cancelled - no port selected', 'warning');
+        } else {
+            addLog(`❌ Monitor error: ${error.message}`, 'error');
+        }
+    } finally {
+        await cleanupMonitor();
+    }
+}
+
+// Stop serial monitor gracefully
+async function stopSerialMonitor() {
+    addLog('🔌 Stopping serial monitor...', 'info');
+    monitorRunning = false;
+    
+    // Cancel the reader to break the read loop
+    if (monitorReader) {
+        try {
+            await monitorReader.cancel();
+        } catch (e) {
+            // Ignore cancel errors
+        }
+    }
+}
+
+// Cleanup monitor resources
+async function cleanupMonitor() {
+    monitorRunning = false;
+    
+    // Release reader
+    if (monitorReader) {
+        try {
+            monitorReader.releaseLock();
+        } catch (e) {
+            // Ignore
+        }
+        monitorReader = null;
+    }
+    
+    // Close port
+    if (monitorPort) {
+        try {
+            await monitorPort.close();
+            addLog('✅ Serial monitor disconnected', 'success');
+        } catch (e) {
+            // Port may already be closed
+        }
+        monitorPort = null;
+    }
+    
+    updateMonitorButton();
+}
+
+// Update monitor button text and style based on state
+function updateMonitorButton() {
+    const monitorBtn = document.getElementById('monitorButton');
+    const flashBtn = document.getElementById('flashButton');
+    if (!monitorBtn) return;
+    
+    if (monitorRunning) {
+        monitorBtn.textContent = translate('monitorButtonStop') || 'Stop Monitor';
+        monitorBtn.classList.add('monitor-active');
+        // Hide flash button while monitoring
+        if (flashBtn) flashBtn.style.display = 'none';
+    } else {
+        monitorBtn.textContent = translate('monitorButton') || 'Serial Monitor';
+        monitorBtn.classList.remove('monitor-active');
+        // Restore flash button
+        if (flashBtn) flashBtn.style.display = 'block';
+    }
+}
+
 // ===== BOOT MODAL FUNCTIONS =====
 
 function showBootModal() {
@@ -1296,6 +1613,30 @@ document.addEventListener('click', (e) => {
         closeBootModal();
     }
 });
+
+// ===== NO RESET MODAL FUNCTIONS =====
+
+// Promise resolve callback - set when modal is shown, called when user clicks OK
+let noResetModalResolve = null;
+
+// Show no-reset modal and return a promise that resolves when user clicks "Done"
+function showNoResetModal() {
+    return new Promise((resolve) => {
+        noResetModalResolve = resolve;
+        const modal = document.getElementById('noResetModal');
+        modal.classList.add('show');
+    });
+}
+
+// Called when user clicks "Done, Ready to Connect"
+function confirmNoResetReady() {
+    const modal = document.getElementById('noResetModal');
+    modal.classList.remove('show');
+    if (noResetModalResolve) {
+        noResetModalResolve();
+        noResetModalResolve = null;
+    }
+}
 
 // ===== CONSOLE COLLAPSE FUNCTIONS =====
 

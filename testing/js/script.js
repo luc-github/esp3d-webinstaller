@@ -884,6 +884,28 @@ async function flashESP32() {
         
         const fileArray = await prepareFirmwareFiles(selectedProject);
         
+        // Diagnostic: log details for each file before flashing
+        addLog(`📋 ${fileArray.length} file(s) ready to flash:`, 'info');
+        for (let i = 0; i < fileArray.length; i++) {
+            const f = fileArray[i];
+            addLog(`  [${i}] ${f.path} | addr=0x${f.address.toString(16)} | size=${f.data.length} bytes`, 'info');
+        }
+        
+        // Validate partition table file integrity (magic bytes 0xAA 0x50)
+        const partFile = fileArray.find(f => f.path && f.path.toLowerCase().includes('partition'));
+        if (partFile) {
+            const magic1 = partFile.data.charCodeAt(0);
+            const magic2 = partFile.data.charCodeAt(1);
+            addLog(`🔍 Partition table check: size=${partFile.data.length}, magic=0x${magic1.toString(16).padStart(2,'0')} 0x${magic2.toString(16).padStart(2,'0')}`, 'info');
+            if (magic1 !== 0xAA || magic2 !== 0x50) {
+                addLog('⚠️ WARNING: Partition table magic bytes invalid! Expected 0xAA 0x50', 'error');
+            } else {
+                addLog('✅ Partition table magic bytes OK', 'success');
+            }
+        } else {
+            addLog('⚠️ WARNING: No partition table file found in firmware list!', 'error');
+        }
+        
         updateProgress(20, 'Ready to flash', 'All files downloaded');
         
         // Step 7: Flash firmware
@@ -912,54 +934,97 @@ async function flashESP32() {
         let eraseCompleteAudioPlayed = false;  // Flag for erase complete audio
         let lastProgressMilestone = -1;  // Track last milestone played (-1 = none, 0 = 25%, 1 = 50%, 2 = 75%)
         
-        await esploader.writeFlash({
-            fileArray: fileArray,
-            flashSize: "keep",
-            flashMode: "keep",
-            flashFreq: "keep",
-            eraseAll: eraseAll,  // Use checkbox value
-            compress: true,
-            reportProgress: (fileIndex, written, total) => {
-                const percent = Math.floor((written / total) * 100);
-                
-                // Audio: Erase complete (only once, when writing actually starts)
-                if (!eraseCompleteAudioPlayed && fileIndex === 0 && written > 0) {
-                    playAudioFeedback('erase_complete');
-                    eraseCompleteAudioPlayed = true;
+        // Diagnostic: track erase timing and per-file write status
+        const eraseStartTime = Date.now();
+        let firstWriteTime = null;
+        let lastFileIndex = -1;  // Track file transitions during write
+        
+        addLog(`⏱️ writeFlash() starting at ${new Date().toLocaleTimeString()} (eraseAll=${eraseAll})`, 'info');
+        
+        try {
+            await esploader.writeFlash({
+                fileArray: fileArray,
+                flashSize: "keep",
+                flashMode: "keep",
+                flashFreq: "keep",
+                eraseAll: eraseAll,  // Use checkbox value
+                compress: true,
+                reportProgress: (fileIndex, written, total) => {
+                    const percent = Math.floor((written / total) * 100);
+                    
+                    // Diagnostic: measure time between erase start and first actual write
+                    if (!firstWriteTime && written > 0) {
+                        firstWriteTime = Date.now();
+                        const eraseDuration = ((firstWriteTime - eraseStartTime) / 1000).toFixed(1);
+                        addLog(`⏱️ Erase→first write: ${eraseDuration}s (eraseAll=${eraseAll})`, 'info');
+                    }
+                    
+                    // Diagnostic: log when a new file starts being written
+                    if (fileIndex !== lastFileIndex) {
+                        if (lastFileIndex >= 0) {
+                            const prevFile = fileArray[lastFileIndex];
+                            addLog(`✅ File [${lastFileIndex}] ${prevFile.path} write completed`, 'success');
+                        }
+                        const curFile = fileArray[fileIndex];
+                        addLog(`📝 File [${fileIndex}] starting: ${curFile.path} (${curFile.data.length} bytes at 0x${curFile.address.toString(16)})`, 'info');
+                        lastFileIndex = fileIndex;
+                    }
+                    
+                    // Audio: Erase complete (only once, when writing actually starts)
+                    if (!eraseCompleteAudioPlayed && fileIndex === 0 && written > 0) {
+                        playAudioFeedback('erase_complete');
+                        eraseCompleteAudioPlayed = true;
+                    }
+                    
+                    // Audio: Flashing start (right after erase complete)
+                    if (!flashingStartAudioPlayed && fileIndex === 0 && written > 0) {
+                        playAudioFeedback('flashing_start');
+                        flashingStartAudioPlayed = true;
+                    }
+                    
+                    // Update global progress
+                    writtenBytes = fileArray.slice(0, fileIndex).reduce((sum, f) => sum + f.data.length, 0) + written;
+                    const globalPercent = calculateGlobalProgress();
+                    updateProgress(globalPercent, 'Writing firmware...', `File ${fileIndex + 1}/${fileArray.length} - ${percent}%`);
+                    
+                    // Audio: Progress milestones based on GLOBAL progress (25%, 50%, 75%)
+                    // Only play each milestone once
+                    if (globalPercent >= 75 && lastProgressMilestone < 2) {
+                        lastProgressMilestone = 2;
+                        playAudioFeedback('flashing_progress');
+                    } else if (globalPercent >= 50 && lastProgressMilestone < 1) {
+                        lastProgressMilestone = 1;
+                        playAudioFeedback('flashing_progress');
+                    } else if (globalPercent >= 25 && lastProgressMilestone < 0) {
+                        lastProgressMilestone = 0;
+                        playAudioFeedback('flashing_progress');
+                    }
+                    
+                    // Only log every 10%
+                    if (percent % 10 === 0 && written > 0) {
+                        const fileName = fileArray[fileIndex].path || `file ${fileIndex}`;
+                        addLog(`📝 Writing ${fileName}... ${percent}%`, 'info');
+                    }
                 }
-                
-                // Audio: Flashing start (right after erase complete)
-                if (!flashingStartAudioPlayed && fileIndex === 0 && written > 0) {
-                    playAudioFeedback('flashing_start');
-
-                    flashingStartAudioPlayed = true;
-                }
-                
-                // Update global progress
-                writtenBytes = fileArray.slice(0, fileIndex).reduce((sum, f) => sum + f.data.length, 0) + written;
-                const globalPercent = calculateGlobalProgress();
-                updateProgress(globalPercent, 'Writing firmware...', `File ${fileIndex + 1}/${fileArray.length} - ${percent}%`);
-                
-                // Audio: Progress milestones based on GLOBAL progress (25%, 50%, 75%)
-                // Only play each milestone once
-                if (globalPercent >= 75 && lastProgressMilestone < 2) {
-                    lastProgressMilestone = 2;
-                    playAudioFeedback('flashing_progress');
-                } else if (globalPercent >= 50 && lastProgressMilestone < 1) {
-                    lastProgressMilestone = 1;
-                    playAudioFeedback('flashing_progress');
-                } else if (globalPercent >= 25 && lastProgressMilestone < 0) {
-                    lastProgressMilestone = 0;
-                    playAudioFeedback('flashing_progress');
-                }
-                
-                // Only log every 10%
-                if (percent % 10 === 0 && written > 0) {
-                    const fileName = fileArray[fileIndex].path || `file ${fileIndex}`;
-                    addLog(`📝 Writing ${fileName}... ${percent}%`, 'info');
-                }
+            });
+        } catch (flashError) {
+            // Diagnostic: detailed error with progress context
+            const elapsed = ((Date.now() - eraseStartTime) / 1000).toFixed(1);
+            addLog(`❌ writeFlash() FAILED after ${elapsed}s`, 'error');
+            addLog(`📊 Progress at failure: ${writtenBytes}/${totalBytes} bytes (${lastFileIndex >= 0 ? fileArray[lastFileIndex].path : 'before first write'})`, 'error');
+            if (!firstWriteTime) {
+                addLog(`⚠️ Failure occurred DURING ERASE (no write started yet)`, 'error');
             }
-        });
+            throw flashError;  // Re-throw to hit the outer catch
+        }
+        
+        // Diagnostic: log last file completion and summary
+        if (lastFileIndex >= 0) {
+            const lastFile = fileArray[lastFileIndex];
+            addLog(`✅ File [${lastFileIndex}] ${lastFile.path} write completed`, 'success');
+        }
+        const totalDuration = ((Date.now() - eraseStartTime) / 1000).toFixed(1);
+        addLog(`📊 writeFlash() completed: ${fileArray.length} files, ${totalBytes} bytes in ${totalDuration}s`, 'success');
         
         currentStage = 'done';
         updateProgress(100, 'Flash complete!', 'Firmware written successfully');
@@ -975,7 +1040,7 @@ async function flashESP32() {
         playAudioFeedback('rebooting');
         
         // Step 8: Hard reset
-        await esploader.hardReset();
+        await esploader.after("hard_reset");
         
         addLog('✅ Your device is ready to use!', 'success');
         

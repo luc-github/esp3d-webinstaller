@@ -1,4 +1,4 @@
-/* ESP32 Web Installer Styles */
+/* ESP3D Web Installer Styles */
 
 /* ===== BASE STYLES ===== */
 * {
@@ -741,6 +741,48 @@ esp-web-install-button button:hover {
 
 .flash-button:active:not(:disabled) {
     transform: translateY(0);
+}
+
+/* ===== SERIAL MONITOR BUTTON ===== */
+.monitor-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    font-weight: 600;
+    font-family: inherit;
+    margin-top: 10px;
+    opacity: 0.75;
+}
+
+.monitor-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    opacity: 1;
+}
+
+.monitor-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.monitor-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.monitor-button.monitor-active {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    opacity: 1;
+}
+
+.monitor-button.monitor-active:hover:not(:disabled) {
+    box-shadow: 0 10px 20px rgba(229, 62, 62, 0.3);
 }
 
 /* ===== BOOT BUTTON MODAL ===== */

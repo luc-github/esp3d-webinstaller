@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP32 Web Installer</title>
+
+    <!--#if expr="$MAINTENANCE_MODE" -->
+        <!-- MAINTENANCE MODE ACTIVATED - only you see this -->
+        <title>🚨 MAINTENANCE MODE - ESP3D Web Installer</title>
+        <meta name="theme-color" content="#FF0000">  
+    <!--#else -->
+        <!-- NORMAL MODE -->
+        <title>ESP3D Web Installer</title>
+        <meta name="theme-color" content="#000000"> 
+    <!--#endif -->
+
     <link rel="stylesheet" href="style.css?v=1.0.0">
 </head>
 <body>
@@ -80,6 +90,15 @@
                             (recommended for clean install)
                         </span>
                     </label>
+                    <label class="flash-option-item">
+                        <input type="checkbox" id="noResetCheckbox" class="flash-checkbox">
+                        <span class="flash-option-label" id="noResetLabel">
+                            No Reset
+                        </span>
+                        <span class="flash-option-hint" id="noResetHint">
+                            (use if device is stuck in boot loop)
+                        </span>
+                    </label>
                 </div>
 
                 <!-- Progress bar -->
@@ -114,6 +133,11 @@
                 <button id="flashButton" class="flash-button" onclick="startFlash()">
                     <!-- Text will be set by JavaScript translation -->
                 </button>
+
+                <!-- Serial Monitor button -->
+                <button id="monitorButton" class="monitor-button" onclick="toggleSerialMonitor()">
+                    Serial Monitor
+                </button>
             </div>
         </div>
         
@@ -128,6 +152,21 @@
                     The button may be labeled as <strong>BOOT</strong>, <strong>FLASH</strong>, or <strong>GPIO0</strong>.
                 </p>
                 <button class="boot-modal-close" onclick="closeBootModal()">I'm Holding It</button>
+            </div>
+        </div>
+
+        <!-- No Reset Modal -->
+        <div id="noResetModal" class="boot-modal">
+            <div class="boot-modal-content">
+                <div class="boot-modal-icon">🔧</div>
+                <h2 id="noResetModalTitle">Put Device in Download Mode</h2>
+                <p id="noResetModalText">
+                    <strong>1.</strong> Hold the <strong>BOOT</strong> button<br>
+                    <strong>2.</strong> Press and release <strong>RESET</strong> while holding BOOT<br>
+                    <strong>3.</strong> Release <strong>BOOT</strong><br><br>
+                    Your device should now be in download mode (no serial output).
+                </p>
+                <button class="boot-modal-close" id="noResetModalButton" onclick="confirmNoResetReady()">Done, Ready to Connect</button>
             </div>
         </div>
         

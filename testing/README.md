@@ -42,9 +42,9 @@ A modern, browser-based firmware installer for ESP32 devices using the Web Seria
 
 2. **Download ESPTool.js bundle:**
    ```bash
-   curl -L "https://unpkg.com/esptool-js@0.4.5/bundle.js" -o js/esptool-bundle.js
+   curl -L "https://unpkg.com/esptool-js@0.5.7/bundle.js" -o js/esptool-bundle.js
    ```
-   Or download manually from [unpkg.com/esptool-js@0.4.5/bundle.js](https://unpkg.com/esptool-js@0.4.5/bundle.js)
+   Or download manually from [unpkg.com/esptool-js@0.5.7/bundle.js](https://unpkg.com/esptool-js@0.5.7/bundle.js)
 
 3. **Add your firmware files:**
    ```

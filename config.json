@@ -23,8 +23,8 @@
       "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "downloadFirmware": "firmware/fluidnc8mb/esp3dfw.bin",
       "badge": {
-        "en": "Test Version 8MB 2026/03/02",
-        "fr": "Version Test 8MB 2026/03/02"
+        "en": "Test Version 8MB 2026/03/01",
+        "fr": "Version Test 8MB 2026/03/01"
       }
     },
     {
@@ -50,8 +50,8 @@
       "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "downloadFirmware": "firmware/fluidnc4mb/esp3dfw.bin",
       "badge": {
-        "en": "Test Version 4MB 2026/03/02",
-        "fr": "Version Test 4MB 2026/03/02"
+        "en": "Test Version 4MB 2026/03/01",
+        "fr": "Version Test 4MB 2026/03/01"
       }
     },
     {
