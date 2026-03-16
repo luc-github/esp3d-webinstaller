@@ -591,12 +591,20 @@ function checkBrowserCompatibility() {
 async function loadConfig() {
     try {
         const response = await fetch('config.json');
+        if (!response.ok) throw new Error('config.json: ' + response.status);
         config = await response.json();
-        initCarousel();  // Use 3D carousel instead of grid
+        if (!config || !config.projects || !Array.isArray(config.projects)) {
+            throw new Error('config.json: invalid format (missing projects array)');
+        }
+        initCarousel();
         addLog(translate('configLoaded'), 'success');
     } catch (error) {
         console.error('Failed to load config:', error);
         addLog('Failed to load configuration', 'error');
+        const container = document.getElementById('projectCards');
+        if (container) {
+            container.innerHTML = '<p class="alert alert-error">Could not load config.json. Use <strong>http://localhost:8181/</strong> (not file://).</p>';
+        }
     }
 }
 
@@ -633,8 +641,9 @@ function renderProjects() {
         
         // Project icon (if available)
         let iconHtml = '';
-        if (project.icon) {
-            iconHtml = `<img src="${project.icon}" alt="${project.name}" class="project-icon" onerror="this.style.display='none'">`;
+        if (project.icon_left || project.icon) {
+            const iconSrc = project.icon_left || project.icon;
+            iconHtml = `<img src="${iconSrc}" alt="${project.name || ''}" class="project-icon" onerror="this.style.display='none'">`;
         }
         
         // Product link (if available)
@@ -1734,20 +1743,19 @@ function initCarousel() {
     carouselProjects = config.projects;
     currentCarouselIndex = 0;
     
-    // Build carousel HTML
-    buildCarousel();
-    
-    // Set initial positions
-    updateCarouselPositions();
-    
-    // Auto-select first project
-    selectProjectByIndex(0);
-    
-    // Setup keyboard navigation
-    setupCarouselKeyboard();
-    
-    // Setup touch/swipe
-    setupCarouselSwipe();
+    try {
+        buildCarousel();
+        updateCarouselPositions();
+        selectProjectByIndex(0);
+        setupCarouselKeyboard();
+        setupCarouselSwipe();
+    } catch (err) {
+        console.error('Carousel init error:', err);
+        const container = document.getElementById('projectCards');
+        if (container) {
+            container.innerHTML = '<p class="alert alert-error">Failed to load project cards. Check console (F12).</p>';
+        }
+    }
 }
 
 // Build carousel HTML structure
@@ -1840,13 +1848,26 @@ function createProjectCard(project, index) {
         }
     };
     
-    // Card image
-    if (project.image) {
-        const img = document.createElement('img');
-        img.className = 'project-image';
-        img.src = project.image;
-        img.alt = project.name;
-        card.appendChild(img);
+    // Card image with optional badge overlay (bottom-right, 25% height)
+    if (project.image || project.badgeImage) {
+        const imageWrap = document.createElement('div');
+        imageWrap.className = 'project-image-wrapper';
+        if (project.image) {
+            const img = document.createElement('img');
+            img.className = 'project-image';
+            img.src = project.image;
+            img.alt = project.name || '';
+            imageWrap.appendChild(img);
+        }
+        if (project.badgeImage) {
+            const badgeImg = document.createElement('img');
+            badgeImg.className = 'project-badge-image';
+            badgeImg.src = project.badgeImage;
+            badgeImg.alt = '';
+            badgeImg.onerror = () => { badgeImg.style.display = 'none'; };
+            imageWrap.appendChild(badgeImg);
+        }
+        card.appendChild(imageWrap);
     }
     
     // Card content - Title, Badge, Version at top
@@ -1856,7 +1877,7 @@ function createProjectCard(project, index) {
     // Title
     const title = document.createElement('h3');
     title.className = 'project-title';
-    title.textContent = project.name;
+    title.textContent = project.name || '';
     content.appendChild(title);
     
     // Badges container (for badge, version, flash count on same line)
@@ -1864,10 +1885,10 @@ function createProjectCard(project, index) {
     badgesContainer.className = 'project-badges-row';
     
     // Badge
-    if (project.badge) {
+    if (project.badge && typeof project.badge === 'object') {
         const badgeEl = document.createElement('span');
         badgeEl.className = 'project-badge';
-        badgeEl.textContent = project.badge[currentLang] || project.badge.en;
+        badgeEl.textContent = project.badge[currentLang] || project.badge.en || '';
         badgesContainer.appendChild(badgeEl);
     }
     
@@ -1901,20 +1922,39 @@ function createProjectCard(project, index) {
     // Description below title/badge/version
     const description = document.createElement('p');
     description.className = 'project-description';
-    description.textContent = project.description[currentLang] || project.description.en;
+    const descObj = project.description && typeof project.description === 'object' ? project.description : {};
+    const rawDesc = descObj[currentLang] || descObj.en || '';
+    // Support \"\\n\" sequences in JSON as real line breaks
+    description.textContent = rawDesc.replace(/\\n/g, '\n');
     card.appendChild(description);
     
-    // Project icon centered between description and links
-    if (project.icon) {
+    // Project icon_left/icon and icon_right/badgeRadio (same size, icon_right to the right of icon_left)
+    const iconLeft = project.icon_left || project.icon;
+    const iconRight = project.icon_right || project.badgeRadio;
+    if (iconLeft || iconRight) {
         const iconContainer = document.createElement('div');
         iconContainer.className = 'project-icon-container';
-        const icon = document.createElement('img');
-        icon.className = 'project-icon';
-        icon.src = project.icon;
-        icon.alt = '';
-        iconContainer.appendChild(icon);
+        const iconRow = document.createElement('div');
+        iconRow.className = 'project-icon-row';
+        if (iconLeft) {
+            const icon = document.createElement('img');
+            icon.className = 'project-icon project-icon-left';
+            icon.src = iconLeft;
+            icon.alt = '';
+            icon.onerror = () => { icon.style.display = 'none'; };
+            iconRow.appendChild(icon);
+        }
+        if (iconRight) {
+            const iconRightEl = document.createElement('img');
+            iconRightEl.className = 'project-icon project-icon-right';
+            iconRightEl.src = iconRight;
+            iconRightEl.alt = '';
+            iconRightEl.onerror = () => { iconRightEl.style.display = 'none'; };
+            iconRow.appendChild(iconRightEl);
+        }
+        iconContainer.appendChild(iconRow);
         
-        // Firmware download link (displayed to the right of the project icon)
+        // Firmware download link (below icon row)
         if (project.downloadFirmware) {
             const downloadLink = document.createElement('a');
             downloadLink.href = project.downloadFirmware;
@@ -2300,7 +2340,9 @@ function updateCarouselLanguage() {
         // Update description
         const description = card.querySelector('.project-description');
         if (description && project.description) {
-            description.textContent = project.description[currentLang] || project.description.en;
+            const descObj = typeof project.description === 'object' ? project.description : {};
+            const rawDesc = descObj[currentLang] || descObj.en || '';
+            description.textContent = rawDesc.replace(/\\n/g, '\n');
         }
         
         // Update badge (singular, not badges)

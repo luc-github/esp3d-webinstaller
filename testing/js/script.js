@@ -9,6 +9,9 @@ let selectedProject = null;
 let translations = {}; // Will be loaded from lang files
 let esploader = null; // ESPLoader instance
 let port = null; // Serial port
+let monitorPort = null; // Serial port for monitor
+let monitorReader = null; // Monitor reader reference
+let monitorRunning = false; // Monitor state flag
 let firstUserInteractionDone = false; // Track first click for browser check audio
 let browserErrorSoundPlayed = false; // Track if browser error sound already played
 
@@ -588,12 +591,20 @@ function checkBrowserCompatibility() {
 async function loadConfig() {
     try {
         const response = await fetch('config.json');
+        if (!response.ok) throw new Error('config.json: ' + response.status);
         config = await response.json();
-        initCarousel();  // Use 3D carousel instead of grid
+        if (!config || !config.projects || !Array.isArray(config.projects)) {
+            throw new Error('config.json: invalid format (missing projects array)');
+        }
+        initCarousel();
         addLog(translate('configLoaded'), 'success');
     } catch (error) {
         console.error('Failed to load config:', error);
         addLog('Failed to load configuration', 'error');
+        const container = document.getElementById('projectCards');
+        if (container) {
+            container.innerHTML = '<p class="alert alert-error">Could not load config.json. Use <strong>http://localhost:8181/</strong> (not file://).</p>';
+        }
     }
 }
 
@@ -630,8 +641,9 @@ function renderProjects() {
         
         // Project icon (if available)
         let iconHtml = '';
-        if (project.icon) {
-            iconHtml = `<img src="${project.icon}" alt="${project.name}" class="project-icon" onerror="this.style.display='none'">`;
+        if (project.icon_left || project.icon) {
+            const iconSrc = project.icon_left || project.icon;
+            iconHtml = `<img src="${iconSrc}" alt="${project.name || ''}" class="project-icon" onerror="this.style.display='none'">`;
         }
         
         // Product link (if available)
@@ -777,23 +789,33 @@ async function startFlash() {
         return;
     }
     
+    // Prevent flashing while monitor is running
+    if (monitorRunning) {
+        addLog('⚠️ Stop the serial monitor before flashing', 'warning');
+        return;
+    }
+    
     // Auto-expand console if collapsed (needed for browser port dialog interaction)
     if (consoleCollapsed) {
         toggleConsole();
     }
     
-    // Hide flash button during process (cleaner than disabled state)
+    // Hide flash button and hide monitor button during process
     const flashBtn = document.getElementById('flashButton');
+    const monitorBtn = document.getElementById('monitorButton');
     flashBtn.style.display = 'none';
+    if (monitorBtn) monitorBtn.style.display = 'none';
     
     // Play start sound
     playStartSound();
     
     try {
         await flashESP32();
-        flashBtn.style.display = 'block'; // Show button again
+        flashBtn.style.display = 'block';
     } catch (error) {
-        flashBtn.style.display = 'block'; // Show button again on error
+        flashBtn.style.display = 'block';
+    } finally {
+        if (monitorBtn) monitorBtn.style.display = 'block';
     }
 }
 
@@ -809,6 +831,8 @@ async function flashESP32() {
     // Audio: Dialog opening
     playAudioFeedback('dialog_open');
     
+    let transport = null;
+    
     try {
         // Step 1: Request port from user (NO modal yet - let user select port first)
         currentStage = 'connecting';
@@ -819,14 +843,25 @@ async function flashESP32() {
         // Audio: Port selected
         playAudioFeedback('port_selected');
         
-        // NOW show BOOT modal - user needs to hold BOOT for connection
-        showBootModal();
+        // Check if no_reset mode is selected (device already in download mode)
+        const noResetCheckbox = document.getElementById('noResetCheckbox');
+        const noResetMode = noResetCheckbox && noResetCheckbox.checked;
         
-        // Audio: Boot button prompt
-        playAudioFeedback('boot_prompt');
+        if (noResetMode) {
+            // No reset mode: show instructions modal and wait for user to confirm
+            addLog('🔧 No Reset mode selected', 'info');
+            await showNoResetModal();
+            addLog('🔧 User confirmed device is in download mode', 'info');
+        } else {
+            // Normal mode: show BOOT modal - user needs to hold BOOT for connection
+            showBootModal();
+            
+            // Audio: Boot button prompt
+            playAudioFeedback('boot_prompt');
+        }
         
         // Step 2: Create transport (don't open port yet - ESPLoader will do it)
-        const transport = new esptooljs.Transport(port);
+        transport = new esptooljs.Transport(port);
         
         // Step 3: Create ESPLoader with custom terminal for our console
         const terminal = {
@@ -857,15 +892,20 @@ async function flashESP32() {
             debugLogging: false
         });
         
-        // Step 5: Connect to chip (this will open the port internally)
+        // Step 5: Connect to chip
+        const connectMode = noResetMode ? "no_reset" : "default_reset";
         addLog('🔌 Connecting to ESP32...', 'info');
-        addLog('⚠️ HOLD the BOOT button NOW until you see "Connected"!', 'warning');
-        updateProgress(10, 'Connecting...', 'Hold BOOT button now!');
+        if (noResetMode) {
+            addLog('🔧 No Reset: hold BOOT + press RESET before clicking flash, then release BOOT', 'warning');
+        } else {
+            addLog('⚠️ HOLD the BOOT button NOW until you see "Connected"!', 'warning');
+        }
+        updateProgress(10, 'Connecting...', noResetMode ? 'No Reset mode' : 'Hold BOOT button now!');
         
         // Audio: Connecting
         playAudioFeedback('connecting');
         
-        const chip = await esploader.main();
+        const chip = await esploader.main(connectMode);
         
         // Close modal on successful connection
         closeBootModal();
@@ -1039,8 +1079,21 @@ async function flashESP32() {
         // Audio: Rebooting (BEFORE success sound so order is correct in queue)
         playAudioFeedback('rebooting');
         
-        // Step 8: Hard reset
-        await esploader.after("hard_reset");
+        // Step 8: Hard reset - force RTS toggle to reboot the chip
+        // In no_reset mode, esploader.after() may not reset properly,
+        // so we also do a manual RTS toggle via the transport
+        try {
+            await esploader.after("hard_reset");
+        } catch (e) {
+            // Fallback: manual RTS toggle for hard reset
+        }
+        try {
+            await transport.setRTS(true);
+            await new Promise(r => setTimeout(r, 100));
+            await transport.setRTS(false);
+        } catch (e) {
+            // RTS toggle failed - user will need to manually reset
+        }
         
         addLog('✅ Your device is ready to use!', 'success');
         
@@ -1048,16 +1101,27 @@ async function flashESP32() {
         playCongratulationsSound();
         addLog('👉 You can disconnect the USB cable', 'info');
         
-        // Step 9: Cleanup
-        await port.close();
+        // Step 9: Cleanup - disconnect transport first to release reader/writer locks
+        try {
+            await transport.disconnect();
+        } catch (e) {
+            // Transport may already be disconnected
+        }
+        try {
+            await port.close();
+        } catch (e) {
+            // Port may already be closed by transport.disconnect()
+        }
+        port = null;
         addLog('✓ Serial port closed', 'info');
         
         // Log flash success ONLY at the very end (after everything complete)
         logFlashEvent(selectedProject.id, selectedProject.name, 'flash', true);
         
     } catch (error) {
-        // Close modal on error
+        // Close modals on error
         closeBootModal();
+        confirmNoResetReady();
         
         addLog(`❌ Error: ${error.message}`, 'error');
         console.error('Flash error:', error);
@@ -1091,12 +1155,20 @@ async function flashESP32() {
         
         // Try to cleanup
         try {
-            if (port && port.readable) {
+            if (typeof transport !== 'undefined' && transport) {
+                await transport.disconnect();
+            }
+        } catch (e) {
+            // Transport cleanup failed, try direct port close
+        }
+        try {
+            if (port) {
                 await port.close();
             }
         } catch (e) {
-            console.error('Cleanup error:', e);
+            // Port may already be closed
         }
+        port = null;
         
         throw error;
     }
@@ -1189,8 +1261,16 @@ function changeLanguage() {
     const bootModalText = document.getElementById('bootModalText');
     const bootModalButton = document.querySelector('.boot-modal-close');
     if (bootModalTitle) bootModalTitle.textContent = translate('bootModalTitle');
-    if (bootModalText) bootModalText.textContent = translate('bootModalText');
+    if (bootModalText) bootModalText.innerHTML = translate('bootModalText');
     if (bootModalButton) bootModalButton.textContent = translate('bootModalButton');
+    
+    // Update no reset modal texts
+    const noResetModalTitle = document.getElementById('noResetModalTitle');
+    const noResetModalText = document.getElementById('noResetModalText');
+    const noResetModalButton = document.getElementById('noResetModalButton');
+    if (noResetModalTitle) noResetModalTitle.textContent = translate('noResetModalTitle');
+    if (noResetModalText) noResetModalText.innerHTML = translate('noResetModalText');
+    if (noResetModalButton) noResetModalButton.textContent = translate('noResetModalButton');
     
     // Update console toggle text
     const consoleToggleText = document.getElementById('consoleToggleText');
@@ -1207,6 +1287,18 @@ function changeLanguage() {
     const eraseAllHint = document.getElementById('eraseAllHint');
     if (eraseAllLabel) eraseAllLabel.textContent = translate('eraseAllLabel');
     if (eraseAllHint) eraseAllHint.textContent = translate('eraseAllHint');
+    
+    // Update no reset option texts
+    const noResetLabel = document.getElementById('noResetLabel');
+    const noResetHint = document.getElementById('noResetHint');
+    if (noResetLabel) noResetLabel.textContent = translate('noResetLabel');
+    if (noResetHint) noResetHint.textContent = translate('noResetHint');
+    
+    // Update monitor button text (only if not actively monitoring)
+    if (!monitorRunning) {
+        const monitorButton = document.getElementById('monitorButton');
+        if (monitorButton) monitorButton.textContent = translate('monitorButton');
+    }
     
     // Update page config texts (title, subtitle from page-config.json)
     updatePageTexts();
@@ -1342,6 +1434,175 @@ document.addEventListener('click', () => {
     }
 }, { capture: true }); // Use capture to catch before other handlers
 
+// ===== SERIAL MONITOR FUNCTIONS =====
+
+// Start or stop serial monitor
+async function toggleSerialMonitor() {
+    if (monitorRunning) {
+        await stopSerialMonitor();
+    } else {
+        await startSerialMonitor();
+    }
+}
+
+// Start serial monitor - opens port and reads incoming data
+async function startSerialMonitor() {
+    // Auto-expand console if collapsed
+    if (consoleCollapsed) {
+        toggleConsole();
+    }
+    
+    const monitorBtn = document.getElementById('monitorButton');
+    
+    try {
+        addLog('🔌 Opening serial monitor...', 'info');
+        addLog('⚠️ Browser will ask you to select a COM port', 'warning');
+        
+        // Request port from user
+        monitorPort = await navigator.serial.requestPort();
+        
+        // Get baudrate from config or default to 115200
+        const monitorBaudrate = pageConfig?.serial_monitor?.baudrate || 115200;
+        
+        // Try to open port - it may already be open from a failed flash
+        try {
+            await monitorPort.open({ baudRate: monitorBaudrate });
+        } catch (openError) {
+            if (openError.message.includes('already open')) {
+                // Port is still open from a previous operation - try to close and reopen
+                addLog('⚠️ Port was still open, reconnecting...', 'warning');
+                try {
+                    await monitorPort.close();
+                } catch (e) {
+                    // Ignore close errors
+                }
+                await monitorPort.open({ baudRate: monitorBaudrate });
+            } else {
+                throw openError;
+            }
+        }
+        
+        addLog(`✅ Serial monitor connected at ${monitorBaudrate} baud`, 'success');
+        addLog('📡 Listening... (click "Stop Monitor" to disconnect)', 'info');
+        
+        // Update button to show "Stop" state
+        monitorRunning = true;
+        updateMonitorButton();
+        
+        // Start reading loop
+        monitorReader = monitorPort.readable.getReader();
+        const decoder = new TextDecoder();
+        let lineBuffer = '';
+        
+        while (monitorRunning) {
+            try {
+                const { value, done } = await monitorReader.read();
+                if (done) {
+                    break;
+                }
+                if (value) {
+                    // Decode bytes and handle line-by-line output
+                    lineBuffer += decoder.decode(value, { stream: true });
+                    
+                    // Split on newlines and log complete lines
+                    const lines = lineBuffer.split('\n');
+                    // Keep last incomplete line in buffer
+                    lineBuffer = lines.pop() || '';
+                    
+                    for (const line of lines) {
+                        const trimmed = line.replace(/\r$/, '');
+                        if (trimmed.length > 0) {
+                            addLog(trimmed, 'info');
+                        }
+                    }
+                }
+            } catch (readError) {
+                if (monitorRunning) {
+                    // Unexpected read error
+                    addLog(`❌ Monitor read error: ${readError.message}`, 'error');
+                }
+                break;
+            }
+        }
+        
+        // Flush remaining buffer
+        if (lineBuffer.trim().length > 0) {
+            addLog(lineBuffer.trim(), 'info');
+        }
+        
+    } catch (error) {
+        if (error.message.includes('No port selected')) {
+            addLog('ℹ️ Monitor cancelled - no port selected', 'warning');
+        } else {
+            addLog(`❌ Monitor error: ${error.message}`, 'error');
+        }
+    } finally {
+        await cleanupMonitor();
+    }
+}
+
+// Stop serial monitor gracefully
+async function stopSerialMonitor() {
+    addLog('🔌 Stopping serial monitor...', 'info');
+    monitorRunning = false;
+    
+    // Cancel the reader to break the read loop
+    if (monitorReader) {
+        try {
+            await monitorReader.cancel();
+        } catch (e) {
+            // Ignore cancel errors
+        }
+    }
+}
+
+// Cleanup monitor resources
+async function cleanupMonitor() {
+    monitorRunning = false;
+    
+    // Release reader
+    if (monitorReader) {
+        try {
+            monitorReader.releaseLock();
+        } catch (e) {
+            // Ignore
+        }
+        monitorReader = null;
+    }
+    
+    // Close port
+    if (monitorPort) {
+        try {
+            await monitorPort.close();
+            addLog('✅ Serial monitor disconnected', 'success');
+        } catch (e) {
+            // Port may already be closed
+        }
+        monitorPort = null;
+    }
+    
+    updateMonitorButton();
+}
+
+// Update monitor button text and style based on state
+function updateMonitorButton() {
+    const monitorBtn = document.getElementById('monitorButton');
+    const flashBtn = document.getElementById('flashButton');
+    if (!monitorBtn) return;
+    
+    if (monitorRunning) {
+        monitorBtn.textContent = translate('monitorButtonStop') || 'Stop Monitor';
+        monitorBtn.classList.add('monitor-active');
+        // Hide flash button while monitoring
+        if (flashBtn) flashBtn.style.display = 'none';
+    } else {
+        monitorBtn.textContent = translate('monitorButton') || 'Serial Monitor';
+        monitorBtn.classList.remove('monitor-active');
+        // Restore flash button
+        if (flashBtn) flashBtn.style.display = 'block';
+    }
+}
+
 // ===== BOOT MODAL FUNCTIONS =====
 
 function showBootModal() {
@@ -1361,6 +1622,30 @@ document.addEventListener('click', (e) => {
         closeBootModal();
     }
 });
+
+// ===== NO RESET MODAL FUNCTIONS =====
+
+// Promise resolve callback - set when modal is shown, called when user clicks OK
+let noResetModalResolve = null;
+
+// Show no-reset modal and return a promise that resolves when user clicks "Done"
+function showNoResetModal() {
+    return new Promise((resolve) => {
+        noResetModalResolve = resolve;
+        const modal = document.getElementById('noResetModal');
+        modal.classList.add('show');
+    });
+}
+
+// Called when user clicks "Done, Ready to Connect"
+function confirmNoResetReady() {
+    const modal = document.getElementById('noResetModal');
+    modal.classList.remove('show');
+    if (noResetModalResolve) {
+        noResetModalResolve();
+        noResetModalResolve = null;
+    }
+}
 
 // ===== CONSOLE COLLAPSE FUNCTIONS =====
 
@@ -1458,20 +1743,19 @@ function initCarousel() {
     carouselProjects = config.projects;
     currentCarouselIndex = 0;
     
-    // Build carousel HTML
-    buildCarousel();
-    
-    // Set initial positions
-    updateCarouselPositions();
-    
-    // Auto-select first project
-    selectProjectByIndex(0);
-    
-    // Setup keyboard navigation
-    setupCarouselKeyboard();
-    
-    // Setup touch/swipe
-    setupCarouselSwipe();
+    try {
+        buildCarousel();
+        updateCarouselPositions();
+        selectProjectByIndex(0);
+        setupCarouselKeyboard();
+        setupCarouselSwipe();
+    } catch (err) {
+        console.error('Carousel init error:', err);
+        const container = document.getElementById('projectCards');
+        if (container) {
+            container.innerHTML = '<p class="alert alert-error">Failed to load project cards. Check console (F12).</p>';
+        }
+    }
 }
 
 // Build carousel HTML structure
@@ -1564,13 +1848,26 @@ function createProjectCard(project, index) {
         }
     };
     
-    // Card image
-    if (project.image) {
-        const img = document.createElement('img');
-        img.className = 'project-image';
-        img.src = project.image;
-        img.alt = project.name;
-        card.appendChild(img);
+    // Card image with optional badge overlay (bottom-right, 25% height)
+    if (project.image || project.badgeImage) {
+        const imageWrap = document.createElement('div');
+        imageWrap.className = 'project-image-wrapper';
+        if (project.image) {
+            const img = document.createElement('img');
+            img.className = 'project-image';
+            img.src = project.image;
+            img.alt = project.name || '';
+            imageWrap.appendChild(img);
+        }
+        if (project.badgeImage) {
+            const badgeImg = document.createElement('img');
+            badgeImg.className = 'project-badge-image';
+            badgeImg.src = project.badgeImage;
+            badgeImg.alt = '';
+            badgeImg.onerror = () => { badgeImg.style.display = 'none'; };
+            imageWrap.appendChild(badgeImg);
+        }
+        card.appendChild(imageWrap);
     }
     
     // Card content - Title, Badge, Version at top
@@ -1580,7 +1877,7 @@ function createProjectCard(project, index) {
     // Title
     const title = document.createElement('h3');
     title.className = 'project-title';
-    title.textContent = project.name;
+    title.textContent = project.name || '';
     content.appendChild(title);
     
     // Badges container (for badge, version, flash count on same line)
@@ -1588,10 +1885,10 @@ function createProjectCard(project, index) {
     badgesContainer.className = 'project-badges-row';
     
     // Badge
-    if (project.badge) {
+    if (project.badge && typeof project.badge === 'object') {
         const badgeEl = document.createElement('span');
         badgeEl.className = 'project-badge';
-        badgeEl.textContent = project.badge[currentLang] || project.badge.en;
+        badgeEl.textContent = project.badge[currentLang] || project.badge.en || '';
         badgesContainer.appendChild(badgeEl);
     }
     
@@ -1625,20 +1922,39 @@ function createProjectCard(project, index) {
     // Description below title/badge/version
     const description = document.createElement('p');
     description.className = 'project-description';
-    description.textContent = project.description[currentLang] || project.description.en;
+    const descObj = project.description && typeof project.description === 'object' ? project.description : {};
+    const rawDesc = descObj[currentLang] || descObj.en || '';
+    // Support \"\\n\" sequences in JSON as real line breaks
+    description.textContent = rawDesc.replace(/\\n/g, '\n');
     card.appendChild(description);
     
-    // Project icon centered between description and links
-    if (project.icon) {
+    // Project icon_left/icon and icon_right/badgeRadio (same size, icon_right to the right of icon_left)
+    const iconLeft = project.icon_left || project.icon;
+    const iconRight = project.icon_right || project.badgeRadio;
+    if (iconLeft || iconRight) {
         const iconContainer = document.createElement('div');
         iconContainer.className = 'project-icon-container';
-        const icon = document.createElement('img');
-        icon.className = 'project-icon';
-        icon.src = project.icon;
-        icon.alt = '';
-        iconContainer.appendChild(icon);
+        const iconRow = document.createElement('div');
+        iconRow.className = 'project-icon-row';
+        if (iconLeft) {
+            const icon = document.createElement('img');
+            icon.className = 'project-icon project-icon-left';
+            icon.src = iconLeft;
+            icon.alt = '';
+            icon.onerror = () => { icon.style.display = 'none'; };
+            iconRow.appendChild(icon);
+        }
+        if (iconRight) {
+            const iconRightEl = document.createElement('img');
+            iconRightEl.className = 'project-icon project-icon-right';
+            iconRightEl.src = iconRight;
+            iconRightEl.alt = '';
+            iconRightEl.onerror = () => { iconRightEl.style.display = 'none'; };
+            iconRow.appendChild(iconRightEl);
+        }
+        iconContainer.appendChild(iconRow);
         
-        // Firmware download link (displayed to the right of the project icon)
+        // Firmware download link (below icon row)
         if (project.downloadFirmware) {
             const downloadLink = document.createElement('a');
             downloadLink.href = project.downloadFirmware;
@@ -2024,7 +2340,9 @@ function updateCarouselLanguage() {
         // Update description
         const description = card.querySelector('.project-description');
         if (description && project.description) {
-            description.textContent = project.description[currentLang] || project.description.en;
+            const descObj = typeof project.description === 'object' ? project.description : {};
+            const rawDesc = descObj[currentLang] || descObj.en || '';
+            description.textContent = rawDesc.replace(/\\n/g, '\n');
         }
         
         // Update badge (singular, not badges)

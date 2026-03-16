@@ -128,7 +128,9 @@ This file defines the firmware projects available in the installer.
         { "path": "my-project/firmware.bin", "offset": "0x10000" }
       ],
       "image": "images/my-project.png",
-      "icon": "images/my-project-icon.svg",
+      "badgeImage": "images/my-badge.png",
+      "icon_left": "images/my-project-icon.svg",
+      "icon_right": "images/my-radio-icon.svg",
       "url": "https://your-project-website.com",
       "documentation": "https://your-project-docs.com",
       "badge": {
@@ -150,7 +152,9 @@ This file defines the firmware projects available in the installer.
 | `releaseNotes` | string | URL to release notes (optional). If set, version becomes clickable with 📋 icon |
 | `firmware` | array/string | Firmware files with flash offsets |
 | `image` | string | Project card image (optional) |
-| `icon` | string | Small icon for the card header (optional) |
+| `badgeImage` | string | Small image overlay at bottom-right of card image, 25% height (optional) |
+| `icon_left` | string | Left icon below description, same row as icon_right (optional) |
+| `icon_right` | string | Right icon, same size as icon_left, to its right (optional) |
 | `url` | string | Link to project website (optional) |
 | `documentation` | string | Link to documentation (optional) |
 | `badge` | object | Localized badge text (e.g., "Beta", "Stable") |

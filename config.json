@@ -1,57 +1,120 @@
 {
   "projects": [
-  {
-      "id": "btpendantfluidnc8",
+  
+    {
+      "id": "btpendantfluidnc8bt",
       "name": "Firmware for\nPibot CNC pendant V4.0",
       "enabled": true,
       "description": {
-        "en": "Control your FluidNC CNC using bluetooth or serial connection. Professional wireless pendant with jog control, feed rate override, and real-time status display.",
-        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
+        "en": "Control your FluidNC CNC using bluetooth or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
+        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Commande déportée sans fil professionnel avec contrôle de jog, override de vitesse et affichage temps réel."
       },
-      "version": "2.0.0a11",
-      "releaseNotes": "https://webinstaller.esp3d.io/firmware/fluidnc8mb/releasenotes.html",
+      "version": "2.0.0a12",
+      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/releasenotes.html",
       "firmware": [
-        { "path": "fluidnc8mb/bootloader_8MB.bin",       "offset": "0x1000" },
-        { "path": "fluidnc8mb/partitions_8mb.bin",        "offset": "0xC000" },
-        { "path": "fluidnc8mb/ota_data_initial_8MB.bin",  "offset": "0x10000" },
-        { "path": "fluidnc8mb/firmware_8MB.bin",          "offset": "0x20000" },
-        { "path": "fluidnc8mb/factory_8MB.bin",           "offset": "0x770000" }
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/bootloader_8MB.bin",       "offset": "0x1000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/partitions_8mb.bin",        "offset": "0xC000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/ota_data_initial_8MB.bin",  "offset": "0x10000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/firmware_8MB_bt_fluidnc.bin",          "offset": "0x20000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/factory_8MB.bin",           "offset": "0x770000" }
       ],
       "image": "images/pibot_cnc_pendant_4.0.png",
-      "icon": "images/fluidnc.svg",
+      "icon_left": "images/fluidnc.svg",
+      "badgeImage": "images/8MB.png",
+      "icon_right": "images/bluetooth.png",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
-      "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
-      "downloadFirmware": "firmware/fluidnc8mb/esp3dfw.bin",
+      "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/esp3dfw.bin",
       "badge": {
-        "en": "Test Version 8MB 2026/03/01",
-        "fr": "Version Test 8MB 2026/03/01"
+        "en": "Ver 8MB Bluetooth 2026/03/16",
+        "fr": "Ver 8MB Bluetooth 2026/03/16"
       }
     },
     {
-      "id": "btpendantfluidnc4",
+      "id": "btpendantfluidnc8wifi",
       "name": "Firmware for\nPibot CNC pendant V4.0",
       "enabled": true,
       "description": {
-        "en": "Control your FluidNC CNC using bluetooth or serial connection. Professional wireless pendant with jog control, feed rate override, and real-time status display.",
-        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
+        "en": "Control your FluidNC CNC using wifi or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
+        "fr": "Contrôlez votre CNC FluidNC avec wifi ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
       },
-      "version": "2.0.0a11",
-      "releaseNotes": "https://webinstaller.esp3d.io/firmware/fluidnc4mb/releasenotes.html",
+      "version": "2.0.0a12",
+      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/releasenotes.html",
       "firmware": [
-        { "path": "fluidnc4mb/bootloader_4MB.bin",       "offset": "0x1000" },
-        { "path": "fluidnc4mb/partitions_4mb.bin",        "offset": "0xC000" },
-        { "path": "fluidnc4mb/ota_data_initial_4MB.bin",  "offset": "0x10000" },
-        { "path": "fluidnc4mb/firmware_4MB.bin",          "offset": "0x20000" },
-        { "path": "fluidnc4mb/factory_4MB.bin",           "offset": "0x3B0000" }
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/bootloader_8MB.bin",       "offset": "0x1000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/partitions_8mb.bin",        "offset": "0xC000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/ota_data_initial_8MB.bin",  "offset": "0x10000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/firmware_8MB_wifi_fluidnc.bin",          "offset": "0x20000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/factory_8MB.bin",           "offset": "0x770000" }
       ],
       "image": "images/pibot_cnc_pendant_4.0.png",
-      "icon": "images/fluidnc.svg",
+      "icon_left": "images/fluidnc.svg",
+      "badgeImage": "images/8MB.png",
+      "icon_right": "images/wifi.png",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
-      "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
-      "downloadFirmware": "firmware/fluidnc4mb/esp3dfw.bin",
+      "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/esp3dfw.bin",
       "badge": {
-        "en": "Test Version 4MB 2026/03/01",
-        "fr": "Version Test 4MB 2026/03/01"
+        "en": "Version 8MB Wifi 2026/03/16",
+        "fr": "Version 8MB Wifi 2026/03/16"
+      }
+    },
+    {
+      "id": "btpendantfluidnc4bt",
+      "name": "Firmware for\nPibot CNC pendant V4.0",
+      "enabled": true,
+      "description": {
+        "en": "Control your FluidNC CNC using bluetooth or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
+        "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
+      },
+      "version": "2.0.0a12",
+      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/releasenotes.html",
+      "firmware": [
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/bootloader_4MB.bin",       "offset": "0x1000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/partitions_4mb.bin",        "offset": "0xC000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/ota_data_initial_4MB.bin",  "offset": "0x10000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/firmware_4MB_bt_fluidnc.bin",          "offset": "0x20000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/factory_4MB.bin",           "offset": "0x3B0000" }
+      ],
+      "image": "images/pibot_cnc_pendant_4.0.png",
+      "icon_left": "images/fluidnc.svg",
+      "badgeImage": "images/4MB.png",
+      "icon_right": "images/bluetooth.png",
+      "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/esp3dfw.bin",
+      "badge": {
+        "en": "Ver 4MB Bluetooth 2026/03/16",
+        "fr": "Ver 4MB WBluetoothifi 2026/03/16"
+      }
+    },
+        {
+      "id": "btpendantfluidnc4wifi",
+      "name": "Firmware for\nPibot CNC pendant V4.0",
+      "enabled": true,
+      "description": {
+        "en": "Control your FluidNC CNC using wifi or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
+        "fr": "Contrôlez votre CNC FluidNC avec wifi ou connection série. Commande déportée sans fil professionnel avec contrôle de jog, override de vitesse et affichage temps réel."
+      },
+      "version": "2.0.0a12",
+      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/releasenotes.html",
+      "firmware": [
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/bootloader_4MB.bin",       "offset": "0x1000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/partitions_4mb.bin",        "offset": "0xC000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/ota_data_initial_4MB.bin",  "offset": "0x10000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/firmware_4MB_wifi_fluidnc.bin",          "offset": "0x20000" },
+        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/factory_4MB.bin",           "offset": "0x3B0000" }
+      ],
+      "image": "images/pibot_cnc_pendant_4.0.png",
+      "icon_left": "images/fluidnc.svg",
+      "badgeImage": "images/4MB.png",
+      "icon_right": "images/wifi.png",
+      "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/esp3dfw.bin",
+      "badge": {
+        "en": "Version 4MB Wifi 2026/03/16",
+        "fr": "Version 4MB Wifi 2026/03/16"
       }
     },
     {
@@ -65,9 +128,9 @@
       "version": "1.0.0 for grblHAL",
       "firmware": "firmwaregrblhal.bin",
       "image": "images/pibot_cnc_pendant_4.0.png",
-      "icon": "images/grblHAL.svg",
+      "icon_left": "images/grblHAL.svg",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
-      "documentation": "https://www.pibot.com/pibot-cnc-pendant-v4",
+      "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
       "badge": {
         "en": "Coming Soon",
         "fr": "Bientôt"
