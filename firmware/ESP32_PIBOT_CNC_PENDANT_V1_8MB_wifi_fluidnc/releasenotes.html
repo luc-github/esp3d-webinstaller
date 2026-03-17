@@ -224,7 +224,7 @@ a[id] {
 
 <h3>WiFi Support</h3>
 
-<p>Users can now connect using wifi and telnet. The server scan detection use the mdns _telnet._tcp entry to select the available server.</p>
+<p>Users can now connect using wifi and telnet. The server scan detection use the mdns <strong>_telnet._tcp</strong> entry to select the available server.</p>
 
 <blockquote><p>[!NOTE]</p></blockquote>
 <blockquote><p>This new feature need a separate firmware image because current pibot cannot handle wifi and bluetooth at once only, wifi + serial or bluetooth + serial. So 2 images are availables according your needs.</p></blockquote>
@@ -236,6 +236,8 @@ a[id] {
 <ul>
 <li><strong>Fix [ESP0] output</strong>: Fix several typos in [ESP0]</li>
 <li><strong>Fix positions display</strong>: Flush last throttled position value via timer on jog/probe/status/change_tool screens to avoid lost update.</li>
+<li><strong>Fix Serial BT Pin Logic</strong>: Allow Pin to be empty in addition to 00000 or any pin</li>
+
 
 <a id="improvements"></a>
 
@@ -243,16 +245,19 @@ a[id] {
 <h2>💪 Improvements</h2>
 
 <ul>
-<li><strong>Connection Screen for WiFi</strong>: Add new colors due to WiFi managements</li>
+<li><strong>Connection Screen for WiFi</strong>: Add new colors due to WiFi management</li>
+<li><strong>Add menu to forget connection settings</strong>: Add new menu in settings editor to clear WiFi and BT connections settings. </li>
 
 <a id="other-changes"></a>
 
 </ul>
 <h2>📝 Other Changes</h2>
 
-<p>- </p>
+<ul>
+<li><strong>Factory is now 1.0.1</strong>: Add buttons icons like in firmware to know what button do what</li>
 
 
+</ul>
 <hr>
 
 

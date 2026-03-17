@@ -26,7 +26,7 @@ RewriteCond %{DOCUMENT_ROOT}/.maintenance.on -f
 RewriteCond %{REMOTE_ADDR} !^114\.37\.135\.124$
 RewriteCond %{REMOTE_ADDR} !^2001:b011:2020:70c7:c4d8:322e:e99d:efcb$
 RewriteCond %{REQUEST_URI} !^/maintenance\.html$ [NC]
-RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot|otf|php)$ [NC]
+RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot|otf|php|mp4)$ [NC]
 RewriteRule ^ /maintenance.html [R=302,L]
 
 # ==============================================================
