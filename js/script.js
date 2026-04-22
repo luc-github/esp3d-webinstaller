@@ -1,4 +1,4 @@
-// ESP32 Web Installer - ESPLoader.js Version
+// Web Installer - ESPLoader.js Version
 // Full control over UI/UX, no Shadow DOM, no imposed dialogs
 // Version is defined in version.js
 
@@ -126,6 +126,26 @@ function playStartSound() {
 function playErrorSound(errorMessage) {
     const category = categorizeError(errorMessage);
     playAudioFeedback(`error_${category}`);
+}
+
+function getSelectedFlashBaudrate() {
+    const flashBaudrateSelect = document.getElementById('flashBaudrateSelect');
+    const selected = flashBaudrateSelect ? parseInt(flashBaudrateSelect.value, 10) : NaN;
+    return Number.isFinite(selected) && selected > 0 ? selected : 921600;
+}
+
+function initFlashBaudrateSelector() {
+    const flashBaudrateSelect = document.getElementById('flashBaudrateSelect');
+    if (!flashBaudrateSelect) return;
+
+    const savedBaudrate = localStorage.getItem('flashBaudrate');
+    if (savedBaudrate && Array.from(flashBaudrateSelect.options).some(opt => opt.value === savedBaudrate)) {
+        flashBaudrateSelect.value = savedBaudrate;
+    }
+
+    flashBaudrateSelect.addEventListener('change', () => {
+        localStorage.setItem('flashBaudrate', flashBaudrateSelect.value);
+    });
 }
 
 // Flash event logging to server
@@ -777,7 +797,7 @@ function selectProject(project) {
     const consoleContainer = document.getElementById('consoleContainer');
     consoleContainer.innerHTML = '';
     addLog(`Project selected: ${project.name}`, 'info');
-    addLog('Ready to flash. Click "Connect & Flash ESP32" when ready.', 'warning');
+    addLog('Ready to flash. Click "Connect & Flash" when ready.', 'warning');
 }
 
 // ===== ESPLoader.js Flash Functions =====
@@ -882,18 +902,25 @@ async function flashESP32() {
             }
         };
         
+        const flashBaudrate = getSelectedFlashBaudrate();
+        addLog(`⚙️ Flash baudrate: ${flashBaudrate}`, 'info');
+
         // Step 4: Create ESPLoader
         // IMPORTANT: ESPLoader will open the port automatically
         esploader = new esptooljs.ESPLoader({
             transport: transport,
-            baudrate: 115200,
+            baudrate: flashBaudrate,
             terminal: terminal,
             romBaudrate: 115200,
             debugLogging: false
         });
         
+        // Resolve firmware options from config (supports legacy + new format)
+        const firmwareConfig = resolveFirmwareConfig(selectedProject);
+        const firmwareMeta = firmwareConfig.meta || {};
+
         // Step 5: Connect to chip
-        const connectMode = noResetMode ? "no_reset" : "default_reset";
+        const connectMode = noResetMode ? "no_reset" : (firmwareMeta.before || "default_reset");
         addLog('🔌 Connecting to ESP32...', 'info');
         if (noResetMode) {
             addLog('🔧 No Reset: hold BOOT + press RESET before clicking flash, then release BOOT', 'warning');
@@ -906,6 +933,9 @@ async function flashESP32() {
         playAudioFeedback('connecting');
         
         const chip = await esploader.main(connectMode);
+        if (firmwareMeta.chip && !String(chip).toLowerCase().includes(String(firmwareMeta.chip).toLowerCase())) {
+            addLog(`⚠️ Config chip "${firmwareMeta.chip}" does not match detected "${chip}"`, 'warning');
+        }
         
         // Close modal on successful connection
         closeBootModal();
@@ -985,8 +1015,8 @@ async function flashESP32() {
             await esploader.writeFlash({
                 fileArray: fileArray,
                 flashSize: "keep",
-                flashMode: "keep",
-                flashFreq: "keep",
+                flashMode: firmwareMeta.flash_mode || "keep",
+                flashFreq: firmwareMeta.flash_freq || "keep",
                 eraseAll: eraseAll,  // Use checkbox value
                 compress: true,
                 reportProgress: (fileIndex, written, total) => {
@@ -1083,7 +1113,7 @@ async function flashESP32() {
         // In no_reset mode, esploader.after() may not reset properly,
         // so we also do a manual RTS toggle via the transport
         try {
-            await esploader.after("hard_reset");
+            await esploader.after(firmwareMeta.after || "hard_reset");
         } catch (e) {
             // Fallback: manual RTS toggle for hard reset
         }
@@ -1181,10 +1211,9 @@ async function prepareFirmwareFiles(project) {
     
     const fileArray = [];
     
-    // Determine if single or multi-file
-    const firmwareList = Array.isArray(project.firmware) 
-        ? project.firmware 
-        : [{ path: project.firmware, offset: '0x0' }];
+    // Determine if single or multi-file (supports legacy + new format)
+    const firmwareConfig = resolveFirmwareConfig(project);
+    const firmwareList = firmwareConfig.files;
     
     addLog(`📦 Downloading ${firmwareList.length} file(s)...`, 'info');
     
@@ -1227,6 +1256,41 @@ async function prepareFirmwareFiles(project) {
     }
     
     return fileArray;
+}
+
+// Normalize firmware config across supported formats:
+// - Legacy string: "firmware.bin"
+// - Legacy array: [{ path, offset }]
+// - New object: { meta, root, files: [{ file|path, offset }] }
+function resolveFirmwareConfig(project) {
+    const firmware = project?.firmware;
+
+    // New format
+    if (firmware && typeof firmware === 'object' && !Array.isArray(firmware) && Array.isArray(firmware.files)) {
+        const rootRaw = typeof firmware.root === 'string' ? firmware.root.trim() : '';
+        const root = rootRaw.replace(/\/+$/, '');
+        const files = firmware.files.map(entry => {
+            const fileName = (entry.file || entry.path || '').replace(/^\/+/, '');
+            const path = root ? `${root}/${fileName}` : fileName;
+            return {
+                path: path,
+                offset: entry.offset || '0x0'
+            };
+        });
+
+        return {
+            meta: firmware.meta || {},
+            files: files
+        };
+    }
+
+    // Legacy array
+    if (Array.isArray(firmware)) {
+        return { meta: {}, files: firmware };
+    }
+
+    // Legacy single file
+    return { meta: {}, files: [{ path: firmware, offset: '0x0' }] };
 }
 
 // Change language
@@ -1287,6 +1351,12 @@ function changeLanguage() {
     const eraseAllHint = document.getElementById('eraseAllHint');
     if (eraseAllLabel) eraseAllLabel.textContent = translate('eraseAllLabel');
     if (eraseAllHint) eraseAllHint.textContent = translate('eraseAllHint');
+
+    // Update flash baudrate option texts
+    const flashBaudrateLabel = document.getElementById('flashBaudrateLabel');
+    const flashBaudrateHint = document.getElementById('flashBaudrateHint');
+    if (flashBaudrateLabel) flashBaudrateLabel.textContent = translate('flashBaudrateLabel');
+    if (flashBaudrateHint) flashBaudrateHint.textContent = translate('flashBaudrateHint');
     
     // Update no reset option texts
     const noResetLabel = document.getElementById('noResetLabel');
@@ -1385,6 +1455,7 @@ async function initialize() {
     
     // Setup language selector
     setupLanguageSelector(languages);
+    initFlashBaudrateSelector();
     
     // Load project config
     await loadConfig();
@@ -1399,14 +1470,14 @@ async function initialize() {
     updateFooterVersion();
     
     // Log version info
-    console.log(`%c🚀 ESP32 Web Installer v${WEBINSTALLER_VERSION}`, 'font-weight: bold; font-size: 14px; color: #667eea;');
+    console.log(`%c🚀 Web Installer v${WEBINSTALLER_VERSION}`, 'font-weight: bold; font-size: 14px; color: #667eea;');
     console.log(`%c📅 Build: ${WEBINSTALLER_BUILD_DATE}`, 'color: #888;');
     console.log(`%c🌍 Language: ${currentLang}`, 'color: #888;');
     if (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME) {
         console.log(`%c✨ Codename: ${WEBINSTALLER_CODENAME}`, 'color: #888;');
     }
     
-    addLog('ESP32 Web Installer ready (ESPLoader.js)', 'success');
+    addLog('Web Installer ready (ESPLoader.js)', 'success');
 }
 
 // Update footer with version information
@@ -1418,7 +1489,7 @@ function updateFooterVersion() {
             versionText += ` - ${WEBINSTALLER_BUILD_DATE}`;
         }
         versionElement.textContent = versionText;
-        versionElement.title = `ESP32 Web Installer ${WEBINSTALLER_VERSION}` + 
+        versionElement.title = `Web Installer ${WEBINSTALLER_VERSION}` + 
                                 (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME ? ` "${WEBINSTALLER_CODENAME}"` : '');
     }
 }

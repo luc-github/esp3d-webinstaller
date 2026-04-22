@@ -1103,7 +1103,7 @@ Public License instead of this License.  But first, please read
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - ESP32 Web Installer</title>
+    <title>Privacy Policy - Web Installer</title>
     <style>
         * {
             margin: 0;
@@ -1222,7 +1222,7 @@ Public License instead of this License.  But first, please read
     <div class="container">
         <div class="header">
             <h1>🔒 Privacy Policy</h1>
-            <p>ESP32 Web Installer by ESP3D</p>
+            <p>Web Installer by ESP3D</p>
         </div>
         
         <div class="content">
@@ -1230,7 +1230,7 @@ Public License instead of this License.  But first, please read
             
             <h2>Overview</h2>
             <p>
-                This Privacy Policy explains how the ESP32 Web Installer ("we", "our", "the Service") 
+                This Privacy Policy explains how the Web Installer ("we", "our", "the Service") 
                 collects, uses, and protects information when you use our firmware flashing tool.
             </p>
             
@@ -1240,7 +1240,7 @@ Public License instead of this License.  But first, please read
             </div>
             
             <h2>Information We Collect</h2>
-            <p>When you use the ESP32 Web Installer, we may collect the following anonymous information:</p>
+            <p>When you use the Web Installer, we may collect the following anonymous information:</p>
             
             <table class="data-table">
                 <tr>
@@ -1328,7 +1328,7 @@ Public License instead of this License.  But first, please read
                 <br><a href="https://github.com/luc-github/esp3d-webinstaller/discussions">contact</a>
             </p>
             
-            <a href="index.html" class="back-link">← Back to ESP32 Web Installer</a>
+            <a href="index.html" class="back-link">← Back to Web Installer</a>
         </div>
         
         <div class="footer">
@@ -1345,7 +1345,7 @@ Public License instead of this License.  But first, please read
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - ESP32 Web Installer</title>
+    <title>Terms of Service - Web Installer</title>
     <style>
         * {
             margin: 0;
@@ -1455,7 +1455,7 @@ Public License instead of this License.  But first, please read
     <div class="container">
         <div class="header">
             <h1>📋 Terms of Service</h1>
-            <p>ESP32 Web Installer by ESP3D</p>
+            <p>Web Installer by ESP3D</p>
         </div>
         
         <div class="content">
@@ -1463,13 +1463,13 @@ Public License instead of this License.  But first, please read
             
             <h2>Acceptance of Terms</h2>
             <p>
-                By using the ESP32 Web Installer ("the Service"), you agree to these Terms of Service. 
+                By using the Web Installer ("the Service"), you agree to these Terms of Service. 
                 If you do not agree with these terms, please do not use the Service.
             </p>
             
             <h2>Description of Service</h2>
             <p>
-                The ESP32 Web Installer is a browser-based tool that allows you to flash firmware 
+                The Web Installer is a browser-based tool that allows you to flash firmware 
                 onto ESP32 microcontroller devices using the Web Serial API. The Service is provided 
                 by ESP3D to facilitate firmware installation on compatible hardware products.
             </p>
@@ -1569,7 +1569,7 @@ Public License instead of this License.  But first, please read
                 <br><a href="https://github.com/luc-github/esp3d-webinstaller/discussions">contact</a>
             </p>
             
-            <a href="index.html" class="back-link">← Back to ESP32 Web Installer</a>
+            <a href="index.html" class="back-link">← Back to Web Installer</a>
         </div>
         
         <div class="footer">
@@ -2726,8 +2726,8 @@ fill="#000000" stroke="none">
                 <img id="headerLogo" class="header-logo" src="" alt="Logo">
                 
                 <div class="header-content">
-                    <h1 id="title">ESP32 Web Installer</h1>
-                    <p id="subtitle">Flash your ESP32 directly from your browser</p>
+                    <h1 id="title">Web Installer</h1>
+                    <p id="subtitle">Flash your device directly from your browser</p>
                 </div>
                 
                 <div class="header-actions" id="headerActions">
@@ -2901,8 +2901,8 @@ fill="#000000" stroke="none">
 
 <file path="testing/lang/en.json">
 {
-  "title": "ESP32 Web Installer",
-  "subtitle": "Flash your ESP32 directly from your browser",
+  "title": "Web Installer",
+  "subtitle": "Flash your device directly from your browser",
   "selectProject": "Select a Project",
   "flashFirmware": "Flash Firmware",
   "connectButton": "Connect to ESP32",
@@ -2918,8 +2918,8 @@ fill="#000000" stroke="none">
   "logConnected": "Connected successfully!",
   "instructionTitle": "⚠️ Important: BOOT Button Required",
   "instructionText1": "Your ESP32 board requires you to hold the <strong>BOOT</strong> button (also labeled as <strong>FLASH</strong> or <strong>GPIO0</strong>) during connection.",
-  "instructionText2": "<strong>Steps:</strong><br>1. Click \"Connect & Flash ESP32\" below<br>2. <strong>Hold the BOOT button</strong> on your ESP32<br>3. Select the COM port in the dialog<br>4. <strong>Choose \"Install [project name]\"</strong> (not \"Logs & Console\")<br>5. Keep holding BOOT until you see \"Connected\" in the console below<br>6. You can release the button once flashing starts",
-  "flashButton": "Connect & Flash ESP32",
+  "instructionText2": "<strong>Steps:</strong><br>1. Click \"Connect & Flash\" below<br>2. <strong>Hold the BOOT button</strong> on your ESP32<br>3. Select the COM port in the dialog<br>4. <strong>Choose \"Install [project name]\"</strong> (not \"Logs & Console\")<br>5. Keep holding BOOT until you see \"Connected\" in the console below<br>6. You can release the button once flashing starts",
+  "flashButton": "Connect & Flash",
   "projectDisabled": "This project is currently disabled.",
   "projectComingSoon": "Coming soon - This firmware is not yet available for installation.",
   "projectMaintenance": "Temporarily unavailable - Under maintenance.",
@@ -4281,7 +4281,7 @@ echo json_encode([
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - ESP32 Web Installer</title>
+    <title>Privacy Policy - Web Installer</title>
     <style>
         * {
             margin: 0;
@@ -4400,7 +4400,7 @@ echo json_encode([
     <div class="container">
         <div class="header">
             <h1>🔒 Privacy Policy</h1>
-            <p>ESP32 Web Installer by ESP3D</p>
+            <p>Web Installer by ESP3D</p>
         </div>
         
         <div class="content">
@@ -4408,7 +4408,7 @@ echo json_encode([
             
             <h2>Overview</h2>
             <p>
-                This Privacy Policy explains how the ESP32 Web Installer ("we", "our", "the Service") 
+                This Privacy Policy explains how the Web Installer ("we", "our", "the Service") 
                 collects, uses, and protects information when you use our firmware flashing tool.
             </p>
             
@@ -4418,7 +4418,7 @@ echo json_encode([
             </div>
             
             <h2>Information We Collect</h2>
-            <p>When you use the ESP32 Web Installer, we may collect the following anonymous information:</p>
+            <p>When you use the Web Installer, we may collect the following anonymous information:</p>
             
             <table class="data-table">
                 <tr>
@@ -4506,7 +4506,7 @@ echo json_encode([
                 <br><a href="https://github.com/luc-github/esp3d-webinstaller/discussions">contact</a>
             </p>
             
-            <a href="index.html" class="back-link">← Back to ESP32 Web Installer</a>
+            <a href="index.html" class="back-link">← Back to Web Installer</a>
         </div>
         
         <div class="footer">
@@ -6257,7 +6257,7 @@ esp-web-install-button button:hover {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - ESP32 Web Installer</title>
+    <title>Terms of Service - Web Installer</title>
     <style>
         * {
             margin: 0;
@@ -6367,7 +6367,7 @@ esp-web-install-button button:hover {
     <div class="container">
         <div class="header">
             <h1>📋 Terms of Service</h1>
-            <p>ESP32 Web Installer by ESP3D</p>
+            <p>Web Installer by ESP3D</p>
         </div>
         
         <div class="content">
@@ -6375,13 +6375,13 @@ esp-web-install-button button:hover {
             
             <h2>Acceptance of Terms</h2>
             <p>
-                By using the ESP32 Web Installer ("the Service"), you agree to these Terms of Service. 
+                By using the Web Installer ("the Service"), you agree to these Terms of Service. 
                 If you do not agree with these terms, please do not use the Service.
             </p>
             
             <h2>Description of Service</h2>
             <p>
-                The ESP32 Web Installer is a browser-based tool that allows you to flash firmware 
+                The Web Installer is a browser-based tool that allows you to flash firmware 
                 onto ESP32 microcontroller devices using the Web Serial API. The Service is provided 
                 by ESP3D to facilitate firmware installation on compatible hardware products.
             </p>
@@ -6481,7 +6481,7 @@ esp-web-install-button button:hover {
                 <br><a href="https://github.com/luc-github/esp3d-webinstaller/discussions">contact</a>
             </p>
             
-            <a href="index.html" class="back-link">← Back to ESP32 Web Installer</a>
+            <a href="index.html" class="back-link">← Back to Web Installer</a>
         </div>
         
         <div class="footer">
@@ -6713,7 +6713,7 @@ class A extends Error{}
 </file>
 
 <file path="testing/js/script.js">
-// ESP32 Web Installer - ESPLoader.js Version
+// Web Installer - ESPLoader.js Version
 // Full control over UI/UX, no Shadow DOM, no imposed dialogs
 // Version is defined in version.js
 
@@ -7483,7 +7483,7 @@ function selectProject(project) {
     const consoleContainer = document.getElementById('consoleContainer');
     consoleContainer.innerHTML = '';
     addLog(`Project selected: ${project.name}`, 'info');
-    addLog('Ready to flash. Click "Connect & Flash ESP32" when ready.', 'warning');
+    addLog('Ready to flash. Click "Connect & Flash" when ready.', 'warning');
 }
 
 // ===== ESPLoader.js Flash Functions =====
@@ -8105,14 +8105,14 @@ async function initialize() {
     updateFooterVersion();
     
     // Log version info
-    console.log(`%c🚀 ESP32 Web Installer v${WEBINSTALLER_VERSION}`, 'font-weight: bold; font-size: 14px; color: #667eea;');
+    console.log(`%c🚀 Web Installer v${WEBINSTALLER_VERSION}`, 'font-weight: bold; font-size: 14px; color: #667eea;');
     console.log(`%c📅 Build: ${WEBINSTALLER_BUILD_DATE}`, 'color: #888;');
     console.log(`%c🌍 Language: ${currentLang}`, 'color: #888;');
     if (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME) {
         console.log(`%c✨ Codename: ${WEBINSTALLER_CODENAME}`, 'color: #888;');
     }
     
-    addLog('ESP32 Web Installer ready (ESPLoader.js)', 'success');
+    addLog('Web Installer ready (ESPLoader.js)', 'success');
 }
 
 // Update footer with version information
@@ -8124,7 +8124,7 @@ function updateFooterVersion() {
             versionText += ` - ${WEBINSTALLER_BUILD_DATE}`;
         }
         versionElement.textContent = versionText;
-        versionElement.title = `ESP32 Web Installer ${WEBINSTALLER_VERSION}` + 
+        versionElement.title = `Web Installer ${WEBINSTALLER_VERSION}` + 
                                 (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME ? ` "${WEBINSTALLER_CODENAME}"` : '');
     }
 }
@@ -9028,7 +9028,7 @@ function updateCarouselLanguage() {
 </file>
 
 <file path="testing/js/version.js">
-// ESP32 Web Installer - Version Information
+// Web Installer - Version Information
 // Update this file to change version across the entire application
 
 const WEBINSTALLER_VERSION = "1.0.4";
@@ -9041,7 +9041,7 @@ const WEBINSTALLER_CODENAME = "Multilingual Audio"; // Optional codename for maj
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-A modern, browser-based firmware installer for ESP32 devices using the Web Serial API. Flash your ESP32 directly from your browser without installing any software.
+A modern, browser-based firmware installer for ESP32 devices using the Web Serial API. Flash your device directly from your browser without installing any software.
 
 ![ESP3D Web Installer Screenshot](images/screenshot.png)
 
@@ -9927,7 +9927,7 @@ echo json_encode($counts, JSON_PRETTY_PRINT);
 </file>
 
 <file path="js/version.js">
-// ESP32 Web Installer - Version Information
+// Web Installer - Version Information
 // Update this file to change version across the entire application
 
 const WEBINSTALLER_VERSION = "1.0.4";
@@ -10477,8 +10477,8 @@ a[id] {
                 <img id="headerLogo" class="header-logo" src="" alt="Logo">
                 
                 <div class="header-content">
-                    <h1 id="title">ESP32 Web Installer</h1>
-                    <p id="subtitle">Flash your ESP32 directly from your browser</p>
+                    <h1 id="title">Web Installer</h1>
+                    <p id="subtitle">Flash your device directly from your browser</p>
                 </div>
                 
                 <div class="header-actions" id="headerActions">
@@ -10646,8 +10646,8 @@ a[id] {
 
 <file path="lang/en.json">
 {
-  "title": "ESP32 Web Installer",
-  "subtitle": "Flash your ESP32 directly from your browser",
+  "title": "Web Installer",
+  "subtitle": "Flash your device directly from your browser",
   "selectProject": "Select a Project",
   "flashFirmware": "Flash Firmware",
   "connectButton": "Connect to ESP32",
@@ -10663,8 +10663,8 @@ a[id] {
   "logConnected": "Connected successfully!",
   "instructionTitle": "⚠️ Important: BOOT Button Required",
   "instructionText1": "Your ESP32 board requires you to hold the <strong>BOOT</strong> button (also labeled as <strong>FLASH</strong> or <strong>GPIO0</strong>) during connection.",
-  "instructionText2": "<strong>Steps:</strong><br>1. Click \"Connect & Flash ESP32\" below<br>2. <strong>Hold the BOOT button</strong> on your ESP32<br>3. Select the COM port in the dialog<br>4. <strong>Choose \"Install [project name]\"</strong> (not \"Logs & Console\")<br>5. Keep holding BOOT until you see \"Connected\" in the console below<br>6. You can release the button once flashing starts",
-  "flashButton": "Connect & Flash ESP32",
+  "instructionText2": "<strong>Steps:</strong><br>1. Click \"Connect & Flash\" below<br>2. <strong>Hold the BOOT button</strong> on your ESP32<br>3. Select the COM port in the dialog<br>4. <strong>Choose \"Install [project name]\"</strong> (not \"Logs & Console\")<br>5. Keep holding BOOT until you see \"Connected\" in the console below<br>6. You can release the button once flashing starts",
+  "flashButton": "Connect & Flash",
   "projectDisabled": "This project is currently disabled.",
   "projectComingSoon": "Coming soon - This firmware is not yet available for installation.",
   "projectMaintenance": "Temporarily unavailable - Under maintenance.",
@@ -13158,7 +13158,7 @@ esp-web-install-button button:hover {
 </file>
 
 <file path="js/script.js">
-// ESP32 Web Installer - ESPLoader.js Version
+// Web Installer - ESPLoader.js Version
 // Full control over UI/UX, no Shadow DOM, no imposed dialogs
 // Version is defined in version.js
 
@@ -13928,7 +13928,7 @@ function selectProject(project) {
     const consoleContainer = document.getElementById('consoleContainer');
     consoleContainer.innerHTML = '';
     addLog(`Project selected: ${project.name}`, 'info');
-    addLog('Ready to flash. Click "Connect & Flash ESP32" when ready.', 'warning');
+    addLog('Ready to flash. Click "Connect & Flash" when ready.', 'warning');
 }
 
 // ===== ESPLoader.js Flash Functions =====
@@ -14550,14 +14550,14 @@ async function initialize() {
     updateFooterVersion();
     
     // Log version info
-    console.log(`%c🚀 ESP32 Web Installer v${WEBINSTALLER_VERSION}`, 'font-weight: bold; font-size: 14px; color: #667eea;');
+    console.log(`%c🚀 Web Installer v${WEBINSTALLER_VERSION}`, 'font-weight: bold; font-size: 14px; color: #667eea;');
     console.log(`%c📅 Build: ${WEBINSTALLER_BUILD_DATE}`, 'color: #888;');
     console.log(`%c🌍 Language: ${currentLang}`, 'color: #888;');
     if (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME) {
         console.log(`%c✨ Codename: ${WEBINSTALLER_CODENAME}`, 'color: #888;');
     }
     
-    addLog('ESP32 Web Installer ready (ESPLoader.js)', 'success');
+    addLog('Web Installer ready (ESPLoader.js)', 'success');
 }
 
 // Update footer with version information
@@ -14569,7 +14569,7 @@ function updateFooterVersion() {
             versionText += ` - ${WEBINSTALLER_BUILD_DATE}`;
         }
         versionElement.textContent = versionText;
-        versionElement.title = `ESP32 Web Installer ${WEBINSTALLER_VERSION}` + 
+        versionElement.title = `Web Installer ${WEBINSTALLER_VERSION}` + 
                                 (typeof WEBINSTALLER_CODENAME !== 'undefined' && WEBINSTALLER_CODENAME ? ` "${WEBINSTALLER_CODENAME}"` : '');
     }
 }
@@ -15477,7 +15477,7 @@ function updateCarouselLanguage() {
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-A modern, browser-based firmware installer for ESP32 devices using the Web Serial API. Flash your ESP32 directly from your browser without installing any software.
+A modern, browser-based firmware installer for ESP32 devices using the Web Serial API. Flash your device directly from your browser without installing any software.
 
 ![ESP3D Web Installer Screenshot](images/screenshot.png)
 

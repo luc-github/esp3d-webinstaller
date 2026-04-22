@@ -50,8 +50,8 @@ body {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    height: 120px;  /* Doubled from 60px */
-    width: auto;
+    width: min(250px, 26vw);
+    height: auto;
     display: none;
 }
 
@@ -61,7 +61,7 @@ body {
 
 .header-content {
     flex: 1;
-    max-width: calc(100% - 200px);  /* Reserve space for buttons */
+    max-width: calc(100% - 380px);  /* Reserve space for logo + buttons */
     padding-right: 20px;
 }
 
@@ -1077,6 +1077,22 @@ esp-web-install-button button:hover {
 
 .flash-option-item:hover {
     background: #f5f5f5;
+}
+
+.flash-option-item-select {
+    cursor: default;
+    flex-wrap: wrap;
+}
+
+.flash-select {
+    min-width: 130px;
+    height: 34px;
+    padding: 4px 10px;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    background: #fff;
+    color: #24292f;
+    font-size: 0.95em;
 }
 
 .flash-checkbox {

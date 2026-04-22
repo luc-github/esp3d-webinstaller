@@ -11,13 +11,23 @@
       },
       "version": "2.0.0a12",
       "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/releasenotes.html",
-      "firmware": [
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/bootloader_8MB.bin",       "offset": "0x1000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/partitions_8mb.bin",        "offset": "0xC000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/ota_data_initial_8MB.bin",  "offset": "0x10000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/firmware_8MB_bt_fluidnc.bin",          "offset": "0x20000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/factory_8MB.bin",           "offset": "0x770000" }
-      ],
+      "firmware": {
+        "meta": {
+          "chip": "esp32",
+          "flash_mode": "dio",
+          "flash_freq": "80m",
+          "before": "default_reset",
+          "after": "hard_reset"
+        },
+        "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc",
+        "files": [
+          { "file": "bootloader_8MB.bin", "offset": "0x1000" },
+          { "file": "partitions_8mb.bin", "offset": "0xC000" },
+          { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
+          { "file": "firmware_8MB_bt_fluidnc.bin", "offset": "0x20000" },
+          { "file": "factory_8MB.bin", "offset": "0x770000" }
+        ]
+      },
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/8MB.png",
@@ -40,13 +50,23 @@
       },
       "version": "2.0.0a12",
       "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/releasenotes.html",
-      "firmware": [
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/bootloader_8MB.bin",       "offset": "0x1000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/partitions_8mb.bin",        "offset": "0xC000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/ota_data_initial_8MB.bin",  "offset": "0x10000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/firmware_8MB_wifi_fluidnc.bin",          "offset": "0x20000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/factory_8MB.bin",           "offset": "0x770000" }
-      ],
+      "firmware": {
+        "meta": {
+          "chip": "esp32",
+          "flash_mode": "dio",
+          "flash_freq": "80m",
+          "before": "default_reset",
+          "after": "hard_reset"
+        },
+        "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc",
+        "files": [
+          { "file": "bootloader_8MB.bin", "offset": "0x1000" },
+          { "file": "partitions_8mb.bin", "offset": "0xC000" },
+          { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
+          { "file": "firmware_8MB_wifi_fluidnc.bin", "offset": "0x20000" },
+          { "file": "factory_8MB.bin", "offset": "0x770000" }
+        ]
+      },
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/8MB.png",
@@ -69,13 +89,23 @@
       },
       "version": "2.0.0a12",
       "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/releasenotes.html",
-      "firmware": [
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/bootloader_4MB.bin",       "offset": "0x1000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/partitions_4mb.bin",        "offset": "0xC000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/ota_data_initial_4MB.bin",  "offset": "0x10000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/firmware_4MB_bt_fluidnc.bin",          "offset": "0x20000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/factory_4MB.bin",           "offset": "0x3B0000" }
-      ],
+      "firmware": {
+        "meta": {
+          "chip": "esp32",
+          "flash_mode": "dio",
+          "flash_freq": "80m",
+          "before": "default_reset",
+          "after": "hard_reset"
+        },
+        "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc",
+        "files": [
+          { "file": "bootloader_4MB.bin", "offset": "0x1000" },
+          { "file": "partitions_4mb.bin", "offset": "0xC000" },
+          { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
+          { "file": "firmware_4MB_bt_fluidnc.bin", "offset": "0x20000" },
+          { "file": "factory_4MB.bin", "offset": "0x3B0000" }
+        ]
+      },
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/4MB.png",
@@ -98,13 +128,23 @@
       },
       "version": "2.0.0a12",
       "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/releasenotes.html",
-      "firmware": [
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/bootloader_4MB.bin",       "offset": "0x1000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/partitions_4mb.bin",        "offset": "0xC000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/ota_data_initial_4MB.bin",  "offset": "0x10000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/firmware_4MB_wifi_fluidnc.bin",          "offset": "0x20000" },
-        { "path": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/factory_4MB.bin",           "offset": "0x3B0000" }
-      ],
+      "firmware": {
+        "meta": {
+          "chip": "esp32",
+          "flash_mode": "dio",
+          "flash_freq": "80m",
+          "before": "default_reset",
+          "after": "hard_reset"
+        },
+        "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc",
+        "files": [
+          { "file": "bootloader_4MB.bin", "offset": "0x1000" },
+          { "file": "partitions_4mb.bin", "offset": "0xC000" },
+          { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
+          { "file": "firmware_4MB_wifi_fluidnc.bin", "offset": "0x20000" },
+          { "file": "factory_4MB.bin", "offset": "0x3B0000" }
+        ]
+      },
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/4MB.png",

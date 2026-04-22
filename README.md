@@ -2,7 +2,7 @@
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-A modern, browser-based firmware installer for ESP32 devices using the Web Serial API. Flash your ESP32 directly from your browser without installing any software.
+A modern, browser-based firmware installer for ESP32 devices using the Web Serial API. Flash your device directly from your browser without installing any software.
 
 ![ESP3D Web Installer Screenshot](images/screenshot.png)
 
@@ -17,6 +17,7 @@ A modern, browser-based firmware installer for ESP32 devices using the Web Seria
 - **Multi-project support** - Configure multiple firmware projects with a 3D carousel selector
 - **Multi-language support** - English and French included, easily extensible
 - **Progress tracking** - Real-time progress bar and detailed console logs
+- **Adjustable flash speed** - Select baudrate in UI (921600/460800/230400/115200)
 - **Error categorization** - Detailed error logging with configurable filtering
 - **Flash statistics** - Track successful flashes per project
 - **Release notes link** - Clickable version with 📋 icon linking to release notes
@@ -59,11 +60,18 @@ A modern, browser-based firmware installer for ESP32 devices using the Web Seria
 
 5. **Deploy to your web server** or test locally:
    ```bash
-   # Using PHP built-in server
+   # PHP built-in server (recommended, enables analytics/logging endpoints)
    php -S localhost:8000
+
+   # Or Python simple HTTP server (static mode)
+   python -m http.server 8000
    ```
 
 6. **Open in browser:** `http://localhost:8000`
+
+> [!TIP]
+> Use the PHP server when you want flash statistics/error logging (`log-flash.php`, `get-flash-counts.php`, `get-flash-errors.php`).
+> Use the Python server for quick static testing.
 
 ## 📁 Project Structure
 
@@ -122,11 +130,21 @@ This file defines the firmware projects available in the installer.
       },
       "version": "1.0.0",
       "releaseNotes": "https://github.com/your-repo/releases/tag/v1.0.0",
-      "firmware": [
-        { "path": "my-project/bootloader.bin", "offset": "0x1000" },
-        { "path": "my-project/partitions.bin", "offset": "0x8000" },
-        { "path": "my-project/firmware.bin", "offset": "0x10000" }
-      ],
+      "firmware": {
+        "meta": {
+          "chip": "esp32",
+          "flash_mode": "dio",
+          "flash_freq": "80m",
+          "before": "default_reset",
+          "after": "hard_reset"
+        },
+        "root": "my-project",
+        "files": [
+          { "file": "bootloader.bin", "offset": "0x1000" },
+          { "file": "partitions.bin", "offset": "0x8000" },
+          { "file": "firmware.bin", "offset": "0x10000" }
+        ]
+      },
       "image": "images/my-project.png",
       "badgeImage": "images/my-badge.png",
       "icon_left": "images/my-project-icon.svg",
@@ -150,7 +168,7 @@ This file defines the firmware projects available in the installer.
 | `description` | object | Localized descriptions (en, fr, etc.) |
 | `version` | string | Firmware version displayed on the card |
 | `releaseNotes` | string | URL to release notes (optional). If set, version becomes clickable with 📋 icon |
-| `firmware` | array/string | Firmware files with flash offsets |
+| `firmware` | object/array/string | Firmware definition (new object format recommended) |
 | `image` | string | Project card image (optional) |
 | `badgeImage` | string | Small image overlay at bottom-right of card image, 25% height (optional) |
 | `icon_left` | string | Left icon below description, same row as icon_right (optional) |
@@ -158,6 +176,44 @@ This file defines the firmware projects available in the installer.
 | `url` | string | Link to project website (optional) |
 | `documentation` | string | Link to documentation (optional) |
 | `badge` | object | Localized badge text (e.g., "Beta", "Stable") |
+
+#### Firmware format (recommended)
+
+Use this object format to avoid repeating the same path prefix and to define flash behavior per project:
+
+```json
+"firmware": {
+  "meta": {
+    "chip": "esp32",
+    "flash_mode": "dio",
+    "flash_freq": "80m",
+    "before": "default_reset",
+    "after": "hard_reset"
+  },
+  "root": "my-project",
+  "files": [
+    { "file": "bootloader.bin", "offset": "0x1000" },
+    { "file": "partitions.bin", "offset": "0x8000" },
+    { "file": "firmware.bin", "offset": "0x10000" }
+  ]
+}
+```
+
+- `root`: common directory under `firmware/` used for all entries in `files`
+- `meta.flash_mode` / `meta.flash_freq`: passed to esptool-js during write
+- `meta.before` / `meta.after`: connection/reset strategy for `main()` and `after()`
+- Legacy formats (`firmware` as array or string) are still supported for backward compatibility
+
+#### Flash baudrate in UI
+
+The flashing speed is selectable directly in the UI (Flash Options):
+
+- `921600` (fastest, may be less stable on some cables/boards)
+- `460800` (default)
+- `230400`
+- `115200` (slowest, most robust fallback)
+
+The selected value is saved in browser local storage and reused on next visit.
 
 ### `page-config.json` - Page Settings
 
@@ -168,7 +224,6 @@ This file configures branding, links, and visual settings.
   "branding": {
     "logo": "images/powered-logo.png",
     "favicon": "images/favicon.ico"
-  },
   },
   "languages": [
     {
@@ -181,7 +236,6 @@ This file configures branding, links, and visual settings.
       "name": "Français"
     }
   ],
-  "links": {
   "links": {
     "github": {
       "enabled": true,
@@ -206,9 +260,6 @@ This file configures branding, links, and visual settings.
     "error_color": "#ff5555",
     "warning_color": "#ffaa00"
   },
-  },
-  },
-  },
   "audio_feedback": {
     "enabled": true,
     "verbosity": "normal",
@@ -226,7 +277,9 @@ This file configures branding, links, and visual settings.
 }
 ```
 
-| `analytics`|`false` for static hosting (GitHub Pages),`true` for PHP server with logging |
+| Option | Description |
+|--------|-------------|
+| `analytics` | `false` for static hosting (GitHub Pages), `true` for PHP server with logging |
 | `branding` | Logo and favicon paths |
 | `languages` | Available languages configuration |
 | `links.github` | "Report Issue" button configuration |
@@ -414,45 +467,6 @@ sounds/
 
 **Mix and match:**
 You can combine multilingual and universal sounds. Use `[lang]` for verbal messages that need translation, and direct paths for universal sound effects (beeps, tones).
-
-##### Audio Events by Verbosity Level
-##### Audio Events by Verbosity Level
-
-**Minimal (3 events):**
-- `start` - Flash process begins
-- `success` - Flash completed successfully
-- `error` - Flash failed (categorized by error type)
-
-**Normal (7 events):**
-All minimal events plus:
-- `boot_prompt` - "Press and hold BOOT button"
-- `connected` - Connected to ESP32
-- `erasing` - Erasing flash memory
-- `flashing_start` - Writing firmware begins
-
-**Verbose (14 events):**
-All normal events plus:
-- `dialog_open` - Port selection dialog opens
-- `port_selected` - User selected a port
-- `connecting` - Attempting connection
-- `erase_complete` - Erase finished
-- `flashing_progress` - Progress milestones (25%, 50%, 75%)
-- `writing_complete` - All data written
-- `rebooting` - Device rebooting
-
-##### Error Categories
-
-Error sounds are automatically categorized:
-
-| Category | Triggered when | Example sound |
-|----------|----------------|---------------|
-| `user_cancel` | User cancelled port selection | Soft/gentle tone |
-| `connection_timeout` | Timeout connecting to ESP32 | Clock/timeout beep |
-| `port_busy` | Port in use by another app | Busy signal |
-| `hardware_error` | ESP32 chip/flash error | Critical error beep |
-| `download_failed` | Firmware download failed | Download error |
-| `wrong_browser` | Unsupported browser | Browser error |
-| `flash_error` | Generic flash error | Standard error beep |
 
 ##### Configuration Examples
 
