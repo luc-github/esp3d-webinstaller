@@ -6,6 +6,9 @@ let currentLang = 'en';
 let config = null;
 let pageConfig = null;
 let selectedProject = null;
+let selectedProjectVersion = null;
+let preferredVersionId = null;
+let projectVersionSelections = {};
 let translations = {}; // Will be loaded from lang files
 let esploader = null; // ESPLoader instance
 let port = null; // Serial port
@@ -148,6 +151,246 @@ function initFlashBaudrateSelector() {
     });
 }
 
+function isVersionSelectorEnabled() {
+    return pageConfig?.firmware_versions?.enabled !== false;
+}
+
+function getProjectVersions(project) {
+    if (!project || !Array.isArray(project.versions)) return [];
+    return project.versions.filter(v => v && v.enabled !== false);
+}
+
+function getVersionById(project, versionId) {
+    if (!versionId) return null;
+    const versions = getProjectVersions(project);
+    return versions.find((v, idx) => (v.id || v.version || `v${idx}`) === versionId) || null;
+}
+
+function getActiveProjectVersion(project) {
+    const versions = getProjectVersions(project);
+    if (versions.length === 0) return null;
+    return versions.find(v => v.active === true) || versions[0];
+}
+
+function getCurrentProjectVersion(project) {
+    if (project && selectedProject === project && selectedProjectVersion) {
+        return selectedProjectVersion;
+    }
+    const projectPreferredId = project?.id ? projectVersionSelections[project.id] : null;
+    const projectPreferred = getVersionById(project, projectPreferredId);
+    if (projectPreferred) return projectPreferred;
+
+    const globalPreferred = getVersionById(project, preferredVersionId);
+    if (globalPreferred) return globalPreferred;
+
+    return getActiveProjectVersion(project);
+}
+
+function getProjectDisplayVersion(project) {
+    const currentVersion = getCurrentProjectVersion(project);
+    if (currentVersion?.version) return currentVersion.version;
+    const activeVersion = getActiveProjectVersion(project);
+    if (activeVersion?.version) return activeVersion.version;
+    return project?.version || '';
+}
+
+function getProjectReleaseNotes(project) {
+    const currentVersion = getCurrentProjectVersion(project);
+    if (currentVersion?.releaseNotes) return currentVersion.releaseNotes;
+    const activeVersion = getActiveProjectVersion(project);
+    if (activeVersion?.releaseNotes) return activeVersion.releaseNotes;
+    return project?.releaseNotes || '';
+}
+
+function getProjectDownloadFirmware(project) {
+    const currentVersion = getCurrentProjectVersion(project);
+    if (currentVersion?.downloadFirmware) {
+        return currentVersion.downloadFirmware;
+    }
+    const root = currentVersion?.firmware?.root;
+    if (root) {
+        return `firmware/${root}/esp3dfw.bin`;
+    }
+    return project?.downloadFirmware || '';
+}
+
+function inferLegacyVersionId(projectId) {
+    const legacyMap = {
+        btpendantfluidnc8bt: '2.0.0a12',
+        btpendantfluidnc8wifi: '2.0.0a12',
+        btpendantfluidnc4bt: '2.0.0a12',
+        btpendantfluidnc4wifi: '2.0.0a12'
+    };
+    return legacyMap[projectId] || null;
+}
+
+function resolveVersionCounts(project, projectCounts, currentVersion) {
+    if (!projectCounts) return null;
+    const versionsMap = projectCounts.versions;
+    if (!versionsMap || typeof versionsMap !== 'object') {
+        return null;
+    }
+
+    const candidateIds = [
+        currentVersion?.id || null,
+        currentVersion?.version || null
+    ].filter(Boolean);
+
+    for (const id of candidateIds) {
+        if (versionsMap[id]) {
+            console.log(`[FlashCounts] ${project?.id}: matched versions key "${id}"`);
+            return versionsMap[id];
+        }
+    }
+
+    const byVersionField = Object.values(versionsMap).find(v => v?.version && candidateIds.includes(v.version));
+    if (byVersionField) {
+        console.log(`[FlashCounts] ${project?.id}: matched by inner version field`);
+        return byVersionField;
+    }
+
+    console.log(`[FlashCounts] ${project?.id}: no version match for candidates`, candidateIds);
+    return null;
+}
+
+function buildVersionBadgeElement(project) {
+    const displayVersion = getProjectDisplayVersion(project);
+    const releaseNotes = getProjectReleaseNotes(project);
+    if (!displayVersion) return null;
+
+    if (releaseNotes) {
+        const versionLink = document.createElement('a');
+        versionLink.className = 'project-version project-version-link';
+        versionLink.href = releaseNotes;
+        versionLink.target = '_blank';
+        versionLink.rel = 'noopener';
+        versionLink.title = translate('whatsNew') || "What's New";
+        versionLink.innerHTML = `<span class="version-text">Version: ${displayVersion}</span><span class="version-icon">📋</span>`;
+        return versionLink;
+    }
+
+    const version = document.createElement('span');
+    version.className = 'project-version';
+    version.textContent = `Version: ${displayVersion}`;
+    return version;
+}
+
+function refreshProjectVersionInCarousel(projectIndex) {
+    if (projectIndex < 0 || projectIndex >= carouselProjects.length) return;
+    const project = carouselProjects[projectIndex];
+    const cards = document.querySelectorAll(`.project-card[data-project-index="${projectIndex}"]`);
+
+    cards.forEach(card => {
+        const badgesContainer = card.querySelector('.project-badges-row');
+        if (!badgesContainer) return;
+
+        const currentVersionEl = badgesContainer.querySelector('.project-version');
+        if (currentVersionEl) {
+            currentVersionEl.remove();
+        }
+
+        const versionEl = buildVersionBadgeElement(project);
+        if (versionEl) {
+            badgesContainer.appendChild(versionEl);
+        }
+
+        const downloadLink = card.querySelector('.firmware-download-link');
+        if (downloadLink) {
+            const downloadHref = getProjectDownloadFirmware(project);
+            if (downloadHref) {
+                downloadLink.href = downloadHref;
+                downloadLink.style.display = '';
+            } else {
+                downloadLink.style.display = 'none';
+            }
+        }
+    });
+}
+
+function updateSelectedProjectInfo(project) {
+    if (!project) return;
+
+    const nameEl = document.getElementById('selectedProjectName');
+    const versionEl = document.getElementById('selectedProjectVersion');
+    const descEl = document.getElementById('selectedProjectDesc');
+
+    if (nameEl) {
+        nameEl.textContent = project.name;
+    }
+
+    const selectedVersionText = getProjectDisplayVersion(project);
+    if (versionEl) {
+        versionEl.textContent = selectedVersionText ? `${translate('version')}: ${selectedVersionText}` : '';
+    }
+
+    if (descEl) {
+        const description = project.description[currentLang] || project.description.en;
+        descEl.textContent = description;
+    }
+
+}
+
+function applyProjectVersionDefaults() {
+    if (!config?.projects || !Array.isArray(config.projects)) return;
+    config.projects.forEach(project => {
+        const activeVersion = getActiveProjectVersion(project);
+        if (!activeVersion) return;
+        if (!project.version && activeVersion.version) {
+            project.version = activeVersion.version;
+        }
+        if (!project.releaseNotes && activeVersion.releaseNotes) {
+            project.releaseNotes = activeVersion.releaseNotes;
+        }
+        if (!project.firmware && activeVersion.firmware) {
+            project.firmware = activeVersion.firmware;
+        }
+    });
+}
+
+function updateFirmwareVersionSelector(project) {
+    const wrapper = document.getElementById('firmwareVersionOption');
+    const select = document.getElementById('firmwareVersionSelect');
+    if (!wrapper || !select) return;
+
+    const versions = getProjectVersions(project);
+    if (!isVersionSelectorEnabled() || versions.length < 2) {
+        wrapper.style.display = 'none';
+        selectedProjectVersion = getCurrentProjectVersion(project) || getActiveProjectVersion(project);
+        select.innerHTML = '';
+        return;
+    }
+
+    wrapper.style.display = 'flex';
+    select.innerHTML = '';
+
+    versions.forEach((versionItem, index) => {
+        const option = document.createElement('option');
+        const optionId = versionItem.id || versionItem.version || `v${index}`;
+        option.value = optionId;
+        option.textContent = versionItem.label || versionItem.version || optionId;
+        select.appendChild(option);
+    });
+
+    const activeVersion = selectedProjectVersion || getCurrentProjectVersion(project) || versions[0];
+    const activeId = activeVersion?.id || activeVersion?.version || `v0`;
+    select.value = activeId;
+    selectedProjectVersion = activeVersion;
+
+    select.onchange = () => {
+        const chosen = versions.find((v, idx) => (v.id || v.version || `v${idx}`) === select.value) || versions[0];
+        selectedProjectVersion = chosen;
+        preferredVersionId = chosen.id || chosen.version || null;
+        if (project?.id) {
+            projectVersionSelections[project.id] = preferredVersionId;
+        }
+        const projectIndex = carouselProjects.indexOf(project);
+        refreshProjectVersionInCarousel(projectIndex);
+        updateSelectedProjectInfo(project);
+        loadFlashCounts();
+        addLog(`🔁 Firmware version selected: ${chosen.version || select.value}`, 'info');
+    };
+}
+
 // Flash event logging to server
 // Called ONLY at the very end of flash process (after reset + port close)
 // Only works when analytics is enabled (requires PHP backend)
@@ -165,6 +408,10 @@ async function logFlashEvent(projectId, projectName, action, success, errorMsg =
             success: success,
             timestamp: new Date().toISOString()
         };
+        if (selectedProjectVersion) {
+            logData.projectVersionId = selectedProjectVersion.id || selectedProjectVersion.version || null;
+            logData.projectVersion = selectedProjectVersion.version || selectedProjectVersion.id || null;
+        }
         
         if (errorMsg) {
             const category = errorCategory || categorizeError(errorMsg);
@@ -336,10 +583,32 @@ async function loadFlashCounts() {
     }
     
     try {
-        const response = await fetch('get-flash-counts.php');
-        if (!response.ok) return;
-        
-        const counts = await response.json();
+        let counts = null;
+
+        // Preferred path: PHP endpoint (when backend is available)
+        try {
+            const response = await fetch('get-flash-counts.php');
+            if (response.ok) {
+                counts = await response.json();
+                console.log('[FlashCounts] loaded from get-flash-counts.php');
+            } else {
+                console.warn(`[FlashCounts] get-flash-counts.php returned ${response.status}, trying flash-counts.json`);
+            }
+        } catch (endpointError) {
+            console.warn('[FlashCounts] get-flash-counts.php unavailable, trying flash-counts.json', endpointError);
+        }
+
+        // Fallback path: direct JSON file (static hosting / no PHP)
+        if (!counts) {
+            const response = await fetch('flash-counts.json');
+            if (!response.ok) {
+                console.warn(`[FlashCounts] flash-counts.json returned ${response.status}`);
+                return;
+            }
+            counts = await response.json();
+            console.log('[FlashCounts] loaded from flash-counts.json');
+        }
+        console.log('[FlashCounts] counts payload loaded:', counts);
         
         // Update each card with flash count badge
         const cards = document.querySelectorAll('.project-card');
@@ -348,8 +617,21 @@ async function loadFlashCounts() {
             if (projectIndex >= 0 && projectIndex < carouselProjects.length) {
                 const project = carouselProjects[projectIndex];
                 const projectCounts = counts[project.id];
+                const currentVersion = getCurrentProjectVersion(project);
+                const versionCounts = resolveVersionCounts(project, projectCounts, currentVersion);
+                let successCount = versionCounts?.success ?? 0;
+
+                // Legacy fallback: historical totals before versioning belong to a12
+                const legacyVersionId = inferLegacyVersionId(project.id);
+                const currentVersionId = currentVersion ? (currentVersion.id || currentVersion.version) : null;
+                if (!versionCounts && legacyVersionId && currentVersionId === legacyVersionId) {
+                    successCount = projectCounts?.success ?? 0;
+                    console.log(`[FlashCounts] ${project.id}: using legacy fallback for ${legacyVersionId}, success=${successCount}`);
+                }
+
+                console.log(`[FlashCounts] ${project.id}: currentVersion=${currentVersionId || 'none'}, success=${successCount}, hasProjectCounts=${!!projectCounts}`);
                 
-                if (projectCounts && projectCounts.success > 0) {
+                if (projectCounts && successCount > 0) {
                     // Find or create flash count badge
                     let flashBadge = card.querySelector('.flash-count-badge');
                     
@@ -376,14 +658,23 @@ async function loadFlashCounts() {
                             <path fill="currentColor" d="M8 0L0 8l8 8 8-8-8-8zm0 1.5L14.5 8 8 14.5 1.5 8 8 1.5z"/>
                             <path fill="currentColor" d="M8 4L5 8h2v4l3-4H8V4z"/>
                         </svg>
-                        <span>${projectCounts.success.toLocaleString()}</span>
+                        <span>${successCount.toLocaleString()}</span>
                     `;
-                    flashBadge.title = `${projectCounts.success} successful flashes`;
+                    const versionLabel = currentVersion?.version ? ` (${currentVersion.version})` : '';
+                    flashBadge.title = `${successCount} successful flashes${versionLabel}`;
+                    console.log(`[FlashCounts] ${project.id}: badge shown with success=${successCount}${versionLabel}`);
+                } else {
+                    const flashBadge = card.querySelector('.flash-count-badge');
+                    if (flashBadge) {
+                        flashBadge.remove();
+                        console.log(`[FlashCounts] ${project.id}: badge removed (success=${successCount})`);
+                    }
                 }
             }
         });
     } catch (error) {
         console.warn('Could not load flash counts:', error);
+        console.warn('[FlashCounts] loadFlashCounts failed:', error);
     }
 }
 
@@ -481,9 +772,12 @@ function applyPageConfig() {
             githubIcon()
         );
         
-        // Insert button before language selector
+        // Insert button above firmware version selector (or before language selector fallback)
+        const firmwareVersionSelector = actionsContainer.querySelector('#firmwareVersionOption');
         const languageSelector = actionsContainer.querySelector('.language-selector');
-        if (languageSelector) {
+        if (firmwareVersionSelector) {
+            actionsContainer.insertBefore(githubBtn, firmwareVersionSelector);
+        } else if (languageSelector) {
             actionsContainer.insertBefore(githubBtn, languageSelector);
         } else {
             actionsContainer.appendChild(githubBtn);
@@ -616,6 +910,7 @@ async function loadConfig() {
         if (!config || !config.projects || !Array.isArray(config.projects)) {
             throw new Error('config.json: invalid format (missing projects array)');
         }
+        applyProjectVersionDefaults();
         initCarousel();
         addLog(translate('configLoaded'), 'success');
     } catch (error) {
@@ -772,26 +1067,11 @@ function selectProject(project) {
     document.getElementById('flashInstruction').classList.add('active');
     
     // Update project info
-    const description = project.description[currentLang] || project.description.en;
-    document.getElementById('selectedProjectName').textContent = project.name;
-    document.getElementById('selectedProjectDesc').textContent = description;
+    updateSelectedProjectInfo(project);
     
     // Update instruction text with actual project name
     const instructionText2 = translate('instructionText2').replace('[project name]', project.name);
     document.getElementById('instructionText2').innerHTML = instructionText2;
-    
-    // Show/hide documentation link
-    const docLinkContainer = document.getElementById('projectDocLink');
-    const docLinkButton = document.getElementById('docLinkButton');
-    const docLinkText = document.getElementById('docLinkText');
-    
-    if (project.documentation) {
-        docLinkButton.href = project.documentation;
-        docLinkText.textContent = translate('documentation');
-        docLinkContainer.style.display = 'block';
-    } else {
-        docLinkContainer.style.display = 'none';
-    }
     
     // Clear and reset console
     const consoleContainer = document.getElementById('consoleContainer');
@@ -1263,7 +1543,8 @@ async function prepareFirmwareFiles(project) {
 // - Legacy array: [{ path, offset }]
 // - New object: { meta, root, files: [{ file|path, offset }] }
 function resolveFirmwareConfig(project) {
-    const firmware = project?.firmware;
+    const selectedVersion = getCurrentProjectVersion(project);
+    const firmware = selectedVersion?.firmware || project?.firmware;
 
     // New format
     if (firmware && typeof firmware === 'object' && !Array.isArray(firmware) && Array.isArray(firmware.files)) {
@@ -1357,6 +1638,12 @@ function changeLanguage() {
     const flashBaudrateHint = document.getElementById('flashBaudrateHint');
     if (flashBaudrateLabel) flashBaudrateLabel.textContent = translate('flashBaudrateLabel');
     if (flashBaudrateHint) flashBaudrateHint.textContent = translate('flashBaudrateHint');
+
+    // Update firmware version selector texts
+    const firmwareVersionLabel = document.getElementById('firmwareVersionLabel');
+    const firmwareVersionHint = document.getElementById('firmwareVersionHint');
+    if (firmwareVersionLabel) firmwareVersionLabel.textContent = translate('firmwareVersionLabel');
+    if (firmwareVersionHint) firmwareVersionHint.textContent = translate('firmwareVersionHint');
     
     // Update no reset option texts
     const noResetLabel = document.getElementById('noResetLabel');
@@ -1388,8 +1675,8 @@ function changeLanguage() {
     
     // Update selected project info if any
     if (selectedProject) {
-        const description = selectedProject.description[currentLang] || selectedProject.description.en;
-        document.getElementById('selectedProjectDesc').textContent = description;
+        updateSelectedProjectInfo(selectedProject);
+        updateFirmwareVersionSelector(selectedProject);
         
         // Update instruction with project name (if element exists)
         const instructionText2El = document.getElementById('instructionText2');
@@ -1964,24 +2251,9 @@ function createProjectCard(project, index) {
     }
     
     // Version (clickable with icon if releaseNotes exists)
-    if (project.version) {
-        if (project.releaseNotes) {
-            // Create clickable version link with "What's New" icon
-            const versionLink = document.createElement('a');
-            versionLink.className = 'project-version project-version-link';
-            versionLink.href = project.releaseNotes;
-            versionLink.target = '_blank';
-            versionLink.rel = 'noopener';
-            versionLink.title = translate('whatsNew') || "What's New";
-            versionLink.innerHTML = `<span class="version-text">Version: ${project.version}</span><span class="version-icon">📋</span>`;
-            badgesContainer.appendChild(versionLink);
-        } else {
-            // Plain text version (no link)
-            const version = document.createElement('span');
-            version.className = 'project-version';
-            version.textContent = `Version: ${project.version}`;
-            badgesContainer.appendChild(version);
-        }
+    const versionEl = buildVersionBadgeElement(project);
+    if (versionEl) {
+        badgesContainer.appendChild(versionEl);
     }
     
     // Flash count badge will be added here by loadFlashCounts()
@@ -2028,7 +2300,8 @@ function createProjectCard(project, index) {
         // Firmware download link (below icon row)
         if (project.downloadFirmware) {
             const downloadLink = document.createElement('a');
-            downloadLink.href = project.downloadFirmware;
+            const downloadHref = getProjectDownloadFirmware(project);
+            downloadLink.href = downloadHref;
             downloadLink.download = '';
             downloadLink.className = 'firmware-download-link';
             downloadLink.title = translate('downloadFirmware') || 'Download firmware for offline use';
@@ -2037,6 +2310,9 @@ function createProjectCard(project, index) {
                 <polyline points="7 10 12 15 17 10"/>
                 <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>`;
+            if (!downloadHref) {
+                downloadLink.style.display = 'none';
+            }
             iconContainer.appendChild(downloadLink);
         }
         
@@ -2253,6 +2529,7 @@ function selectProjectByIndex(index) {
     if (!isEnabled) {
         // Don't select disabled projects
         selectedProject = null;
+        selectedProjectVersion = null;
         
         // Hide flash section for disabled projects
         if (flashSection) {
@@ -2278,6 +2555,7 @@ function selectProjectByIndex(index) {
         
         // Don't select project
         selectedProject = null;
+        selectedProjectVersion = null;
         
         // Hide flash section
         if (flashSection) {
@@ -2296,6 +2574,8 @@ function selectProjectByIndex(index) {
     }
     
     selectedProject = project;
+    selectedProjectVersion = getCurrentProjectVersion(project) || getActiveProjectVersion(project);
+    refreshProjectVersionInCarousel(index);
     
     // Show flash section for enabled projects
     if (flashSection) {
@@ -2310,32 +2590,14 @@ function selectProjectByIndex(index) {
     }
     
     // Update project info display
-    const projectInfo = document.getElementById('projectInfo');
-    const selectedProjectName = document.getElementById('selectedProjectName');
-    const selectedProjectDesc = document.getElementById('selectedProjectDesc');
-    
-    if (selectedProjectName) {
-        selectedProjectName.textContent = project.name;
-    }
-    
-    if (selectedProjectDesc) {
-        const desc = project.description[currentLang] || project.description.en;
-        selectedProjectDesc.textContent = desc;
-    }
-    
-    // Show documentation link if available
-    const projectDocLink = document.getElementById('projectDocLink');
-    const docLinkButton = document.getElementById('docLinkButton');
-    
-    if (project.documentation && projectDocLink && docLinkButton) {
-        projectDocLink.style.display = 'block';
-        docLinkButton.href = project.documentation;
-    } else if (projectDocLink) {
-        projectDocLink.style.display = 'none';
-    }
+    updateSelectedProjectInfo(project);
+
+    updateFirmwareVersionSelector(project);
+    loadFlashCounts();
     
     // Add visual feedback
-    addLog(`📦 ${translate('projectSelected') || 'Project selected'}: ${project.name}`, 'info');
+    const selectedVersionText = selectedProjectVersion?.version || project.version || 'n/a';
+    addLog(`📦 ${translate('projectSelected') || 'Project selected'}: ${project.name} (${selectedVersionText})`, 'info');
 }
 
 // Keyboard navigation

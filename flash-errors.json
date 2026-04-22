@@ -1,0 +1,5394 @@
+{
+    "lastUpdated": "2026-04-21T14:16:50+02:00",
+    "totalErrors": 299,
+    "categoryCounts": {
+        "port_busy": 52,
+        "connection_timeout": 203,
+        "download_failed": 2,
+        "flash_error": 42
+    },
+    "entries": [
+        {
+            "id": "err_69e76ab2d2fe8",
+            "timestamp": "2026-04-21T14:16:50+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e7678b32306",
+            "timestamp": "2026-04-21T14:03:23+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e7676f208e4",
+            "timestamp": "2026-04-21T14:02:55+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e7674c6c047",
+            "timestamp": "2026-04-21T14:02:20+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Invalid head of packet (0x65): Possible serial noise or corruption.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e76738999da",
+            "timestamp": "2026-04-21T14:02:00+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e76720874ba",
+            "timestamp": "2026-04-21T14:01:36+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e7670843014",
+            "timestamp": "2026-04-21T14:01:12+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e766f51fc95",
+            "timestamp": "2026-04-21T14:00:53+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e766d3ad522",
+            "timestamp": "2026-04-21T14:00:19+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e766ba27704",
+            "timestamp": "2026-04-21T13:59:54+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e766806852f",
+            "timestamp": "2026-04-21T13:58:56+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e7666c47eb3",
+            "timestamp": "2026-04-21T13:58:36+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e7601380cc2",
+            "timestamp": "2026-04-21T13:31:31+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e75fe14b3b1",
+            "timestamp": "2026-04-21T13:30:41+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e75fa8a6c57",
+            "timestamp": "2026-04-21T13:29:44+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e75f6959a4a",
+            "timestamp": "2026-04-21T13:28:41+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e75f370d217",
+            "timestamp": "2026-04-21T13:27:51+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e75f1c19923",
+            "timestamp": "2026-04-21T13:27:24+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e75eb75b627",
+            "timestamp": "2026-04-21T13:25:43+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e75e81eaf97",
+            "timestamp": "2026-04-21T13:24:49+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e75e64a81d4",
+            "timestamp": "2026-04-21T13:24:20+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e754a4d40ac",
+            "timestamp": "2026-04-21T12:42:44+02:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e75489207ca",
+            "timestamp": "2026-04-21T12:42:17+02:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e74ecac9567",
+            "timestamp": "2026-04-21T12:17:46+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e74e901916e",
+            "timestamp": "2026-04-21T12:16:48+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6b0a1ab90d",
+            "timestamp": "2026-04-21T01:02:57+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6b08499815",
+            "timestamp": "2026-04-21T01:02:28+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e6b06f578b0",
+            "timestamp": "2026-04-21T01:02:07+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6b03426ea1",
+            "timestamp": "2026-04-21T01:01:08+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6b0000f8d9",
+            "timestamp": "2026-04-21T01:00:16+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e6aff443aa6",
+            "timestamp": "2026-04-21T01:00:04+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e6afab299aa",
+            "timestamp": "2026-04-21T00:58:51+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6af744fef3",
+            "timestamp": "2026-04-21T00:57:56+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6af55bdde9",
+            "timestamp": "2026-04-21T00:57:25+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e6af333842c",
+            "timestamp": "2026-04-21T00:56:51+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6aef5050a7",
+            "timestamp": "2026-04-21T00:55:49+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6aebf998a9",
+            "timestamp": "2026-04-21T00:54:55+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6ae745a756",
+            "timestamp": "2026-04-21T00:53:40+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6ac96cb91e",
+            "timestamp": "2026-04-21T00:45:42+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6ac7b0d589",
+            "timestamp": "2026-04-21T00:45:15+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e6ac3e4c764",
+            "timestamp": "2026-04-21T00:44:14+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6ac05db442",
+            "timestamp": "2026-04-21T00:43:17+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e6abd4d1ba1",
+            "timestamp": "2026-04-21T00:42:28+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e6abbcc49e5",
+            "timestamp": "2026-04-21T00:42:04+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e66b33e736b",
+            "timestamp": "2026-04-20T20:06:43+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e66116c4415",
+            "timestamp": "2026-04-20T19:23:34+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e660ed4b8b9",
+            "timestamp": "2026-04-20T19:22:53+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e65ca66c347",
+            "timestamp": "2026-04-20T19:04:38+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e65b935d20e",
+            "timestamp": "2026-04-20T19:00:03+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e652b9ed4ec",
+            "timestamp": "2026-04-20T18:22:17+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e6528c47e88",
+            "timestamp": "2026-04-20T18:21:32+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e7547f004",
+            "timestamp": "2026-04-20T10:44:04+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e72db53a1",
+            "timestamp": "2026-04-20T10:43:25+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e6af05f9d",
+            "timestamp": "2026-04-20T10:41:19+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e63663344",
+            "timestamp": "2026-04-20T10:39:18+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e6141bbd9",
+            "timestamp": "2026-04-20T10:38:44+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e5f39e4b4",
+            "timestamp": "2026-04-20T10:38:11+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e5d14077c",
+            "timestamp": "2026-04-20T10:37:37+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e57d7f7be",
+            "timestamp": "2026-04-20T10:36:13+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e551b0d78",
+            "timestamp": "2026-04-20T10:35:29+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e5220f76a",
+            "timestamp": "2026-04-20T10:34:42+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e4d0248df",
+            "timestamp": "2026-04-20T10:33:20+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e5e4b11a496",
+            "timestamp": "2026-04-20T10:32:49+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e652a4fbb",
+            "timestamp": "2026-04-19T16:27:30+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e565016b3",
+            "timestamp": "2026-04-19T16:23:33+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e55a918bb",
+            "timestamp": "2026-04-19T16:23:22+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e5239585f",
+            "timestamp": "2026-04-19T16:22:27+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e49123203",
+            "timestamp": "2026-04-19T16:20:01+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e4792a612",
+            "timestamp": "2026-04-19T16:19:37+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e3fab74c8",
+            "timestamp": "2026-04-19T16:17:30+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e3848439f",
+            "timestamp": "2026-04-19T16:15:32+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e364857a1",
+            "timestamp": "2026-04-19T16:15:00+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e26a7d543",
+            "timestamp": "2026-04-19T16:10:50+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4e07944674",
+            "timestamp": "2026-04-19T16:02:33+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4cba76c34c",
+            "timestamp": "2026-04-19T14:33:43+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4cb8aeb1d2",
+            "timestamp": "2026-04-19T14:33:14+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4cb4ed6aad",
+            "timestamp": "2026-04-19T14:32:14+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4cb19d86ed",
+            "timestamp": "2026-04-19T14:31:21+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4cae63ec84",
+            "timestamp": "2026-04-19T14:30:30+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4cac33d1db",
+            "timestamp": "2026-04-19T14:29:55+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4ca9fb81c2",
+            "timestamp": "2026-04-19T14:29:19+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4ca76d1bc3",
+            "timestamp": "2026-04-19T14:28:38+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4930fc5e61",
+            "timestamp": "2026-04-19T10:32:15+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e492db865e3",
+            "timestamp": "2026-04-19T10:31:23+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e492aa7367a",
+            "timestamp": "2026-04-19T10:30:34+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4927f97a25",
+            "timestamp": "2026-04-19T10:29:51+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4925d78ad9",
+            "timestamp": "2026-04-19T10:29:17+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e492378dcaf",
+            "timestamp": "2026-04-19T10:28:39+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4920a0295d",
+            "timestamp": "2026-04-19T10:27:54+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Invalid head of packet (0x65): Possible serial noise or corruption.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69e4915d07672",
+            "timestamp": "2026-04-19T10:25:01+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4907da745e",
+            "timestamp": "2026-04-19T10:21:17+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e4902f8599d",
+            "timestamp": "2026-04-19T10:19:59+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e48cc13fa2a",
+            "timestamp": "2026-04-19T10:05:21+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e48c9d704fb",
+            "timestamp": "2026-04-19T10:04:45+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e48c7d7e40d",
+            "timestamp": "2026-04-19T10:04:13+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e48c608a5c7",
+            "timestamp": "2026-04-19T10:03:44+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e3b9bcaf4b3",
+            "timestamp": "2026-04-18T19:05:00+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e3b9981cfa1",
+            "timestamp": "2026-04-18T19:04:24+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e225a6225fd",
+            "timestamp": "2026-04-17T14:20:54+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e218d4c731d",
+            "timestamp": "2026-04-17T13:26:12+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e218cbaf2a0",
+            "timestamp": "2026-04-17T13:26:03+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e218c0bb848",
+            "timestamp": "2026-04-17T13:25:52+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e218b80d947",
+            "timestamp": "2026-04-17T13:25:44+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to download firmware file: ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc\/bootloader_4MB.bin",
+            "category": "download_failed",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "downloading"
+            }
+        },
+        {
+            "id": "err_69e2175fe8b8c",
+            "timestamp": "2026-04-17T13:19:59+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e21754eb04e",
+            "timestamp": "2026-04-17T13:19:48+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e2174958fb2",
+            "timestamp": "2026-04-17T13:19:37+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e21562bf786",
+            "timestamp": "2026-04-17T13:11:30+02:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e21538a8cee",
+            "timestamp": "2026-04-17T13:10:48+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e21522343d0",
+            "timestamp": "2026-04-17T13:10:26+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69e215053a24f",
+            "timestamp": "2026-04-17T13:09:57+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df5e1613845",
+            "timestamp": "2026-04-15T11:44:54+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df5df9d7f0f",
+            "timestamp": "2026-04-15T11:44:25+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df5ddba3a8b",
+            "timestamp": "2026-04-15T11:43:55+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df5dc75a415",
+            "timestamp": "2026-04-15T11:43:35+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df4c4f6e7bb",
+            "timestamp": "2026-04-15T10:29:03+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69df3ab1e3b1f",
+            "timestamp": "2026-04-15T09:13:53+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df3aa581098",
+            "timestamp": "2026-04-15T09:13:41+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df3a985a0e9",
+            "timestamp": "2026-04-15T09:13:28+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df3a8bceeea",
+            "timestamp": "2026-04-15T09:13:15+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df3a2d73838",
+            "timestamp": "2026-04-15T09:11:41+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69df21c383d54",
+            "timestamp": "2026-04-15T07:27:31+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69deb3dc53d26",
+            "timestamp": "2026-04-14T23:38:36+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69dd083ae3500",
+            "timestamp": "2026-04-13T17:14:02+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69dd08227711c",
+            "timestamp": "2026-04-13T17:13:38+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69dd0805ef774",
+            "timestamp": "2026-04-13T17:13:09+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69dca208537f3",
+            "timestamp": "2026-04-13T09:58:00+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69dca1d0cc06a",
+            "timestamp": "2026-04-13T09:57:04+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69dca106affb5",
+            "timestamp": "2026-04-13T09:53:42+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69dca0dfe8547",
+            "timestamp": "2026-04-13T09:53:03+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69da2b0a3c395",
+            "timestamp": "2026-04-11T13:05:46+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69da2af71fbd3",
+            "timestamp": "2026-04-11T13:05:27+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69da2ad8e2ee1",
+            "timestamp": "2026-04-11T13:04:56+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69da2a5004500",
+            "timestamp": "2026-04-11T13:02:40+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d8d43bee1c4",
+            "timestamp": "2026-04-10T12:43:07+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d8d42ec968f",
+            "timestamp": "2026-04-10T12:42:54+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d84497ec39b",
+            "timestamp": "2026-04-10T02:30:15+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "No serial data received.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "147",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d7de86bf666",
+            "timestamp": "2026-04-09T19:14:46+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d7de774de46",
+            "timestamp": "2026-04-09T19:14:31+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d7de5d45558",
+            "timestamp": "2026-04-09T19:14:05+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d7de43833cc",
+            "timestamp": "2026-04-09T19:13:39+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d79c238c59f",
+            "timestamp": "2026-04-09T14:31:31+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Packet content transfer stopped",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69d79bf2c16d6",
+            "timestamp": "2026-04-09T14:30:42+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d79a7e88d51",
+            "timestamp": "2026-04-09T14:24:30+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;setSignals&#039; on &#039;SerialPort&#039;: The port is closed.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d79a6548666",
+            "timestamp": "2026-04-09T14:24:05+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;setSignals&#039; on &#039;SerialPort&#039;: The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d76675e50ac",
+            "timestamp": "2026-04-09T10:42:29+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d6b6a6a68e5",
+            "timestamp": "2026-04-08T22:12:22+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d6b66ca3147",
+            "timestamp": "2026-04-08T22:11:24+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d6b65564047",
+            "timestamp": "2026-04-08T22:11:01+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d52c8721a10",
+            "timestamp": "2026-04-07T18:10:47+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d52c742f361",
+            "timestamp": "2026-04-07T18:10:28+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d52c4717d13",
+            "timestamp": "2026-04-07T18:09:43+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d52bf7e587e",
+            "timestamp": "2026-04-07T18:08:23+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d52bcdf26ba",
+            "timestamp": "2026-04-07T18:07:41+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d26ce68777c",
+            "timestamp": "2026-04-05T16:08:38+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d26cb92d41c",
+            "timestamp": "2026-04-05T16:07:53+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d26c894adbf",
+            "timestamp": "2026-04-05T16:07:05+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2654bae740",
+            "timestamp": "2026-04-05T15:36:11+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2653f849bf",
+            "timestamp": "2026-04-05T15:35:59+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d26437766f6",
+            "timestamp": "2026-04-05T15:31:35+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2641f6200a",
+            "timestamp": "2026-04-05T15:31:11+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d259cf8bdcd",
+            "timestamp": "2026-04-05T14:47:11+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d259b8cd4dc",
+            "timestamp": "2026-04-05T14:46:48+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d259aa23c80",
+            "timestamp": "2026-04-05T14:46:34+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2597d10bb4",
+            "timestamp": "2026-04-05T14:45:49+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d259410cf13",
+            "timestamp": "2026-04-05T14:44:49+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2591939f90",
+            "timestamp": "2026-04-05T14:44:09+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d258f32301b",
+            "timestamp": "2026-04-05T14:43:31+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d258799d10e",
+            "timestamp": "2026-04-05T14:41:29+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d258306ab59",
+            "timestamp": "2026-04-05T14:40:16+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2581ec5327",
+            "timestamp": "2026-04-05T14:39:58+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d257f9b2d04",
+            "timestamp": "2026-04-05T14:39:21+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d23a0c83c45",
+            "timestamp": "2026-04-05T12:31:40+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2389a7f3d5",
+            "timestamp": "2026-04-05T12:25:30+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2378218b7b",
+            "timestamp": "2026-04-05T12:20:50+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2375e27232",
+            "timestamp": "2026-04-05T12:20:14+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d235579b3be",
+            "timestamp": "2026-04-05T12:11:35+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d2352e7bda2",
+            "timestamp": "2026-04-05T12:10:54+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d13c7e2103a",
+            "timestamp": "2026-04-04T18:29:50+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69d13c2fb042f",
+            "timestamp": "2026-04-04T18:28:31+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d119ecbce82",
+            "timestamp": "2026-04-04T16:02:20+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d01732d4059",
+            "timestamp": "2026-04-03T21:38:26+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d0171d20c2b",
+            "timestamp": "2026-04-03T21:38:05+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d015603fd5c",
+            "timestamp": "2026-04-03T21:30:40+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69d0151715482",
+            "timestamp": "2026-04-03T21:29:27+02:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cfe7dc97bda",
+            "timestamp": "2026-04-03T18:16:28+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cfe7c44736c",
+            "timestamp": "2026-04-03T18:16:04+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ce917996a6e",
+            "timestamp": "2026-04-02T17:55:37+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ce916465f7b",
+            "timestamp": "2026-04-02T17:55:16+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;setSignals&#039; on &#039;SerialPort&#039;: The port is closed.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ce912f123bf",
+            "timestamp": "2026-04-02T17:54:23+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ce90d122ae8",
+            "timestamp": "2026-04-02T17:52:49+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ce90b2791e9",
+            "timestamp": "2026-04-02T17:52:18+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ce90865e134",
+            "timestamp": "2026-04-02T17:51:34+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;setSignals&#039; on &#039;SerialPort&#039;: The port is closed.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ce906da0d8f",
+            "timestamp": "2026-04-02T17:51:09+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb156230cd",
+            "timestamp": "2026-04-02T01:59:18+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb14bd700f",
+            "timestamp": "2026-04-02T01:59:07+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb14158c51",
+            "timestamp": "2026-04-02T01:58:57+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb126b75ec",
+            "timestamp": "2026-04-02T01:58:30+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb0fabae17",
+            "timestamp": "2026-04-02T01:57:46+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb0ec5e7d8",
+            "timestamp": "2026-04-02T01:57:32+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb0d130030",
+            "timestamp": "2026-04-02T01:57:05+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb0c857ce8",
+            "timestamp": "2026-04-02T01:56:56+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb0b853923",
+            "timestamp": "2026-04-02T01:56:40+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cdb0a69fb41",
+            "timestamp": "2026-04-02T01:56:22+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cd00135e81e",
+            "timestamp": "2026-04-01T13:22:59+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "The device has been lost.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69ccffe3551d2",
+            "timestamp": "2026-04-01T13:22:11+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cc8d54825ad",
+            "timestamp": "2026-04-01T05:13:24+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cc8d4f6133e",
+            "timestamp": "2026-04-01T05:13:19+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cc8d4826325",
+            "timestamp": "2026-04-01T05:13:12+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69cbf1778b0e7",
+            "timestamp": "2026-03-31T18:08:23+02:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69caae1906039",
+            "timestamp": "2026-03-30T19:08:41+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69caacda177d2",
+            "timestamp": "2026-03-30T19:03:22+02:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c954fe07446",
+            "timestamp": "2026-03-29T18:36:14+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c954e7691ad",
+            "timestamp": "2026-03-29T18:35:51+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c95424a49c2",
+            "timestamp": "2026-03-29T18:32:36+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c95403e77d0",
+            "timestamp": "2026-03-29T18:32:03+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c9532965835",
+            "timestamp": "2026-03-29T18:28:25+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Invalid head of packet (0x45): Possible serial noise or corruption.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c9531b314ea",
+            "timestamp": "2026-03-29T18:28:11+02:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "No serial data received.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69c848ef0cc5e",
+            "timestamp": "2026-03-28T22:32:31+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c83b9e6c4c3",
+            "timestamp": "2026-03-28T21:35:42+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c83b6537a3f",
+            "timestamp": "2026-03-28T21:34:45+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c83b3c64943",
+            "timestamp": "2026-03-28T21:34:04+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c81bdf7f255",
+            "timestamp": "2026-03-28T19:20:15+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7e44366193",
+            "timestamp": "2026-03-28T15:22:59+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7e41f06287",
+            "timestamp": "2026-03-28T15:22:23+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7e3b7db975",
+            "timestamp": "2026-03-28T15:20:39+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7e39376cb9",
+            "timestamp": "2026-03-28T15:20:03+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7e33398d7a",
+            "timestamp": "2026-03-28T15:18:27+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7e3078f04e",
+            "timestamp": "2026-03-28T15:17:43+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Linux",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7c7979dc75",
+            "timestamp": "2026-03-28T13:20:39+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c7c62623d76",
+            "timestamp": "2026-03-28T13:14:30+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c6f2048f516",
+            "timestamp": "2026-03-27T22:09:24+01:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c6f0f6212fe",
+            "timestamp": "2026-03-27T22:04:54+01:00",
+            "projectId": "btpendantfluidnc4wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c67deb6233b",
+            "timestamp": "2026-03-27T13:54:03+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;setSignals&#039; on &#039;SerialPort&#039;: Failed to set control signals.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c67dde9e8db",
+            "timestamp": "2026-03-27T13:53:50+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;setSignals&#039; on &#039;SerialPort&#039;: Failed to set control signals.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c67dbb84ad5",
+            "timestamp": "2026-03-27T13:53:15+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;setSignals&#039; on &#039;SerialPort&#039;: Failed to set control signals.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c67d92ac3ce",
+            "timestamp": "2026-03-27T13:52:34+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c67d856111e",
+            "timestamp": "2026-03-27T13:52:21+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "No serial data received.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69c67d718eb44",
+            "timestamp": "2026-03-27T13:52:01+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "No serial data received.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "writing"
+            }
+        },
+        {
+            "id": "err_69c67d5ed4692",
+            "timestamp": "2026-03-27T13:51:42+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c67d369ecc5",
+            "timestamp": "2026-03-27T13:51:02+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c67d12cf426",
+            "timestamp": "2026-03-27T13:50:26+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Packet content transfer stopped",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c2bb760ae90",
+            "timestamp": "2026-03-24T17:27:34+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c1f7fb4542e",
+            "timestamp": "2026-03-24T03:33:31+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c1f7f17b0a4",
+            "timestamp": "2026-03-24T03:33:21+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "macOS",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c102014effa",
+            "timestamp": "2026-03-23T10:04:01+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c0581b94537",
+            "timestamp": "2026-03-22T21:59:07+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c0580dce915",
+            "timestamp": "2026-03-22T21:58:53+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c057b9c0d20",
+            "timestamp": "2026-03-22T21:57:29+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c05785f1360",
+            "timestamp": "2026-03-22T21:56:37+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c0574aa59f3",
+            "timestamp": "2026-03-22T21:55:38+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c0572b30f84",
+            "timestamp": "2026-03-22T21:55:07+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c05720431f2",
+            "timestamp": "2026-03-22T21:54:56+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c0570c59c1b",
+            "timestamp": "2026-03-22T21:54:36+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c05705cd3c9",
+            "timestamp": "2026-03-22T21:54:29+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c055d7cb4f2",
+            "timestamp": "2026-03-22T21:49:27+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c053df92158",
+            "timestamp": "2026-03-22T21:41:03+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c0537aa69b4",
+            "timestamp": "2026-03-22T21:39:22+01:00",
+            "projectId": "btpendantfluidnc4bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69c045aa4702a",
+            "timestamp": "2026-03-22T20:40:26+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bf848bd56be",
+            "timestamp": "2026-03-22T06:56:27+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bf8461d7462",
+            "timestamp": "2026-03-22T06:55:45+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bf8236e30ad",
+            "timestamp": "2026-03-22T06:46:30+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Invalid head of packet (0x45): Possible serial noise or corruption.",
+            "category": "flash_error",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bea08f11ec6",
+            "timestamp": "2026-03-21T14:43:43+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be8145ec4d4",
+            "timestamp": "2026-03-21T12:30:13+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be813fe24a3",
+            "timestamp": "2026-03-21T12:30:07+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be8137c9c8c",
+            "timestamp": "2026-03-21T12:29:59+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be7b4d2df05",
+            "timestamp": "2026-03-21T12:04:45+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be63fd46496",
+            "timestamp": "2026-03-21T10:25:17+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be63441e356",
+            "timestamp": "2026-03-21T10:22:12+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be62f819255",
+            "timestamp": "2026-03-21T10:20:56+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be62d09e35b",
+            "timestamp": "2026-03-21T10:20:16+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be62a2ef152",
+            "timestamp": "2026-03-21T10:19:30+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be627faba11",
+            "timestamp": "2026-03-21T10:18:55+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be625db0b00",
+            "timestamp": "2026-03-21T10:18:21+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be03479fc6d",
+            "timestamp": "2026-03-21T03:32:39+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69be033b40f4d",
+            "timestamp": "2026-03-21T03:32:27+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bdb79c2616b",
+            "timestamp": "2026-03-20T22:09:48+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bdb7684750e",
+            "timestamp": "2026-03-20T22:08:56+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bdb29149b1a",
+            "timestamp": "2026-03-20T21:48:17+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bda8891c161",
+            "timestamp": "2026-03-20T21:05:29+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bda876cc74c",
+            "timestamp": "2026-03-20T21:05:10+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bda70a55be7",
+            "timestamp": "2026-03-20T20:59:06+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd954f054b0",
+            "timestamp": "2026-03-20T19:43:27+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd952a95a5c",
+            "timestamp": "2026-03-20T19:42:50+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd94d05ff32",
+            "timestamp": "2026-03-20T19:41:20+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd938686432",
+            "timestamp": "2026-03-20T19:35:50+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd9362e3d69",
+            "timestamp": "2026-03-20T19:35:14+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd9324240dc",
+            "timestamp": "2026-03-20T19:34:12+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8c1a9e62a",
+            "timestamp": "2026-03-20T19:04:10+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8bf03caca",
+            "timestamp": "2026-03-20T19:03:28+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8bdeedf8f",
+            "timestamp": "2026-03-20T19:03:10+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8b1022e14",
+            "timestamp": "2026-03-20T18:59:44+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8aeb80ab6",
+            "timestamp": "2026-03-20T18:59:07+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8abbd90ad",
+            "timestamp": "2026-03-20T18:58:19+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "109",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8aa335a77",
+            "timestamp": "2026-03-20T18:57:55+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd8a7bc7c68",
+            "timestamp": "2026-03-20T18:57:15+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "145",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69bd5e71656ad",
+            "timestamp": "2026-03-20T15:49:21+01:00",
+            "projectId": "btpendantfluidnc8wifi",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to download firmware file: ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc\/bootloader_8MB.bin",
+            "category": "download_failed",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "143",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "downloading"
+            }
+        },
+        {
+            "id": "err_69bd32bfe5c3f",
+            "timestamp": "2026-03-20T12:42:55+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to connect with the device",
+            "category": "connection_timeout",
+            "context": {
+                "browser": {
+                    "name": "Chrome",
+                    "version": "144",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69ba6a99d312b",
+            "timestamp": "2026-03-18T10:04:25+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        },
+        {
+            "id": "err_69b98b368ed08",
+            "timestamp": "2026-03-17T18:11:18+01:00",
+            "projectId": "btpendantfluidnc8bt",
+            "projectName": "Firmware for\nPibot CNC pendant V4.0",
+            "action": "flash",
+            "error": "Failed to execute &#039;open&#039; on &#039;SerialPort&#039;: Failed to open serial port.",
+            "category": "port_busy",
+            "context": {
+                "browser": {
+                    "name": "Edge",
+                    "version": "146",
+                    "os": "Windows",
+                    "webSerial": "1"
+                },
+                "stage": "connecting"
+            }
+        }
+    ]
+}

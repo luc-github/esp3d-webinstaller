@@ -38,6 +38,8 @@
   "eraseAllHint": "(recommended for clean install)",
   "flashBaudrateLabel": "Flash baudrate",
   "flashBaudrateHint": "(higher is faster, lower if unstable)",
+  "firmwareVersionLabel": "Firmware version",
+  "firmwareVersionHint": "(choose a previous version to rollback)",
   "noResetLabel": "No Reset",
   "noResetHint": "(use if device is stuck in boot loop)",
   "noResetModalTitle": "Put Device in Download Mode",

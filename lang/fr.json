@@ -38,6 +38,8 @@
   "eraseAllHint": "(recommandé pour installation propre)",
   "flashBaudrateLabel": "Baudrate de flash",
   "flashBaudrateHint": "(plus élevé = plus rapide, baissez si instable)",
+  "firmwareVersionLabel": "Version du firmware",
+  "firmwareVersionHint": "(choisissez une ancienne version pour rollback)",
   "noResetLabel": "No Reset",
   "noResetHint": "(utiliser si l'appareil est bloqué en boucle)",
   "noResetModalTitle": "Mettre l'appareil en mode Download",

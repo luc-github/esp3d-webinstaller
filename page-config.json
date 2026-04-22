@@ -34,6 +34,9 @@
     "show_warning": true,
     "supported_browsers": ["Chrome", "Edge", "Opera"]
   },
+  "firmware_versions": {
+    "enabled": true
+  },
   "theme": {
     "primary_color": "#667eea",
     "secondary_color": "#764ba2",

@@ -257,6 +257,20 @@ function validateInput($data) {
         $projectName = substr($data['projectName'], 0, 100);
         $projectName = preg_replace('/[^a-zA-Z0-9\s\.\-\_\(\)\n]/', '', $projectName);
     }
+
+    // Optional project version identifier
+    $projectVersionId = null;
+    if (isset($data['projectVersionId']) && !empty($data['projectVersionId'])) {
+        $projectVersionId = substr((string)$data['projectVersionId'], 0, 50);
+        $projectVersionId = preg_replace('/[^a-zA-Z0-9\-\_\.]/', '', $projectVersionId);
+    }
+
+    // Optional project version display string
+    $projectVersion = null;
+    if (isset($data['projectVersion']) && !empty($data['projectVersion'])) {
+        $projectVersion = substr((string)$data['projectVersion'], 0, 50);
+        $projectVersion = preg_replace('/[^a-zA-Z0-9\-\_\.\s]/', '', $projectVersion);
+    }
     
     // Validate success field
     $success = isset($data['success']) ? (bool)$data['success'] : true;
@@ -295,6 +309,8 @@ function validateInput($data) {
         'data' => [
             'projectId' => $projectId,
             'projectName' => $projectName,
+            'projectVersionId' => $projectVersionId,
+            'projectVersion' => $projectVersion,
             'success' => $success,
             'action' => $action,
             'error' => $error,
@@ -314,6 +330,20 @@ function checkFileSize($file, $maxSize) {
     }
     
     return filesize($file) < $maxSize;
+}
+
+/**
+ * Infer legacy version for entries that predate version tracking.
+ * These historical logs belong to a12 in this repository.
+ */
+function inferLegacyVersion($projectId) {
+    $legacyMap = [
+        'btpendantfluidnc8bt' => '2.0.0a12',
+        'btpendantfluidnc8wifi' => '2.0.0a12',
+        'btpendantfluidnc4bt' => '2.0.0a12',
+        'btpendantfluidnc4wifi' => '2.0.0a12'
+    ];
+    return $legacyMap[$projectId] ?? null;
 }
 
 // ============================================
@@ -400,6 +430,8 @@ if (file_exists($config['counts_file'])) {
 
 $projectId = $cleanData['projectId'];
 $projectName = $cleanData['projectName'];
+$projectVersionId = $cleanData['projectVersionId'] ?: ($cleanData['projectVersion'] ?: null);
+$projectVersion = $cleanData['projectVersion'] ?: $cleanData['projectVersionId'];
 
 if (!isset($counts[$projectId])) {
     $counts[$projectId] = [
@@ -413,11 +445,50 @@ if (!isset($counts[$projectId])) {
     $counts[$projectId]['name'] = $projectName;
 }
 
+// Migrate legacy project-level counters to version-level counters once.
+if (!isset($counts[$projectId]['versions']) || !is_array($counts[$projectId]['versions']) || count($counts[$projectId]['versions']) === 0) {
+    $legacyVersion = inferLegacyVersion($projectId);
+    if ($legacyVersion) {
+        $counts[$projectId]['versions'] = [
+            $legacyVersion => [
+                'version' => $legacyVersion,
+                'total' => $counts[$projectId]['total'] ?? 0,
+                'success' => $counts[$projectId]['success'] ?? 0,
+                'failed' => $counts[$projectId]['failed'] ?? 0
+            ]
+        ];
+    }
+}
+
 $counts[$projectId]['total']++;
 if ($cleanData['success']) {
     $counts[$projectId]['success']++;
 } else {
     $counts[$projectId]['failed']++;
+}
+
+// Track per-version counters when version is provided
+if ($projectVersionId) {
+    if (!isset($counts[$projectId]['versions']) || !is_array($counts[$projectId]['versions'])) {
+        $counts[$projectId]['versions'] = [];
+    }
+    if (!isset($counts[$projectId]['versions'][$projectVersionId])) {
+        $counts[$projectId]['versions'][$projectVersionId] = [
+            'version' => $projectVersion ?: $projectVersionId,
+            'total' => 0,
+            'success' => 0,
+            'failed' => 0
+        ];
+    } else if ($projectVersion && ($counts[$projectId]['versions'][$projectVersionId]['version'] ?? '') !== $projectVersion) {
+        $counts[$projectId]['versions'][$projectVersionId]['version'] = $projectVersion;
+    }
+
+    $counts[$projectId]['versions'][$projectVersionId]['total']++;
+    if ($cleanData['success']) {
+        $counts[$projectId]['versions'][$projectVersionId]['success']++;
+    } else {
+        $counts[$projectId]['versions'][$projectVersionId]['failed']++;
+    }
 }
 
 $countResult = file_put_contents(
@@ -443,12 +514,27 @@ if (!$cleanData['success'] && $cleanData['error'] && checkFileSize($config['erro
             'entries' => []
         ];
     }
+
+    // Migrate legacy error entries once by inferring a12 version.
+    foreach ($errors['entries'] as &$legacyEntry) {
+        if (empty($legacyEntry['projectVersionId'])) {
+            $legacyProjectId = $legacyEntry['projectId'] ?? ($legacyEntry['project'] ?? null);
+            $legacyVersion = $legacyProjectId ? inferLegacyVersion($legacyProjectId) : null;
+            if ($legacyVersion) {
+                $legacyEntry['projectVersionId'] = $legacyVersion;
+                $legacyEntry['projectVersion'] = $legacyVersion;
+            }
+        }
+    }
+    unset($legacyEntry);
     
     $errorEntry = [
         'id' => uniqid('err_'),
         'timestamp' => $cleanData['timestamp'],
         'projectId' => $cleanData['projectId'],
         'projectName' => $cleanData['projectName'],
+        'projectVersionId' => $cleanData['projectVersionId'],
+        'projectVersion' => $cleanData['projectVersion'],
         'action' => $cleanData['action'],
         'error' => $cleanData['error'],
         'category' => $cleanData['errorCategory'] ?? 'unknown'

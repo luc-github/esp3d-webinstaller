@@ -130,21 +130,29 @@ This file defines the firmware projects available in the installer.
       },
       "version": "1.0.0",
       "releaseNotes": "https://github.com/your-repo/releases/tag/v1.0.0",
-      "firmware": {
-        "meta": {
-          "chip": "esp32",
-          "flash_mode": "dio",
-          "flash_freq": "80m",
-          "before": "default_reset",
-          "after": "hard_reset"
-        },
-        "root": "my-project",
-        "files": [
-          { "file": "bootloader.bin", "offset": "0x1000" },
-          { "file": "partitions.bin", "offset": "0x8000" },
-          { "file": "firmware.bin", "offset": "0x10000" }
-        ]
-      },
+      "versions": [
+        {
+          "id": "2.0.0",
+          "version": "2.0.0",
+          "active": true,
+          "releaseNotes": "https://github.com/your-repo/releases/tag/v2.0.0",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "my-project/v2.0.0",
+            "files": [
+              { "file": "bootloader.bin", "offset": "0x1000" },
+              { "file": "partitions.bin", "offset": "0x8000" },
+              { "file": "firmware.bin", "offset": "0x10000" }
+            ]
+          }
+        }
+      ],
       "image": "images/my-project.png",
       "badgeImage": "images/my-badge.png",
       "icon_left": "images/my-project-icon.svg",
@@ -168,7 +176,8 @@ This file defines the firmware projects available in the installer.
 | `description` | object | Localized descriptions (en, fr, etc.) |
 | `version` | string | Firmware version displayed on the card |
 | `releaseNotes` | string | URL to release notes (optional). If set, version becomes clickable with 📋 icon |
-| `firmware` | object/array/string | Firmware definition (new object format recommended) |
+| `versions` | array | Version list for rollback support (`active: true` used as default) |
+| `firmware` | object/array/string | Legacy firmware definition (still supported) |
 | `image` | string | Project card image (optional) |
 | `badgeImage` | string | Small image overlay at bottom-right of card image, 25% height (optional) |
 | `icon_left` | string | Left icon below description, same row as icon_right (optional) |
@@ -177,32 +186,42 @@ This file defines the firmware projects available in the installer.
 | `documentation` | string | Link to documentation (optional) |
 | `badge` | object | Localized badge text (e.g., "Beta", "Stable") |
 
-#### Firmware format (recommended)
+#### Versioned firmware format (recommended)
 
 Use this object format to avoid repeating the same path prefix and to define flash behavior per project:
 
 ```json
-"firmware": {
-  "meta": {
-    "chip": "esp32",
-    "flash_mode": "dio",
-    "flash_freq": "80m",
-    "before": "default_reset",
-    "after": "hard_reset"
-  },
-  "root": "my-project",
-  "files": [
-    { "file": "bootloader.bin", "offset": "0x1000" },
-    { "file": "partitions.bin", "offset": "0x8000" },
-    { "file": "firmware.bin", "offset": "0x10000" }
-  ]
-}
+"versions": [
+  {
+    "id": "2.0.0",
+    "version": "2.0.0",
+    "active": true,
+    "firmware": {
+      "meta": {
+        "chip": "esp32",
+        "flash_mode": "dio",
+        "flash_freq": "80m",
+        "before": "default_reset",
+        "after": "hard_reset"
+      },
+      "root": "my-project/v2.0.0",
+      "files": [
+        { "file": "bootloader.bin", "offset": "0x1000" },
+        { "file": "partitions.bin", "offset": "0x8000" },
+        { "file": "firmware.bin", "offset": "0x10000" }
+      ]
+    }
+  }
+]
 ```
 
+- Put each version in its own folder (example: `firmware/my-project/v2.0.0/...`)
+- `active: true` marks the default version selected in UI
+- users can pick another entry in the firmware version dropdown to rollback
 - `root`: common directory under `firmware/` used for all entries in `files`
 - `meta.flash_mode` / `meta.flash_freq`: passed to esptool-js during write
 - `meta.before` / `meta.after`: connection/reset strategy for `main()` and `after()`
-- Legacy formats (`firmware` as array or string) are still supported for backward compatibility
+- Legacy format (`firmware` as object/array/string) is still supported for backward compatibility
 
 #### Flash baudrate in UI
 
@@ -253,6 +272,9 @@ This file configures branding, links, and visual settings.
     "show_warning": true,
     "supported_browsers": ["Chrome", "Edge", "Opera"]
   },
+  "firmware_versions": {
+    "enabled": true
+  },
   "theme": {
     "primary_color": "#667eea",
     "secondary_color": "#764ba2",
@@ -285,6 +307,7 @@ This file configures branding, links, and visual settings.
 | `links.github` | "Report Issue" button configuration |
 | `footer` | Footer visibility and legal page links |
 | `browser_compatibility` | Warning for unsupported browsers |
+| `firmware_versions` | Enable/disable firmware version dropdown in flash options |
 | `theme` | Color scheme (CSS variables) |
 | `error_logging` | Configure which error categories are logged (optional) |
 | `audio_feedback` | Audio notification system (optional) |

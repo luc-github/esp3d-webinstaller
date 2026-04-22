@@ -9,32 +9,61 @@
         "en": "Control your FluidNC CNC using bluetooth or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
         "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Commande déportée sans fil professionnel avec contrôle de jog, override de vitesse et affichage temps réel."
       },
-      "version": "2.0.0a12",
-      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/releasenotes.html",
-      "firmware": {
-        "meta": {
-          "chip": "esp32",
-          "flash_mode": "dio",
-          "flash_freq": "80m",
-          "before": "default_reset",
-          "after": "hard_reset"
+      "versions": [
+        {
+          "id": "2.0.0a12",
+          "version": "2.0.0a12",
+          "active": false,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a12",
+            "files": [
+              { "file": "bootloader_8MB.bin", "offset": "0x1000" },
+              { "file": "partitions_8mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
+              { "file": "firmware_8MB_bt_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_8MB.bin", "offset": "0x770000" }
+            ]
+          }
         },
-        "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc",
-        "files": [
-          { "file": "bootloader_8MB.bin", "offset": "0x1000" },
-          { "file": "partitions_8mb.bin", "offset": "0xC000" },
-          { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
-          { "file": "firmware_8MB_bt_fluidnc.bin", "offset": "0x20000" },
-          { "file": "factory_8MB.bin", "offset": "0x770000" }
-        ]
-      },
+        {
+          "id": "2.0.0a13",
+          "version": "2.0.0a13",
+          "active": true,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13",
+            "files": [
+              { "file": "bootloader_8MB.bin", "offset": "0x1000" },
+              { "file": "partitions_8mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
+              { "file": "firmware_8MB_bt_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_8MB.bin", "offset": "0x770000" }
+            ]
+          }
+        }
+      ],
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/8MB.png",
       "icon_right": "images/bluetooth.png",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
-      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/esp3dfw.bin",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
         "en": "Ver 8MB Bluetooth 2026/03/16",
         "fr": "Ver 8MB Bluetooth 2026/03/16"
@@ -48,32 +77,61 @@
         "en": "Control your FluidNC CNC using wifi or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
         "fr": "Contrôlez votre CNC FluidNC avec wifi ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
       },
-      "version": "2.0.0a12",
-      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/releasenotes.html",
-      "firmware": {
-        "meta": {
-          "chip": "esp32",
-          "flash_mode": "dio",
-          "flash_freq": "80m",
-          "before": "default_reset",
-          "after": "hard_reset"
+      "versions": [
+        {
+          "id": "2.0.0a12",
+          "version": "2.0.0a12",
+          "active": false,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a12",
+            "files": [
+              { "file": "bootloader_8MB.bin", "offset": "0x1000" },
+              { "file": "partitions_8mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
+              { "file": "firmware_8MB_wifi_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_8MB.bin", "offset": "0x770000" }
+            ]
+          }
         },
-        "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc",
-        "files": [
-          { "file": "bootloader_8MB.bin", "offset": "0x1000" },
-          { "file": "partitions_8mb.bin", "offset": "0xC000" },
-          { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
-          { "file": "firmware_8MB_wifi_fluidnc.bin", "offset": "0x20000" },
-          { "file": "factory_8MB.bin", "offset": "0x770000" }
-        ]
-      },
+        {
+          "id": "2.0.0a13",
+          "version": "2.0.0a13",
+          "active": true,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13",
+            "files": [
+              { "file": "bootloader_8MB.bin", "offset": "0x1000" },
+              { "file": "partitions_8mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_8MB.bin", "offset": "0x10000" },
+              { "file": "firmware_8MB_wifi_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_8MB.bin", "offset": "0x770000" }
+            ]
+          }
+        }
+      ],
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/8MB.png",
       "icon_right": "images/wifi.png",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
-      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/esp3dfw.bin",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
         "en": "Version 8MB Wifi 2026/03/16",
         "fr": "Version 8MB Wifi 2026/03/16"
@@ -87,32 +145,61 @@
         "en": "Control your FluidNC CNC using bluetooth or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
         "fr": "Contrôlez votre CNC FluidNC avec bluetooth ou connection série. Pendentif sans fil professionnel avec contrôle jog, override vitesse et affichage temps réel."
       },
-      "version": "2.0.0a12",
-      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/releasenotes.html",
-      "firmware": {
-        "meta": {
-          "chip": "esp32",
-          "flash_mode": "dio",
-          "flash_freq": "80m",
-          "before": "default_reset",
-          "after": "hard_reset"
+      "versions": [
+        {
+          "id": "2.0.0a12",
+          "version": "2.0.0a12",
+          "active": false,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a12",
+            "files": [
+              { "file": "bootloader_4MB.bin", "offset": "0x1000" },
+              { "file": "partitions_4mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
+              { "file": "firmware_4MB_bt_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_4MB.bin", "offset": "0x3B0000" }
+            ]
+          }
         },
-        "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc",
-        "files": [
-          { "file": "bootloader_4MB.bin", "offset": "0x1000" },
-          { "file": "partitions_4mb.bin", "offset": "0xC000" },
-          { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
-          { "file": "firmware_4MB_bt_fluidnc.bin", "offset": "0x20000" },
-          { "file": "factory_4MB.bin", "offset": "0x3B0000" }
-        ]
-      },
+        {
+          "id": "2.0.0a13",
+          "version": "2.0.0a13",
+          "active": true,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13",
+            "files": [
+              { "file": "bootloader_4MB.bin", "offset": "0x1000" },
+              { "file": "partitions_4mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
+              { "file": "firmware_4MB_bt_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_4MB.bin", "offset": "0x3B0000" }
+            ]
+          }
+        }
+      ],
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/4MB.png",
       "icon_right": "images/bluetooth.png",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
-      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/esp3dfw.bin",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
         "en": "Ver 4MB Bluetooth 2026/03/16",
         "fr": "Ver 4MB WBluetoothifi 2026/03/16"
@@ -126,32 +213,61 @@
         "en": "Control your FluidNC CNC using wifi or serial connection.\\nProfessional wireless pendant with jog control, feed rate override, and real-time status display.",
         "fr": "Contrôlez votre CNC FluidNC avec wifi ou connection série. Commande déportée sans fil professionnel avec contrôle de jog, override de vitesse et affichage temps réel."
       },
-      "version": "2.0.0a12",
-      "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/releasenotes.html",
-      "firmware": {
-        "meta": {
-          "chip": "esp32",
-          "flash_mode": "dio",
-          "flash_freq": "80m",
-          "before": "default_reset",
-          "after": "hard_reset"
+      "versions": [
+        {
+          "id": "2.0.0a12",
+          "version": "2.0.0a12",
+          "active": false,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a12",
+            "files": [
+              { "file": "bootloader_4MB.bin", "offset": "0x1000" },
+              { "file": "partitions_4mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
+              { "file": "firmware_4MB_wifi_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_4MB.bin", "offset": "0x3B0000" }
+            ]
+          }
         },
-        "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc",
-        "files": [
-          { "file": "bootloader_4MB.bin", "offset": "0x1000" },
-          { "file": "partitions_4mb.bin", "offset": "0xC000" },
-          { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
-          { "file": "firmware_4MB_wifi_fluidnc.bin", "offset": "0x20000" },
-          { "file": "factory_4MB.bin", "offset": "0x3B0000" }
-        ]
-      },
+        {
+          "id": "2.0.0a13",
+          "version": "2.0.0a13",
+          "active": true,
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13/releasenotes.html",
+          "firmware": {
+            "meta": {
+              "chip": "esp32",
+              "flash_mode": "dio",
+              "flash_freq": "80m",
+              "before": "default_reset",
+              "after": "hard_reset"
+            },
+            "root": "ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13",
+            "files": [
+              { "file": "bootloader_4MB.bin", "offset": "0x1000" },
+              { "file": "partitions_4mb.bin", "offset": "0xC000" },
+              { "file": "ota_data_initial_4MB.bin", "offset": "0x10000" },
+              { "file": "firmware_4MB_wifi_fluidnc.bin", "offset": "0x20000" },
+              { "file": "factory_4MB.bin", "offset": "0x3B0000" }
+            ]
+          }
+        }
+      ],
       "image": "images/pibot_cnc_pendant_4.0.png",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/4MB.png",
       "icon_right": "images/wifi.png",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
-      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/esp3dfw.bin",
+      "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
         "en": "Version 4MB Wifi 2026/03/16",
         "fr": "Version 4MB Wifi 2026/03/16"

@@ -700,6 +700,34 @@ esp-web-install-button button:hover {
     border: 1px solid #c3e6cb;
 }
 
+.firmware-version-header {
+    padding: 6px 8px;
+    gap: 8px;
+    margin-left: auto;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+}
+
+.firmware-version-header:hover {
+    background: #f5f5f5;
+}
+
+.firmware-version-header:hover .flash-option-label {
+    color: #24292f;
+}
+
+.firmware-version-header .flash-option-label {
+    font-size: 0.9em;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.firmware-version-header .flash-select {
+    min-width: 120px;
+    height: 30px;
+    font-size: 0.9em;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .header h1 {
@@ -1119,6 +1147,12 @@ esp-web-install-button button:hover {
     .flash-option-item {
         flex-wrap: wrap;
     }
+
+    .firmware-version-header {
+        margin-left: 0;
+        width: auto;
+        padding: 6px 8px;
+    }
     
     .flash-option-hint {
         margin-left: 32px;
@@ -1382,6 +1416,31 @@ esp-web-install-button button:hover {
     .project-card {
         width: 300px;
     }
+
+    /* Prevent wide logos from overlapping title in desktop/tablet transition range */
+    .header-logo {
+        width: min(190px, 20vw);
+    }
+
+    .header-content {
+        max-width: calc(100% - 330px);
+    }
+
+    .firmware-version-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .firmware-version-header .flash-option-label {
+        white-space: normal;
+        line-height: 1.2;
+    }
+
+    .firmware-version-header .flash-select {
+        width: 100%;
+        min-width: 110px;
+    }
 }
 
 /* Tablet-specific adjustments */
@@ -1392,6 +1451,14 @@ esp-web-install-button button:hover {
     
     .header h1 {
         font-size: 2.2em;
+    }
+
+    .header-logo {
+        width: min(150px, 18vw);
+    }
+
+    .header-content {
+        max-width: calc(100% - 285px);
     }
     
     .content {
@@ -1431,6 +1498,8 @@ esp-web-install-button button:hover {
     .header-logo {
         position: static; /* Remove absolute positioning on mobile */
         transform: none;
+        width: auto; /* Prevent inherited desktop width constraints */
+        max-width: 100%;
         height: 80px; /* Smaller logo on mobile */
         margin: 0 auto;
     }
@@ -1492,6 +1561,7 @@ esp-web-install-button button:hover {
     }
     
     .header-logo {
+        width: auto;
         height: 60px; /* Smaller logo */
     }
     
