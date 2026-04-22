@@ -8,7 +8,7 @@ let pageConfig = null;
 let selectedProject = null;
 let selectedProjectVersion = null;
 let preferredVersionId = null;
-let projectVersionSelections = {};
+let allProjects = [];
 let translations = {}; // Will be loaded from lang files
 let esploader = null; // ESPLoader instance
 let port = null; // Serial port
@@ -176,10 +176,6 @@ function getCurrentProjectVersion(project) {
     if (project && selectedProject === project && selectedProjectVersion) {
         return selectedProjectVersion;
     }
-    const projectPreferredId = project?.id ? projectVersionSelections[project.id] : null;
-    const projectPreferred = getVersionById(project, projectPreferredId);
-    if (projectPreferred) return projectPreferred;
-
     const globalPreferred = getVersionById(project, preferredVersionId);
     if (globalPreferred) return globalPreferred;
 
@@ -347,15 +343,62 @@ function applyProjectVersionDefaults() {
     });
 }
 
-function updateFirmwareVersionSelector(project) {
+function collectAvailableVersionOptions(projects) {
+    const map = new Map();
+    (projects || []).forEach(project => {
+        getProjectVersions(project).forEach((versionItem, index) => {
+            const optionId = versionItem.id || versionItem.version || `v${index}`;
+            if (!map.has(optionId)) {
+                map.set(optionId, {
+                    id: optionId,
+                    label: versionItem.label || versionItem.version || optionId
+                });
+            }
+        });
+    });
+    return Array.from(map.values());
+}
+
+function getDefaultCatalogVersionId(projects, options) {
+    const activeCounts = {};
+    (projects || []).forEach(project => {
+        const activeVersion = getActiveProjectVersion(project);
+        const activeId = activeVersion ? (activeVersion.id || activeVersion.version) : null;
+        if (!activeId) return;
+        activeCounts[activeId] = (activeCounts[activeId] || 0) + 1;
+    });
+
+    let bestId = null;
+    let bestCount = -1;
+    Object.entries(activeCounts).forEach(([id, count]) => {
+        if (count > bestCount) {
+            bestId = id;
+            bestCount = count;
+        }
+    });
+
+    if (bestId && options.some(o => o.id === bestId)) {
+        return bestId;
+    }
+    return options.length > 0 ? options[0].id : null;
+}
+
+function projectSupportsVersion(project, versionId) {
+    if (!versionId) return true;
+    const versions = getProjectVersions(project);
+    if (versions.length === 0) return true;
+    return !!getVersionById(project, versionId);
+}
+
+function updateFirmwareVersionSelector() {
     const wrapper = document.getElementById('firmwareVersionOption');
     const select = document.getElementById('firmwareVersionSelect');
     if (!wrapper || !select) return;
 
-    const versions = getProjectVersions(project);
-    if (!isVersionSelectorEnabled() || versions.length < 2) {
+    const options = collectAvailableVersionOptions(allProjects);
+    if (!isVersionSelectorEnabled() || options.length < 2) {
         wrapper.style.display = 'none';
-        selectedProjectVersion = getCurrentProjectVersion(project) || getActiveProjectVersion(project);
+        preferredVersionId = null;
         select.innerHTML = '';
         return;
     }
@@ -363,31 +406,25 @@ function updateFirmwareVersionSelector(project) {
     wrapper.style.display = 'flex';
     select.innerHTML = '';
 
-    versions.forEach((versionItem, index) => {
+    options.forEach(versionItem => {
         const option = document.createElement('option');
-        const optionId = versionItem.id || versionItem.version || `v${index}`;
-        option.value = optionId;
-        option.textContent = versionItem.label || versionItem.version || optionId;
+        option.value = versionItem.id;
+        option.textContent = versionItem.label;
         select.appendChild(option);
     });
 
-    const activeVersion = selectedProjectVersion || getCurrentProjectVersion(project) || versions[0];
-    const activeId = activeVersion?.id || activeVersion?.version || `v0`;
-    select.value = activeId;
-    selectedProjectVersion = activeVersion;
+    const validPreferred = options.some(o => o.id === preferredVersionId);
+    const selectedOptionId = validPreferred
+        ? preferredVersionId
+        : getDefaultCatalogVersionId(allProjects, options);
+    preferredVersionId = selectedOptionId;
+    select.value = selectedOptionId;
 
     select.onchange = () => {
-        const chosen = versions.find((v, idx) => (v.id || v.version || `v${idx}`) === select.value) || versions[0];
-        selectedProjectVersion = chosen;
-        preferredVersionId = chosen.id || chosen.version || null;
-        if (project?.id) {
-            projectVersionSelections[project.id] = preferredVersionId;
-        }
-        const projectIndex = carouselProjects.indexOf(project);
-        refreshProjectVersionInCarousel(projectIndex);
-        updateSelectedProjectInfo(project);
+        preferredVersionId = select.value || null;
+        initCarousel();
         loadFlashCounts();
-        addLog(`🔁 Firmware version selected: ${chosen.version || select.value}`, 'info');
+        addLog(`🔁 Firmware version selected: ${preferredVersionId}`, 'info');
     };
 }
 
@@ -911,6 +948,8 @@ async function loadConfig() {
             throw new Error('config.json: invalid format (missing projects array)');
         }
         applyProjectVersionDefaults();
+        allProjects = config.projects;
+        updateFirmwareVersionSelector();
         initCarousel();
         addLog(translate('configLoaded'), 'success');
     } catch (error) {
@@ -1676,7 +1715,7 @@ function changeLanguage() {
     // Update selected project info if any
     if (selectedProject) {
         updateSelectedProjectInfo(selectedProject);
-        updateFirmwareVersionSelector(selectedProject);
+        updateFirmwareVersionSelector();
         
         // Update instruction with project name (if element exists)
         const instructionText2El = document.getElementById('instructionText2');
@@ -2093,20 +2132,31 @@ function calculateGlobalProgress() {
 let currentCarouselIndex = 0;
 let carouselProjects = [];
 let isAnimating = false;
+let carouselKeyboardSetupDone = false;
+let carouselSwipeSetupDone = false;
 
 // Initialize carousel
 function initCarousel() {
-    if (!config || !config.projects) return;
+    if (!allProjects || allProjects.length === 0) return;
     
-    carouselProjects = config.projects;
+    carouselProjects = allProjects.filter(project => projectSupportsVersion(project, preferredVersionId));
+    if (carouselProjects.length === 0) {
+        carouselProjects = allProjects;
+    }
     currentCarouselIndex = 0;
     
     try {
         buildCarousel();
         updateCarouselPositions();
         selectProjectByIndex(0);
-        setupCarouselKeyboard();
-        setupCarouselSwipe();
+        if (!carouselKeyboardSetupDone) {
+            setupCarouselKeyboard();
+            carouselKeyboardSetupDone = true;
+        }
+        if (!carouselSwipeSetupDone) {
+            setupCarouselSwipe();
+            carouselSwipeSetupDone = true;
+        }
     } catch (err) {
         console.error('Carousel init error:', err);
         const container = document.getElementById('projectCards');
@@ -2592,7 +2642,7 @@ function selectProjectByIndex(index) {
     // Update project info display
     updateSelectedProjectInfo(project);
 
-    updateFirmwareVersionSelector(project);
+    updateFirmwareVersionSelector();
     loadFlashCounts();
     
     // Add visual feedback
