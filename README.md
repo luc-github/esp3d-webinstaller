@@ -196,6 +196,7 @@ Use this object format to avoid repeating the same path prefix and to define fla
     "id": "2.0.0",
     "version": "2.0.0",
     "active": true,
+    "downloadFirmware": "firmware/my-project/v2.0.0/esp3dfw.bin",
     "firmware": {
       "meta": {
         "chip": "esp32",
@@ -221,6 +222,7 @@ Use this object format to avoid repeating the same path prefix and to define fla
 - `root`: common directory under `firmware/` used for all entries in `files`
 - `meta.flash_mode` / `meta.flash_freq`: passed to esptool-js during write
 - `meta.before` / `meta.after`: connection/reset strategy for `main()` and `after()`
+- `downloadFirmware` (optional but recommended): direct offline binary link for this version; if omitted, UI can derive `firmware/<root>/esp3dfw.bin`
 - Legacy format (`firmware` as object/array/string) is still supported for backward compatibility
 
 #### Version tags and icons (optional)
@@ -251,6 +253,20 @@ The flash speed is chosen from a **dropdown** in Flash Options (not a native `<s
 
 If `flash_baudrate` is omitted, the installer falls back to the same list and default as in code (`js/script.js`).
 
+#### Serial monitor baudrate (UI + `page-config.json`)
+
+The serial monitor uses its own **dropdown** (same custom UI as flash baudrate). Configure it in **`page-config.json`**:
+
+```json
+"serial_monitor": {
+  "options": [2000000, 1500000, 1000000, 921600, 460800, 230400, 115200, 74880, 57600, 38400, 19200, 9600],
+  "default": 115200
+}
+```
+
+- **`options`**: array of positive integers; display order follows the array order exactly.
+- **`default`**: used when no valid value exists in `localStorage` under `monitorBaudrate`.
+
 ### `page-config.json` - Page Settings
 
 This file configures branding, links, and visual settings.
@@ -258,7 +274,7 @@ This file configures branding, links, and visual settings.
 ```json
 {
   "appearance": {
-    "default_theme": "light"
+    "default_theme": "auto"
   },
   "branding": {
     "logo": "images/powered-logo.png",
@@ -296,6 +312,10 @@ This file configures branding, links, and visual settings.
     "options": [921600, 460800, 230400, 115200],
     "default": 921600
   },
+  "serial_monitor": {
+    "options": [2000000, 1500000, 1000000, 921600, 460800, 230400, 115200, 74880, 57600, 38400, 19200, 9600],
+    "default": 115200
+  },
   "firmware_versions": {
     "enabled": true,
     "tag_presets": {
@@ -329,13 +349,14 @@ This file configures branding, links, and visual settings.
 | Option | Description |
 |--------|-------------|
 | `analytics` | `false` for static hosting (GitHub Pages), `true` for PHP server with logging |
-| `appearance` | `default_theme`: `"light"` or `"dark"` when the user has never toggled theme (`localStorage` key `installerTheme`) |
+| `appearance` | `default_theme`: `"auto"`, `"light"` or `"dark"` for first visit (`localStorage` key `installerTheme` then overrides) |
 | `branding` | Logo and favicon paths |
 | `languages` | Available languages configuration |
 | `links.github` | "Report Issue" button configuration |
 | `footer` | Footer visibility and legal page links |
 | `browser_compatibility` | Warning for unsupported browsers |
 | `flash_baudrate` | `options` (baud list) and `default` for the flash-speed dropdown |
+| `serial_monitor` | `options` (baud list) and `default` for the serial-monitor dropdown |
 | `firmware_versions` | `enabled`: catalog version dropdown; `tag_presets`: icons/labels for `versionTag` in `config.json` |
 | `theme` | Color scheme (CSS variables) |
 | `error_logging` | Configure which error categories are logged (optional) |
@@ -343,8 +364,15 @@ This file configures branding, links, and visual settings.
 
 #### Installer UI (steps + theme)
 
-- **Steps**: Five milestones, all unchecked until the flow advances: **Selection** (Connect & Flash clicked) → **Port** (COM port chosen in the browser dialog) → **Connect** (chip reachable after `main()`) → **Erase** (first progress writing firmware bytes) → **Flash** (full success). On error, indicators reset. Changing the carousel to another project resets them too.
-- **Light / dark**: A switch in the header (moon left / sun right; knob on the right = light) sets `data-theme` on `<html>` and persists in `localStorage` (`installerTheme`). Use `appearance.default_theme` for first visit only. The GitHub “Report issue” button is placed directly under this switch, above the firmware version line, so controls are not clipped.
+- **Flash checkpoints (6 steps)**: **Selection → Port → Connect → Download → Erase → Flash**.
+  - Green = done, blue = current (with pulse), red = error.
+  - Connectors are stateful too: green when complete, animated blue while progressing to current step, red when leading to an error step.
+  - Progress is kept on error and resets only on a new **Connect & Flash** run (or full page refresh).
+- **Monitor checkpoints (3 steps)**: clicking **Serial Monitor** switches the same bar to **Selection → Port → Connect** with the same color/error logic.
+  - On successful monitor connection, console logs auto-expand.
+- **Theme switch (3-state)**: header control `☀️ / 🖥️ / 🌙` = **Light / Auto / Dark**.
+  - `Auto` follows `prefers-color-scheme` and updates live when OS theme changes.
+  - Choice is persisted in `localStorage` (`installerTheme`); `appearance.default_theme` is first-visit fallback only.
 
 #### Error Logging Configuration
 
