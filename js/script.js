@@ -19,6 +19,22 @@ let monitorRunning = false; // Monitor state flag
 let firstUserInteractionDone = false; // Track first click for browser check audio
 let browserErrorSoundPlayed = false; // Track if browser error sound already played
 
+/** Install stepper (6 steps); all false until user runs the flow */
+let installStepSelection = false;
+let installStepPort = false;
+let installStepConnect = false;
+let installStepDownload = false;
+let installStepEraseWrite = false;
+let installStepBinWriteLatched = false;
+let installStepFlashComplete = false;
+let installWizardFlashRunning = false;
+let installStepErrorIndex = -1;
+let installStepperMode = 'flash'; // flash | monitor
+let monitorStepSelection = false;
+let monitorStepPort = false;
+let monitorStepConnect = false;
+let monitorStepErrorIndex = -1;
+
 // Audio queue system to prevent sound overlap
 let audioQueue = [];
 let isPlayingAudio = false;
@@ -134,6 +150,8 @@ function playErrorSound(errorMessage) {
 
 const DEFAULT_FLASH_BAUDRATE_OPTIONS = [921600, 460800, 230400, 115200];
 const DEFAULT_FLASH_BAUDRATE = 921600;
+const DEFAULT_MONITOR_BAUDRATE_OPTIONS = [2000000, 1500000, 1000000, 921600, 460800, 230400, 115200, 74880, 57600, 38400, 19200, 9600];
+const DEFAULT_MONITOR_BAUDRATE = 115200;
 
 function getFlashBaudrateConfig() {
     const raw = pageConfig?.flash_baudrate;
@@ -339,6 +357,404 @@ function initFlashBaudrateSelector() {
     attachFlashBaudrateDropdownShellOnce();
 }
 
+function getMonitorBaudrateConfig() {
+    const raw = pageConfig?.serial_monitor;
+    let options = [...DEFAULT_MONITOR_BAUDRATE_OPTIONS];
+    if (raw?.options && Array.isArray(raw.options)) {
+        const parsed = raw.options
+            .map(x => parseInt(x, 10))
+            .filter(n => Number.isFinite(n) && n > 0);
+        if (parsed.length) options = parsed;
+    }
+    let def = parseInt(raw?.default, 10);
+    if (!Number.isFinite(def) || !options.includes(def)) {
+        def = options.includes(DEFAULT_MONITOR_BAUDRATE) ? DEFAULT_MONITOR_BAUDRATE : options[0];
+    }
+    return { options, default: def };
+}
+
+function getSelectedMonitorBaudrate() {
+    const { options, default: def } = getMonitorBaudrateConfig();
+    const root = document.getElementById('monitorBaudrateDropdown');
+    if (!root) {
+        const saved = localStorage.getItem('monitorBaudrate');
+        const n = parseInt(saved, 10);
+        if (Number.isFinite(n) && n > 0 && options.includes(n)) return n;
+        return def;
+    }
+    const v = parseInt(root.dataset.selectedBaudrate, 10);
+    if (Number.isFinite(v) && v > 0 && options.includes(v)) return v;
+    return def;
+}
+
+function closeMonitorBaudrateDropdown() {
+    const root = document.getElementById('monitorBaudrateDropdown');
+    const btn = document.getElementById('monitorBaudrateDropdownBtn');
+    const list = document.getElementById('monitorBaudrateDropdownList');
+    if (!root || !btn || !list) return;
+    root.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    list.hidden = true;
+}
+
+function openMonitorBaudrateDropdown() {
+    const root = document.getElementById('monitorBaudrateDropdown');
+    const btn = document.getElementById('monitorBaudrateDropdownBtn');
+    const list = document.getElementById('monitorBaudrateDropdownList');
+    if (!root || !btn || !list) return;
+    root.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    list.hidden = false;
+}
+
+function syncMonitorBaudrateDropdownAriaSelected(rate) {
+    const list = document.getElementById('monitorBaudrateDropdownList');
+    if (!list) return;
+    const key = String(rate);
+    list.querySelectorAll('[role="option"]').forEach(el => {
+        el.setAttribute('aria-selected', el.dataset.baudrate === key ? 'true' : 'false');
+    });
+}
+
+function setMonitorBaudrateSelection(rate, opts = {}) {
+    const root = document.getElementById('monitorBaudrateDropdown');
+    const btn = document.getElementById('monitorBaudrateDropdownBtn');
+    const valueEl = document.getElementById('monitorBaudrateDropdownValue');
+    if (!root || !valueEl) return;
+    const { options } = getMonitorBaudrateConfig();
+    const useRate = options.includes(rate) ? rate : getMonitorBaudrateConfig().default;
+    root.dataset.selectedBaudrate = String(useRate);
+    valueEl.textContent = String(useRate);
+    if (btn) {
+        btn.title = String(useRate);
+    }
+    syncMonitorBaudrateDropdownAriaSelected(useRate);
+    if (opts.persist !== false) {
+        localStorage.setItem('monitorBaudrate', String(useRate));
+    }
+}
+
+function attachMonitorBaudrateDropdownShellOnce() {
+    if (attachMonitorBaudrateDropdownShellOnce._done) return;
+    const btn = document.getElementById('monitorBaudrateDropdownBtn');
+    const root = document.getElementById('monitorBaudrateDropdown');
+    const list = document.getElementById('monitorBaudrateDropdownList');
+    if (!btn || !root || !list) return;
+    attachMonitorBaudrateDropdownShellOnce._done = true;
+
+    btn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (!root.classList.contains('open')) {
+            openMonitorBaudrateDropdown();
+            const sel = list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]');
+            sel?.focus();
+        } else {
+            closeMonitorBaudrateDropdown();
+        }
+    });
+
+    btn.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && root.classList.contains('open')) {
+            e.preventDefault();
+            closeMonitorBaudrateDropdown();
+            return;
+        }
+        if (e.key === 'ArrowDown' && root.classList.contains('open')) {
+            e.preventDefault();
+            (list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]'))?.focus();
+            return;
+        }
+        if ((e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') && !root.classList.contains('open')) {
+            e.preventDefault();
+            openMonitorBaudrateDropdown();
+            (list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]'))?.focus();
+        }
+    });
+
+    list.addEventListener('keydown', e => {
+        const items = [...list.querySelectorAll('[role="option"]')];
+        const i = items.indexOf(document.activeElement);
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeMonitorBaudrateDropdown();
+            btn.focus();
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (items.length === 0) return;
+            const next = i >= 0 ? (i + 1) % items.length : 0;
+            items[next].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (items.length === 0) return;
+            const next = i <= 0 ? items.length - 1 : i - 1;
+            items[next].focus();
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            items[0]?.focus();
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            items[items.length - 1]?.focus();
+        }
+    });
+
+    document.addEventListener('click', () => {
+        if (root.classList.contains('open')) {
+            closeMonitorBaudrateDropdown();
+        }
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape' || !root.classList.contains('open')) return;
+        const t = document.activeElement;
+        if (t && (t === btn || list.contains(t))) return;
+        closeMonitorBaudrateDropdown();
+    });
+}
+
+function initMonitorBaudrateSelector() {
+    const root = document.getElementById('monitorBaudrateDropdown');
+    const btn = document.getElementById('monitorBaudrateDropdownBtn');
+    const list = document.getElementById('monitorBaudrateDropdownList');
+    if (!root || !btn || !list) return;
+
+    const { options, default: defaultBaud } = getMonitorBaudrateConfig();
+
+    list.textContent = '';
+    options.forEach(rate => {
+        const li = document.createElement('li');
+        li.className = 'flash-baudrate-dropdown-item';
+        li.setAttribute('role', 'option');
+        li.tabIndex = -1;
+        li.dataset.baudrate = String(rate);
+        li.textContent = String(rate);
+
+        li.addEventListener('click', e => {
+            e.stopPropagation();
+            setMonitorBaudrateSelection(rate);
+            closeMonitorBaudrateDropdown();
+            btn.focus();
+        });
+
+        li.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setMonitorBaudrateSelection(rate);
+                closeMonitorBaudrateDropdown();
+                btn.focus();
+            }
+        });
+
+        list.appendChild(li);
+    });
+
+    const saved = localStorage.getItem('monitorBaudrate');
+    const savedNum = parseInt(saved, 10);
+    let initial = defaultBaud;
+    if (Number.isFinite(savedNum) && options.includes(savedNum)) {
+        initial = savedNum;
+    } else if (saved) {
+        localStorage.setItem('monitorBaudrate', String(defaultBaud));
+    }
+
+    setMonitorBaudrateSelection(initial, { persist: false });
+
+    attachMonitorBaudrateDropdownShellOnce();
+}
+
+function resetInstallWizardProgress() {
+    installStepperMode = 'flash';
+    installStepSelection = false;
+    installStepPort = false;
+    installStepConnect = false;
+    installStepDownload = false;
+    installStepEraseWrite = false;
+    installStepBinWriteLatched = false;
+    installStepFlashComplete = false;
+    installWizardFlashRunning = false;
+    installStepErrorIndex = -1;
+}
+
+function resetMonitorWizardProgress() {
+    monitorStepSelection = false;
+    monitorStepPort = false;
+    monitorStepConnect = false;
+    monitorStepErrorIndex = -1;
+}
+
+function computeInstallStepErrorIndex() {
+    if (installStepFlashComplete) return -1;
+    if (installStepEraseWrite) return 5;
+    if (installStepDownload) return 4;
+    if (installStepConnect) return 3;
+    if (installStepPort) return 2;
+    if (installStepSelection) return 1;
+    return 0;
+}
+
+function computeMonitorStepErrorIndex() {
+    if (monitorStepConnect) return -1;
+    if (monitorStepPort) return 2;
+    if (monitorStepSelection) return 1;
+    return 0;
+}
+
+function updateInstallStepper() {
+    const roots = Array.from(document.querySelectorAll('.install-stepper'));
+    if (roots.length === 0) return;
+
+    const isMonitorMode = installStepperMode === 'monitor';
+    const done = isMonitorMode
+        ? [monitorStepSelection, monitorStepPort, monitorStepConnect]
+        : [
+            installStepSelection,
+            installStepPort,
+            installStepConnect,
+            installStepDownload,
+            installStepEraseWrite,
+            installStepFlashComplete
+        ];
+
+    let currentIndex = done.findIndex(v => !v);
+    if (currentIndex < 0) currentIndex = done.length - 1;
+    const forcedErrorIndex = isMonitorMode ? monitorStepErrorIndex : installStepErrorIndex;
+    if (forcedErrorIndex >= 0) currentIndex = forcedErrorIndex;
+
+    roots.forEach((root) => {
+        root.classList.toggle('install-stepper-monitor-mode', isMonitorMode);
+        const steps = root.querySelectorAll('.install-stepper-step');
+        steps.forEach((step, i) => {
+            const isVisible = i < done.length;
+            const isDone = isVisible && !!done[i];
+            const isCurrent = !isDone && i === currentIndex;
+            const isError = forcedErrorIndex === i;
+            step.classList.toggle('is-hidden-step', !isVisible);
+            step.classList.toggle('is-done', isDone);
+            step.classList.toggle('is-current', isCurrent);
+            step.classList.toggle('is-error', isError);
+            step.classList.toggle('is-pending', !isDone && !isCurrent);
+            step.setAttribute('aria-current', isCurrent ? 'step' : 'false');
+        });
+
+        root.querySelectorAll('.install-stepper-connector').forEach((seg, i) => {
+            const isVisible = i < done.length - 1;
+            seg.classList.toggle('is-hidden-step', !isVisible);
+            if (!isVisible) {
+                seg.classList.remove('is-filled', 'is-flow', 'is-error');
+                return;
+            }
+            const leftDone = !!done[i];
+            const rightDone = !!done[i + 1];
+            const rightCurrent = forcedErrorIndex < 0 && (i + 1) === currentIndex;
+            const rightError = forcedErrorIndex >= 0 && (i + 1) === forcedErrorIndex;
+
+            seg.classList.toggle('is-filled', leftDone && rightDone);
+            seg.classList.toggle('is-flow', leftDone && rightCurrent);
+            seg.classList.toggle('is-error', leftDone && rightError);
+        });
+    });
+}
+
+function syncInstallStepperLabels() {
+    const keys = installStepperMode === 'monitor'
+        ? [
+            'wizardStepSelection',
+            'wizardStepPort',
+            'wizardStepConnect',
+            '',
+            '',
+            ''
+        ]
+        : [
+            'wizardStepSelection',
+            'wizardStepPort',
+            'wizardStepConnect',
+            'wizardStepDownload',
+            'wizardStepErase',
+            'wizardStepFlashDone'
+        ];
+    keys.forEach((key, i) => {
+        const top = document.getElementById(`installStepperLabel${i}`);
+        if (top) top.textContent = key ? translate(key) : '';
+        const bottom = document.getElementById(`installStepperBottomLabel${i}`);
+        if (bottom) bottom.textContent = key ? translate(key) : '';
+    });
+    document.querySelectorAll('.install-stepper')
+        .forEach((nav) => nav.setAttribute('aria-label', translate('wizardAriaLabel')));
+}
+
+function getStoredTheme() {
+    return localStorage.getItem('installerTheme');
+}
+
+function updateHeaderLogoForTheme(themeMode) {
+    const logo = document.getElementById('headerLogo');
+    if (!logo || !pageConfig?.branding) return;
+
+    const isDark = themeMode === 'dark';
+    const lightLogo = pageConfig.branding.logo;
+    const darkLogo = pageConfig.branding.logo_dark || lightLogo;
+    const targetLogo = isDark ? darkLogo : lightLogo;
+
+    if (!targetLogo) {
+        logo.classList.remove('visible');
+        return;
+    }
+
+    logo.onerror = () => {
+        if (isDark && darkLogo && darkLogo !== lightLogo && lightLogo) {
+            logo.onerror = () => logo.classList.remove('visible');
+            logo.src = lightLogo;
+            logo.classList.add('visible');
+            return;
+        }
+        logo.classList.remove('visible');
+    };
+
+    logo.src = targetLogo;
+    logo.classList.add('visible');
+}
+
+function applyTheme(mode, opts = {}) {
+    const m = mode === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', m);
+    if (document.body) {
+        document.body.setAttribute('data-theme', m);
+        document.body.classList.toggle('dark-theme', m === 'dark');
+    }
+    updateHeaderLogoForTheme(m);
+    if (opts.persist) {
+        localStorage.setItem('installerTheme', m);
+    }
+    const btn = document.getElementById('themeToggleBtn');
+    const wrap = document.getElementById('themeSwitchWrap');
+    if (btn) {
+        const isDark = m === 'dark';
+        btn.setAttribute('aria-checked', isDark ? 'true' : 'false');
+        btn.title = isDark ? translate('themeSwitchToLight') : translate('themeSwitchToDark');
+        btn.setAttribute('aria-label', btn.title);
+    }
+    if (wrap) {
+        wrap.classList.toggle('is-dark', m === 'dark');
+    }
+}
+
+function initThemeToggle() {
+    const btn = document.getElementById('themeToggleBtn');
+    if (!btn || initThemeToggle._done) return;
+    initThemeToggle._done = true;
+    const stored = getStoredTheme();
+    if (stored === 'light' || stored === 'dark') {
+        applyTheme(stored, { persist: false });
+    } else {
+        const def = pageConfig?.appearance?.default_theme;
+        applyTheme(def === 'dark' ? 'dark' : 'light', { persist: false });
+    }
+    btn.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        applyTheme(next, { persist: true });
+    });
+}
+
 function isVersionSelectorEnabled() {
     return pageConfig?.firmware_versions?.enabled !== false;
 }
@@ -361,11 +777,12 @@ function getActiveProjectVersion(project) {
 }
 
 function getCurrentProjectVersion(project) {
+    const globalPreferred = getVersionById(project, preferredVersionId);
+    if (globalPreferred) return globalPreferred;
+
     if (project && selectedProject === project && selectedProjectVersion) {
         return selectedProjectVersion;
     }
-    const globalPreferred = getVersionById(project, preferredVersionId);
-    if (globalPreferred) return globalPreferred;
 
     return getActiveProjectVersion(project);
 }
@@ -794,6 +1211,9 @@ function buildFirmwareVersionDropdownMenu(options, selectedId) {
 
 function applyFirmwareCatalogVersionChoice(versionId) {
     preferredVersionId = versionId || null;
+    if (selectedProject) {
+        selectedProjectVersion = getCurrentProjectVersion(selectedProject) || getActiveProjectVersion(selectedProject);
+    }
     initCarousel();
     loadFlashCounts();
     addLog(`🔁 Firmware version selected: ${preferredVersionId}`, 'info');
@@ -1259,14 +1679,8 @@ function applyPageConfig() {
     // Apply branding
     if (pageConfig.branding) {
         // Logo
-        if (pageConfig.branding.logo) {
-            const logo = document.getElementById('headerLogo');
-            logo.src = pageConfig.branding.logo;
-            logo.classList.add('visible');
-            logo.onerror = () => {
-                logo.classList.remove('visible');
-            };
-        }
+        const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        updateHeaderLogoForTheme(currentTheme);
         
         // Favicon
         if (pageConfig.branding.favicon) {
@@ -1283,21 +1697,25 @@ function applyPageConfig() {
     // Apply links (GitHub button)
     if (pageConfig.links && pageConfig.links.github && pageConfig.links.github.enabled) {
         const actionsContainer = document.getElementById('headerActions');
-        
-        // Remove only existing buttons (not language selector)
-        const existingButtons = actionsContainer.querySelectorAll('.header-btn');
-        existingButtons.forEach(btn => btn.remove());
-        
+        const reportMount = document.getElementById('headerReportIssueMount');
+
+        if (reportMount) {
+            reportMount.querySelectorAll('.header-btn').forEach(btn => btn.remove());
+        } else {
+            actionsContainer.querySelectorAll('.header-btn').forEach(btn => btn.remove());
+        }
+
         const githubBtn = createHeaderButton(
             pageConfig.links.github.url,
             translate('reportIssue'),
             githubIcon()
         );
-        
-        // Insert button above firmware version selector (or before language selector fallback)
+
         const firmwareVersionSelector = actionsContainer.querySelector('#firmwareVersionOption');
         const languageSelector = actionsContainer.querySelector('.language-selector');
-        if (firmwareVersionSelector) {
+        if (reportMount) {
+            reportMount.appendChild(githubBtn);
+        } else if (firmwareVersionSelector) {
             actionsContainer.insertBefore(githubBtn, firmwareVersionSelector);
         } else if (languageSelector) {
             actionsContainer.insertBefore(githubBtn, languageSelector);
@@ -1575,7 +1993,7 @@ function selectProject(project) {
     }
     
     selectedProject = project;
-    
+
     // Update UI - remove all selected classes first
     document.querySelectorAll('.project-card').forEach(card => {
         card.classList.remove('selected');
@@ -1602,6 +2020,8 @@ function selectProject(project) {
     consoleContainer.innerHTML = '';
     addLog(`Project selected: ${project.name}`, 'info');
     addLog('Ready to flash. Click "Connect & Flash" when ready.', 'warning');
+
+    updateInstallStepper();
 }
 
 // ===== ESPLoader.js Flash Functions =====
@@ -1618,12 +2038,13 @@ async function startFlash() {
         addLog('⚠️ Stop the serial monitor before flashing', 'warning');
         return;
     }
-    
-    // Auto-expand console if collapsed (needed for browser port dialog interaction)
-    if (consoleCollapsed) {
-        toggleConsole();
-    }
-    
+
+    // New flash attempt starts a fresh stepper run.
+    resetInstallWizardProgress();
+    syncInstallStepperLabels();
+    installStepSelection = true;
+    updateInstallStepper();
+
     // Hide flash button and hide monitor button during process
     const flashBtn = document.getElementById('flashButton');
     const monitorBtn = document.getElementById('monitorButton');
@@ -1648,7 +2069,10 @@ async function flashESP32() {
     // Show progress bar
     showProgress();
     updateProgress(0, 'Preparing...', 'Ready to start');
-    
+
+    installWizardFlashRunning = true;
+    updateInstallStepper();
+
     addLog('🔌 Requesting serial port access...', 'info');
     addLog('⚠️ Browser will ask you to select a COM port', 'warning');
     
@@ -1661,6 +2085,8 @@ async function flashESP32() {
         // Step 1: Request port from user (NO modal yet - let user select port first)
         currentStage = 'connecting';
         port = await navigator.serial.requestPort();
+        installStepPort = true;
+        updateInstallStepper();
         addLog('✅ Port selected', 'success');
         updateProgress(5, 'Port selected', 'Connecting to ESP32...');
         
@@ -1735,7 +2161,7 @@ async function flashESP32() {
         
         // Audio: Connecting
         playAudioFeedback('connecting');
-        
+
         const chip = await esploader.main(connectMode);
         if (firmwareMeta.chip && !String(chip).toLowerCase().includes(String(firmwareMeta.chip).toLowerCase())) {
             addLog(`⚠️ Config chip "${firmwareMeta.chip}" does not match detected "${chip}"`, 'warning');
@@ -1747,7 +2173,10 @@ async function flashESP32() {
         addLog(`✅ Connected to ${chip}!`, 'success');
         addLog('👍 You can release the BOOT button now', 'success');
         updateProgress(15, 'Connected!', 'ESP32 detected successfully');
-        
+
+        installStepConnect = true;
+        updateInstallStepper();
+
         // Audio: Connected successfully
         playAudioFeedback('connected');
         
@@ -1757,6 +2186,8 @@ async function flashESP32() {
         updateProgress(15, 'Downloading...', 'Fetching firmware files');
         
         const fileArray = await prepareFirmwareFiles(selectedProject);
+        installStepDownload = true;
+        updateInstallStepper();
         
         // Diagnostic: log details for each file before flashing
         addLog(`📋 ${fileArray.length} file(s) ready to flash:`, 'info');
@@ -1814,7 +2245,7 @@ async function flashESP32() {
         let lastFileIndex = -1;  // Track file transitions during write
         
         addLog(`⏱️ writeFlash() starting at ${new Date().toLocaleTimeString()} (eraseAll=${eraseAll})`, 'info');
-        
+
         try {
             await esploader.writeFlash({
                 fileArray: fileArray,
@@ -1825,7 +2256,13 @@ async function flashESP32() {
                 compress: true,
                 reportProgress: (fileIndex, written, total) => {
                     const percent = Math.floor((written / total) * 100);
-                    
+
+                    if (!installStepBinWriteLatched && written > 0) {
+                        installStepBinWriteLatched = true;
+                        installStepEraseWrite = true;
+                        updateInstallStepper();
+                    }
+
                     // Diagnostic: measure time between erase start and first actual write
                     if (!firstWriteTime && written > 0) {
                         firstWriteTime = Date.now();
@@ -1902,7 +2339,10 @@ async function flashESP32() {
         
         currentStage = 'done';
         updateProgress(100, 'Flash complete!', 'Firmware written successfully');
-        
+
+        installStepFlashComplete = true;
+        updateInstallStepper();
+
         // Audio: Writing complete
         playAudioFeedback('writing_complete');
         
@@ -1951,8 +2391,11 @@ async function flashESP32() {
         
         // Log flash success ONLY at the very end (after everything complete)
         logFlashEvent(selectedProject.id, selectedProject.name, 'flash', true);
-        
+
     } catch (error) {
+        installStepErrorIndex = computeInstallStepErrorIndex();
+        updateInstallStepper();
+
         // Close modals on error
         closeBootModal();
         confirmNoResetReady();
@@ -2005,6 +2448,9 @@ async function flashESP32() {
         port = null;
         
         throw error;
+    } finally {
+        installWizardFlashRunning = false;
+        updateInstallStepper();
     }
 }
 
@@ -2162,6 +2608,10 @@ function changeLanguage() {
     const flashBaudrateHint = document.getElementById('flashBaudrateHint');
     if (flashBaudrateLabel) flashBaudrateLabel.textContent = translate('flashBaudrateLabel');
     if (flashBaudrateHint) flashBaudrateHint.textContent = translate('flashBaudrateHint');
+    const monitorBaudrateLabel = document.getElementById('monitorBaudrateLabel');
+    const monitorBaudrateHint = document.getElementById('monitorBaudrateHint');
+    if (monitorBaudrateLabel) monitorBaudrateLabel.textContent = translate('monitorBaudrateLabel');
+    if (monitorBaudrateHint) monitorBaudrateHint.textContent = translate('monitorBaudrateHint');
 
     // Update firmware version selector texts
     const firmwareVersionLabel = document.getElementById('firmwareVersionLabel');
@@ -2209,6 +2659,11 @@ function changeLanguage() {
             instructionText2El.innerHTML = instructionText2;
         }
     }
+
+    syncInstallStepperLabels();
+    updateInstallStepper();
+    const curTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    applyTheme(curTheme, { persist: false });
 }
 
 // Setup language selector based on config
@@ -2267,12 +2722,15 @@ async function initialize() {
     // Setup language selector
     setupLanguageSelector(languages);
     initFlashBaudrateSelector();
-    
+    initMonitorBaudrateSelector();
+    initThemeToggle();
+
     // Load project config
     await loadConfig();
     
     // Apply translations and page config
     changeLanguage();
+    applyConsoleCollapsedState();
     
     // Load flash counts and display badges
     loadFlashCounts();
@@ -2329,12 +2787,12 @@ async function toggleSerialMonitor() {
 
 // Start serial monitor - opens port and reads incoming data
 async function startSerialMonitor() {
-    // Auto-expand console if collapsed
-    if (consoleCollapsed) {
-        toggleConsole();
-    }
-    
     const monitorBtn = document.getElementById('monitorButton');
+    installStepperMode = 'monitor';
+    resetMonitorWizardProgress();
+    monitorStepSelection = !!selectedProject;
+    syncInstallStepperLabels();
+    updateInstallStepper();
     
     try {
         addLog('🔌 Opening serial monitor...', 'info');
@@ -2342,9 +2800,11 @@ async function startSerialMonitor() {
         
         // Request port from user
         monitorPort = await navigator.serial.requestPort();
+        monitorStepPort = true;
+        updateInstallStepper();
         
-        // Get baudrate from config or default to 115200
-        const monitorBaudrate = pageConfig?.serial_monitor?.baudrate || 115200;
+        // Get monitor baudrate from dropdown/config
+        const monitorBaudrate = getSelectedMonitorBaudrate();
         
         // Try to open port - it may already be open from a failed flash
         try {
@@ -2366,6 +2826,12 @@ async function startSerialMonitor() {
         
         addLog(`✅ Serial monitor connected at ${monitorBaudrate} baud`, 'success');
         addLog('📡 Listening... (click "Stop Monitor" to disconnect)', 'info');
+        monitorStepConnect = true;
+        updateInstallStepper();
+        if (consoleCollapsed) {
+            consoleCollapsed = false;
+            applyConsoleCollapsedState();
+        }
         
         // Update button to show "Stop" state
         monitorRunning = true;
@@ -2415,8 +2881,13 @@ async function startSerialMonitor() {
     } catch (error) {
         if (error.message.includes('No port selected')) {
             addLog('ℹ️ Monitor cancelled - no port selected', 'warning');
+            installStepperMode = 'flash';
+            syncInstallStepperLabels();
+            updateInstallStepper();
         } else {
             addLog(`❌ Monitor error: ${error.message}`, 'error');
+            monitorStepErrorIndex = computeMonitorStepErrorIndex();
+            updateInstallStepper();
         }
     } finally {
         await cleanupMonitor();
@@ -2531,15 +3002,14 @@ function confirmNoResetReady() {
 
 // ===== CONSOLE COLLAPSE FUNCTIONS =====
 
-let consoleCollapsed = false;
+let consoleCollapsed = true;
 
-function toggleConsole() {
-    consoleCollapsed = !consoleCollapsed;
-    
+function applyConsoleCollapsedState() {
     const body = document.getElementById('consoleBody');
     const icon = document.getElementById('consoleToggleIcon');
     const text = document.getElementById('consoleToggleText');
-    
+    if (!body || !icon || !text) return;
+
     if (consoleCollapsed) {
         body.classList.add('collapsed');
         icon.classList.add('collapsed');
@@ -2549,6 +3019,11 @@ function toggleConsole() {
         icon.classList.remove('collapsed');
         text.textContent = translate('hideLogs') || 'Hide';
     }
+}
+
+function toggleConsole() {
+    consoleCollapsed = !consoleCollapsed;
+    applyConsoleCollapsedState();
 }
 
 // ===== PROGRESS BAR FUNCTIONS =====
@@ -3065,12 +3540,14 @@ function selectProjectByIndex(index) {
         // Don't select disabled projects
         selectedProject = null;
         selectedProjectVersion = null;
-        
+        resetInstallWizardProgress();
+
         // Hide flash section for disabled projects
         if (flashSection) {
             flashSection.classList.remove('active');
         }
-        
+
+        updateInstallStepper();
         // No console spam - user sees disabled card, that's enough
         return;
     }
@@ -3104,12 +3581,18 @@ function selectProjectByIndex(index) {
             addLog('⚠️ Browser not supported. Please use Chrome, Edge, or Opera.', 'error');
             addLog('Web Serial API is required for flashing ESP32 devices.', 'warning');
         }
-        
+
+        resetInstallWizardProgress();
+        updateInstallStepper();
         return;
     }
-    
+
+    const previousProjectId = selectedProject?.id;
     selectedProject = project;
     selectedProjectVersion = getCurrentProjectVersion(project) || getActiveProjectVersion(project);
+    if (previousProjectId !== project.id) {
+        resetInstallWizardProgress();
+    }
     refreshProjectVersionInCarousel(index);
     
     // Show flash section for enabled projects
@@ -3133,6 +3616,8 @@ function selectProjectByIndex(index) {
     // Add visual feedback
     const selectedVersionText = selectedProjectVersion?.version || project.version || 'n/a';
     addLog(`📦 ${translate('projectSelected') || 'Project selected'}: ${project.name} (${selectedVersionText})`, 'info');
+
+    updateInstallStepper();
 }
 
 // Keyboard navigation

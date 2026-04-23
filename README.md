@@ -223,16 +223,33 @@ Use this object format to avoid repeating the same path prefix and to define fla
 - `meta.before` / `meta.after`: connection/reset strategy for `main()` and `after()`
 - Legacy format (`firmware` as object/array/string) is still supported for backward compatibility
 
-#### Flash baudrate in UI
+#### Version tags and icons (optional)
 
-The flashing speed is selectable directly in the UI (Flash Options):
+On each entry in the `versions` array inside `config.json`, you can add optional UI hints for the **firmware version dropdown** (header):
 
-- `921600` (fastest, may be less stable on some cables/boards)
-- `460800` (default)
-- `230400`
-- `115200` (slowest, most robust fallback)
+| Field | Aliases | Description |
+|-------|---------|-------------|
+| `versionTag` | `tag` | Preset key (see `page-config.json` → `firmware_versions.tag_presets`). Examples: `preview`, `stable`, `beta`, `latest`, `legacy`, `rc`. Unknown values still show a small generic badge. |
+| `versionTagIcon` | `tagIcon` | Overrides the preset icon (emoji or short text). |
+| `versionTagLabel` | `tagLabel` | Short label shown next to the icon in the pill. |
 
-The selected value is saved in browser local storage and reused on next visit.
+Preset icons and labels are defined in **`page-config.json`** under `firmware_versions.tag_presets` (merged with built-in defaults in `js/script.js` if the key is missing). Each preset is an object `{ "icon": "…", "short": "…" }` or a shorthand string (treated as the icon only).
+
+#### Flash baudrate (UI + `page-config.json`)
+
+The flash speed is chosen from a **dropdown** in Flash Options (not a native `<select>`). Configure the list and default in **`page-config.json`**:
+
+```json
+"flash_baudrate": {
+  "options": [921600, 460800, 230400, 115200],
+  "default": 921600
+}
+```
+
+- **`options`**: array of positive integers; order in the UI follows this array.
+- **`default`**: used when nothing valid is stored in `localStorage` under `flashBaudrate`, or when the saved value is no longer in `options`.
+
+If `flash_baudrate` is omitted, the installer falls back to the same list and default as in code (`js/script.js`).
 
 ### `page-config.json` - Page Settings
 
@@ -240,6 +257,9 @@ This file configures branding, links, and visual settings.
 
 ```json
 {
+  "appearance": {
+    "default_theme": "light"
+  },
   "branding": {
     "logo": "images/powered-logo.png",
     "favicon": "images/favicon.ico"
@@ -272,8 +292,15 @@ This file configures branding, links, and visual settings.
     "show_warning": true,
     "supported_browsers": ["Chrome", "Edge", "Opera"]
   },
+  "flash_baudrate": {
+    "options": [921600, 460800, 230400, 115200],
+    "default": 921600
+  },
   "firmware_versions": {
-    "enabled": true
+    "enabled": true,
+    "tag_presets": {
+      "preview": { "icon": "🔭", "short": "Preview" }
+    }
   },
   "theme": {
     "primary_color": "#667eea",
@@ -302,15 +329,22 @@ This file configures branding, links, and visual settings.
 | Option | Description |
 |--------|-------------|
 | `analytics` | `false` for static hosting (GitHub Pages), `true` for PHP server with logging |
+| `appearance` | `default_theme`: `"light"` or `"dark"` when the user has never toggled theme (`localStorage` key `installerTheme`) |
 | `branding` | Logo and favicon paths |
 | `languages` | Available languages configuration |
 | `links.github` | "Report Issue" button configuration |
 | `footer` | Footer visibility and legal page links |
 | `browser_compatibility` | Warning for unsupported browsers |
-| `firmware_versions` | Enable/disable firmware version dropdown in flash options |
+| `flash_baudrate` | `options` (baud list) and `default` for the flash-speed dropdown |
+| `firmware_versions` | `enabled`: catalog version dropdown; `tag_presets`: icons/labels for `versionTag` in `config.json` |
 | `theme` | Color scheme (CSS variables) |
 | `error_logging` | Configure which error categories are logged (optional) |
 | `audio_feedback` | Audio notification system (optional) |
+
+#### Installer UI (steps + theme)
+
+- **Steps**: Five milestones, all unchecked until the flow advances: **Selection** (Connect & Flash clicked) → **Port** (COM port chosen in the browser dialog) → **Connect** (chip reachable after `main()`) → **Erase** (first progress writing firmware bytes) → **Flash** (full success). On error, indicators reset. Changing the carousel to another project resets them too.
+- **Light / dark**: A switch in the header (moon left / sun right; knob on the right = light) sets `data-theme` on `<html>` and persists in `localStorage` (`installerTheme`). Use `appearance.default_theme` for first visit only. The GitHub “Report issue” button is placed directly under this switch, above the firmware version line, so controls are not clipped.
 
 #### Error Logging Configuration
 

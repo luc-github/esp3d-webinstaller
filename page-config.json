@@ -1,7 +1,11 @@
 {
   "analytics": true,
+  "appearance": {
+    "default_theme": "light"
+  },
   "branding": {
     "logo": "images/powered-logo.png",
+    "logo_dark": "images/powered-logo-dark.png",
     "favicon": "images/favicon.ico"
   },
   "languages": [
@@ -37,6 +41,10 @@
   "flash_baudrate": {
     "options": [921600, 460800, 230400, 115200],
     "default": 921600
+  },
+  "serial_monitor": {
+    "options": [2000000, 1500000, 1000000, 921600, 460800, 230400, 115200, 74880, 57600, 38400, 19200, 9600],
+    "default": 115200
   },
   "firmware_versions": {
     "enabled": true,

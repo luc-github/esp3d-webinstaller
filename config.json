@@ -14,7 +14,8 @@
           "id": "2.0.0a12",
           "version": "2.0.0a12",
           "active": false,
-          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/releasenotes.html",
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a12/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a12/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",
@@ -39,6 +40,7 @@
           "active": true,
           "versionTag": "preview",
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",
@@ -83,7 +85,8 @@
           "id": "2.0.0a12",
           "version": "2.0.0a12",
           "active": false,
-          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/releasenotes.html",
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a12/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a12/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",
@@ -107,6 +110,7 @@
           "version": "2.0.0a13",
           "active": true,
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",
@@ -151,7 +155,8 @@
           "id": "2.0.0a12",
           "version": "2.0.0a12",
           "active": false,
-          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/releasenotes.html",
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a12/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a12/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",
@@ -175,6 +180,7 @@
           "version": "2.0.0a13",
           "active": true,
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",
@@ -219,7 +225,8 @@
           "id": "2.0.0a12",
           "version": "2.0.0a12",
           "active": false,
-          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/releasenotes.html",
+          "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a12/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a12/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",
@@ -243,6 +250,7 @@
           "version": "2.0.0a13",
           "active": true,
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13/releasenotes.html",
+          "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
             "meta": {
               "chip": "esp32",

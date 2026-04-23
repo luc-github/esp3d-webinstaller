@@ -38,7 +38,9 @@
   "eraseAllHint": "(recommended for clean install)",
   "flashBaudrateLabel": "Flash baudrate",
   "flashBaudrateHint": "(higher is faster, lower if unstable)",
-  "firmwareVersionLabel": "Firmware version",
+  "monitorBaudrateLabel": "Monitor baudrate",
+  "monitorBaudrateHint": "(serial monitor speed)",
+  "firmwareVersionLabel": "Firmware",
   "firmwareVersionHint": "(choose a previous version to rollback)",
   "noResetLabel": "No Reset",
   "noResetHint": "(use if device is stuck in boot loop)",
@@ -52,5 +54,14 @@
   "configLoaded": "Configuration loaded successfully",
   "projectSelected": "Project selected",
   "projectDisabled": "Project Not Available",
-  "downloadFirmware": "Download firmware for offline use"
+  "downloadFirmware": "Download firmware for offline use",
+  "wizardAriaLabel": "Installation steps",
+  "wizardStepSelection": "Selection",
+  "wizardStepPort": "Port",
+  "wizardStepConnect": "Connect",
+  "wizardStepDownload": "Download",
+  "wizardStepErase": "Erase",
+  "wizardStepFlashDone": "Flash",
+  "themeSwitchToDark": "Switch to dark mode",
+  "themeSwitchToLight": "Switch to light mode"
 }

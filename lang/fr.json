@@ -38,7 +38,9 @@
   "eraseAllHint": "(recommandé pour installation propre)",
   "flashBaudrateLabel": "Baudrate de flash",
   "flashBaudrateHint": "(plus élevé = plus rapide, baissez si instable)",
-  "firmwareVersionLabel": "Version du firmware",
+  "monitorBaudrateLabel": "Baudrate du moniteur",
+  "monitorBaudrateHint": "(vitesse du moniteur série)",
+  "firmwareVersionLabel": "Firmware",
   "firmwareVersionHint": "(choisissez une ancienne version pour rollback)",
   "noResetLabel": "No Reset",
   "noResetHint": "(utiliser si l'appareil est bloqué en boucle)",
@@ -52,5 +54,14 @@
   "configLoaded": "Configuration chargée avec succès",
   "projectSelected": "Projet sélectionné",
   "projectDisabled": "Projet Non Disponible",
-  "downloadFirmware": "Télécharger le firmware pour utilisation hors ligne"
+  "downloadFirmware": "Télécharger le firmware pour utilisation hors ligne",
+  "wizardAriaLabel": "Étapes d'installation",
+  "wizardStepSelection": "Sélection",
+  "wizardStepPort": "Port",
+  "wizardStepConnect": "Connexion",
+  "wizardStepDownload": "Téléchargement",
+  "wizardStepErase": "Effacement",
+  "wizardStepFlashDone": "Flash",
+  "themeSwitchToDark": "Passer en mode sombre",
+  "themeSwitchToLight": "Passer en mode clair"
 }

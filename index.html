@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
         <meta name="theme-color" content="#000000"> 
     <!--#endif -->
 
-    <link rel="stylesheet" href="style.css?v=1.0.3">
+    <link rel="stylesheet" href="style.css?v=1.0.7">
 </head>
 <body>
     <div class="container">
@@ -28,11 +28,20 @@
                 </div>
                 
                 <div class="header-actions" id="headerActions">
-                    <!-- Buttons will be added dynamically -->
+                    <div class="header-actions-stack">
+                        <div class="header-toolbar-top">
+                            <div class="theme-switch-wrap" id="themeSwitchWrap">
+                                <span class="theme-switch-side" aria-hidden="true">🌙</span>
+                                <button type="button" class="theme-switch-track" id="themeToggleBtn" role="switch" aria-checked="false" aria-label="Theme">
+                                    <span class="theme-switch-knob"></span>
+                                </button>
+                                <span class="theme-switch-side" aria-hidden="true">☀️</span>
+                            </div>
+                            <div id="headerReportIssueMount" class="header-report-issue-mount"></div>
+                        </div>
+                        <!-- Buttons will be added dynamically into #headerReportIssueMount -->
                     <div class="flash-option-item flash-option-item-select firmware-version-header" id="firmwareVersionOption" style="display: none;">
-                        <span class="flash-option-label" id="firmwareVersionLabel">
-                            Firmware version
-                        </span>
+                        <span class="flash-option-label" id="firmwareVersionLabel">Firmware</span>
                         <div class="firmware-version-dropdown" id="firmwareVersionDropdown">
                             <button type="button" class="firmware-version-dropdown-trigger" id="firmwareVersionDropdownBtn" aria-haspopup="listbox" aria-expanded="false" aria-controls="firmwareVersionDropdownList">
                                 <span class="firmware-version-dropdown-trigger-main">
@@ -49,6 +58,7 @@
                             <option value="en">English</option>
                             <option value="fr">Français</option>
                         </select>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -94,6 +104,21 @@
                             (higher is faster, lower if unstable)
                         </span>
                     </div>
+                    <div class="flash-option-item flash-option-item-select">
+                        <span class="flash-option-label" id="monitorBaudrateLabel">
+                            Monitor baudrate
+                        </span>
+                        <div class="flash-baudrate-dropdown" id="monitorBaudrateDropdown" data-selected-baudrate="">
+                            <button type="button" class="flash-baudrate-dropdown-trigger" id="monitorBaudrateDropdownBtn" aria-haspopup="listbox" aria-expanded="false" aria-controls="monitorBaudrateDropdownList">
+                                <span class="flash-baudrate-dropdown-value" id="monitorBaudrateDropdownValue"></span>
+                                <span class="flash-baudrate-dropdown-chevron" aria-hidden="true"></span>
+                            </button>
+                            <ul class="flash-baudrate-dropdown-list" id="monitorBaudrateDropdownList" role="listbox" aria-labelledby="monitorBaudrateLabel" hidden></ul>
+                        </div>
+                        <span class="flash-option-hint" id="monitorBaudrateHint">
+                            (serial monitor speed)
+                        </span>
+                    </div>
                     <label class="flash-option-item">
                         <input type="checkbox" id="eraseAllCheckbox" class="flash-checkbox">
                         <span class="flash-option-label" id="eraseAllLabel">
@@ -125,6 +150,40 @@
                     </div>
                     <div class="progress-status" id="progressStatus">Ready to start</div>
                 </div>
+
+                <nav class="install-stepper" id="installStepper" aria-label="Installation progress">
+                    <div class="install-stepper-inner">
+                        <div class="install-stepper-step" data-step-index="0">
+                            <span class="install-stepper-dot" aria-hidden="true"></span>
+                            <span class="install-stepper-label" id="installStepperLabel0">Selection</span>
+                        </div>
+                        <div class="install-stepper-connector" aria-hidden="true"></div>
+                        <div class="install-stepper-step" data-step-index="1">
+                            <span class="install-stepper-dot" aria-hidden="true"></span>
+                            <span class="install-stepper-label" id="installStepperLabel1">Port</span>
+                        </div>
+                        <div class="install-stepper-connector" aria-hidden="true"></div>
+                        <div class="install-stepper-step" data-step-index="2">
+                            <span class="install-stepper-dot" aria-hidden="true"></span>
+                            <span class="install-stepper-label" id="installStepperLabel2">Connect</span>
+                        </div>
+                        <div class="install-stepper-connector" aria-hidden="true"></div>
+                        <div class="install-stepper-step" data-step-index="3">
+                            <span class="install-stepper-dot" aria-hidden="true"></span>
+                            <span class="install-stepper-label" id="installStepperLabel3">Download</span>
+                        </div>
+                        <div class="install-stepper-connector" aria-hidden="true"></div>
+                        <div class="install-stepper-step" data-step-index="4">
+                            <span class="install-stepper-dot" aria-hidden="true"></span>
+                            <span class="install-stepper-label" id="installStepperLabel4">Erase</span>
+                        </div>
+                        <div class="install-stepper-connector" aria-hidden="true"></div>
+                        <div class="install-stepper-step" data-step-index="5">
+                            <span class="install-stepper-dot" aria-hidden="true"></span>
+                            <span class="install-stepper-label" id="installStepperLabel5">Flash</span>
+                        </div>
+                    </div>
+                </nav>
 
                 <!-- Console logs with collapse -->
                 <div id="consoleWrapper" class="console-wrapper">
@@ -198,6 +257,6 @@
         window.esptooljs = { Transport, ESPLoader };
     </script>
     <script src="js/version.js?v=1.0.2"></script>
-    <script src="js/script.js?v=1.0.5"></script>
+    <script src="js/script.js?v=1.0.7"></script>
 </body>
 </html>
