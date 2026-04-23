@@ -30,12 +30,10 @@
                 <div class="header-actions" id="headerActions">
                     <div class="header-actions-stack">
                         <div class="header-toolbar-top">
-                            <div class="theme-switch-wrap" id="themeSwitchWrap">
-                                <span class="theme-switch-side" aria-hidden="true">🌙</span>
-                                <button type="button" class="theme-switch-track" id="themeToggleBtn" role="switch" aria-checked="false" aria-label="Theme">
-                                    <span class="theme-switch-knob"></span>
-                                </button>
-                                <span class="theme-switch-side" aria-hidden="true">☀️</span>
+                            <div class="theme-switch-wrap" id="themeSwitchWrap" role="radiogroup" aria-label="Theme mode">
+                                <button type="button" class="theme-switch-option" id="themeModeLightBtn" data-theme-mode="light" role="radio" aria-checked="false">☀️</button>
+                                <button type="button" class="theme-switch-option" id="themeModeAutoBtn" data-theme-mode="auto" role="radio" aria-checked="true">🖥️</button>
+                                <button type="button" class="theme-switch-option" id="themeModeDarkBtn" data-theme-mode="dark" role="radio" aria-checked="false">🌙</button>
                             </div>
                             <div id="headerReportIssueMount" class="header-report-issue-mount"></div>
                         </div>

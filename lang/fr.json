@@ -62,6 +62,9 @@
   "wizardStepDownload": "Téléchargement",
   "wizardStepErase": "Effacement",
   "wizardStepFlashDone": "Flash",
+  "themeModeLight": "☀️",
+  "themeModeAuto": "🖥️",
+  "themeModeDark": "🌙",
   "themeSwitchToDark": "Passer en mode sombre",
   "themeSwitchToLight": "Passer en mode clair"
 }

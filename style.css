@@ -2200,60 +2200,46 @@ esp-web-install-button button:hover {
     text-overflow: ellipsis;
 }
 
-/* Theme: moon (dark) left — track — sun (light) right; knob right = light */
 .theme-switch-wrap {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 2px;
     flex-shrink: 0;
-}
-
-.theme-switch-side {
-    font-size: 1rem;
-    line-height: 1;
-    opacity: 0.85;
+    padding: 2px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.18);
     user-select: none;
 }
 
-.theme-switch-track {
-    position: relative;
-    width: 52px;
-    height: 28px;
-    padding: 0;
+.theme-switch-option {
+    min-width: 24px;
+    height: 24px;
+    border: none;
     border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
     cursor: pointer;
-    flex-shrink: 0;
-    transition: background 0.2s, border-color 0.2s;
+    padding: 0 4px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
-.theme-switch-track:hover {
-    background: rgba(255, 255, 255, 0.28);
-    border-color: rgba(255, 255, 255, 0.75);
+.theme-switch-option:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-.theme-switch-track:focus {
+.theme-switch-option:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
-.theme-switch-knob {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.22s ease;
-    pointer-events: none;
-    transform: translateX(24px);
-}
-
-.theme-switch-wrap.is-dark .theme-switch-knob {
-    transform: translateX(0);
+.theme-switch-option.is-active {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1f2937;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* ===== INSTALL STEPPER ===== */
@@ -2538,22 +2524,26 @@ esp-web-install-button button:hover {
     color: var(--dm-text);
 }
 
-[data-theme="dark"] .theme-switch-track {
-    border: 1px solid var(--dm-border);
+[data-theme="dark"] .theme-switch-wrap {
+    border-color: var(--dm-border);
     background: var(--dm-panel);
 }
 
-[data-theme="dark"] .theme-switch-track:hover {
-    background: var(--dm-hover);
-    border-color: #5a6370;
+[data-theme="dark"] .theme-switch-option {
+    color: #cbd5e1;
 }
 
-[data-theme="dark"] .theme-switch-track:focus {
-    box-shadow: 0 0 0 3px rgba(100, 110, 130, 0.35);
+[data-theme="dark"] .theme-switch-option:hover {
+    background: #1c2129;
 }
 
-[data-theme="dark"] .theme-switch-side {
-    opacity: 0.72;
+[data-theme="dark"] .theme-switch-option:focus {
+    box-shadow: 0 0 0 2px rgba(100, 110, 130, 0.35);
+}
+
+[data-theme="dark"] .theme-switch-option.is-active {
+    background: #2b3442;
+    color: #f8fafc;
 }
 
 [data-theme="dark"] .content {

@@ -34,6 +34,8 @@ let monitorStepSelection = false;
 let monitorStepPort = false;
 let monitorStepConnect = false;
 let monitorStepErrorIndex = -1;
+let themeModePreference = 'auto'; // light | auto | dark
+let themeMediaQuery = null;
 
 // Audio queue system to prevent sound overlap
 let audioQueue = [];
@@ -686,6 +688,26 @@ function getStoredTheme() {
     return localStorage.getItem('installerTheme');
 }
 
+function resolveEffectiveTheme(mode) {
+    if (mode === 'dark' || mode === 'light') return mode;
+    const prefersDark = !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+}
+
+function updateThemeModeSwitchUI(mode) {
+    const map = {
+        light: document.getElementById('themeModeLightBtn'),
+        auto: document.getElementById('themeModeAutoBtn'),
+        dark: document.getElementById('themeModeDarkBtn')
+    };
+    Object.entries(map).forEach(([key, el]) => {
+        if (!el) return;
+        const active = key === mode;
+        el.classList.toggle('is-active', active);
+        el.setAttribute('aria-checked', active ? 'true' : 'false');
+    });
+}
+
 function updateHeaderLogoForTheme(themeMode) {
     const logo = document.getElementById('headerLogo');
     if (!logo || !pageConfig?.branding) return;
@@ -715,44 +737,47 @@ function updateHeaderLogoForTheme(themeMode) {
 }
 
 function applyTheme(mode, opts = {}) {
-    const m = mode === 'dark' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', m);
+    const preferred = (mode === 'light' || mode === 'dark' || mode === 'auto') ? mode : 'auto';
+    themeModePreference = preferred;
+    const effective = resolveEffectiveTheme(preferred);
+    document.documentElement.setAttribute('data-theme', effective);
+    document.documentElement.setAttribute('data-theme-mode', preferred);
     if (document.body) {
-        document.body.setAttribute('data-theme', m);
-        document.body.classList.toggle('dark-theme', m === 'dark');
+        document.body.setAttribute('data-theme', effective);
+        document.body.setAttribute('data-theme-mode', preferred);
+        document.body.classList.toggle('dark-theme', effective === 'dark');
     }
-    updateHeaderLogoForTheme(m);
+    updateHeaderLogoForTheme(effective);
     if (opts.persist) {
-        localStorage.setItem('installerTheme', m);
+        localStorage.setItem('installerTheme', preferred);
     }
-    const btn = document.getElementById('themeToggleBtn');
-    const wrap = document.getElementById('themeSwitchWrap');
-    if (btn) {
-        const isDark = m === 'dark';
-        btn.setAttribute('aria-checked', isDark ? 'true' : 'false');
-        btn.title = isDark ? translate('themeSwitchToLight') : translate('themeSwitchToDark');
-        btn.setAttribute('aria-label', btn.title);
-    }
-    if (wrap) {
-        wrap.classList.toggle('is-dark', m === 'dark');
-    }
+    updateThemeModeSwitchUI(preferred);
 }
 
 function initThemeToggle() {
-    const btn = document.getElementById('themeToggleBtn');
-    if (!btn || initThemeToggle._done) return;
+    const lightBtn = document.getElementById('themeModeLightBtn');
+    const autoBtn = document.getElementById('themeModeAutoBtn');
+    const darkBtn = document.getElementById('themeModeDarkBtn');
+    if (!lightBtn || !autoBtn || !darkBtn || initThemeToggle._done) return;
     initThemeToggle._done = true;
     const stored = getStoredTheme();
-    if (stored === 'light' || stored === 'dark') {
+    if (stored === 'light' || stored === 'dark' || stored === 'auto') {
         applyTheme(stored, { persist: false });
     } else {
-        const def = pageConfig?.appearance?.default_theme;
-        applyTheme(def === 'dark' ? 'dark' : 'light', { persist: false });
+        applyTheme('auto', { persist: false });
     }
-    btn.addEventListener('click', () => {
-        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        applyTheme(next, { persist: true });
-    });
+    lightBtn.addEventListener('click', () => applyTheme('light', { persist: true }));
+    autoBtn.addEventListener('click', () => applyTheme('auto', { persist: true }));
+    darkBtn.addEventListener('click', () => applyTheme('dark', { persist: true }));
+
+    if (window.matchMedia) {
+        themeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        themeMediaQuery.addEventListener('change', () => {
+            if (themeModePreference === 'auto') {
+                applyTheme('auto', { persist: false });
+            }
+        });
+    }
 }
 
 function isVersionSelectorEnabled() {
@@ -2612,6 +2637,12 @@ function changeLanguage() {
     const monitorBaudrateHint = document.getElementById('monitorBaudrateHint');
     if (monitorBaudrateLabel) monitorBaudrateLabel.textContent = translate('monitorBaudrateLabel');
     if (monitorBaudrateHint) monitorBaudrateHint.textContent = translate('monitorBaudrateHint');
+    const themeModeLightBtn = document.getElementById('themeModeLightBtn');
+    const themeModeAutoBtn = document.getElementById('themeModeAutoBtn');
+    const themeModeDarkBtn = document.getElementById('themeModeDarkBtn');
+    if (themeModeLightBtn) themeModeLightBtn.textContent = translate('themeModeLight');
+    if (themeModeAutoBtn) themeModeAutoBtn.textContent = translate('themeModeAuto');
+    if (themeModeDarkBtn) themeModeDarkBtn.textContent = translate('themeModeDark');
 
     // Update firmware version selector texts
     const firmwareVersionLabel = document.getElementById('firmwareVersionLabel');
@@ -2662,8 +2693,7 @@ function changeLanguage() {
 
     syncInstallStepperLabels();
     updateInstallStepper();
-    const curTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    applyTheme(curTheme, { persist: false });
+    applyTheme(themeModePreference, { persist: false });
 }
 
 // Setup language selector based on config

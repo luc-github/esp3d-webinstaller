@@ -1,7 +1,7 @@
 {
   "analytics": true,
   "appearance": {
-    "default_theme": "light"
+    "default_theme": "auto"
   },
   "branding": {
     "logo": "images/powered-logo.png",
