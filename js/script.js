@@ -8,6 +8,7 @@ let pageConfig = null;
 let selectedProject = null;
 let selectedProjectVersion = null;
 let preferredVersionId = null;
+let firmwareVersionCatalogOptions = [];
 let allProjects = [];
 let translations = {}; // Will be loaded from lang files
 let esploader = null; // ESPLoader instance
@@ -131,24 +132,211 @@ function playErrorSound(errorMessage) {
     playAudioFeedback(`error_${category}`);
 }
 
+const DEFAULT_FLASH_BAUDRATE_OPTIONS = [921600, 460800, 230400, 115200];
+const DEFAULT_FLASH_BAUDRATE = 921600;
+
+function getFlashBaudrateConfig() {
+    const raw = pageConfig?.flash_baudrate;
+    let options = [...DEFAULT_FLASH_BAUDRATE_OPTIONS];
+    if (raw?.options && Array.isArray(raw.options)) {
+        const parsed = raw.options
+            .map(x => parseInt(x, 10))
+            .filter(n => Number.isFinite(n) && n > 0);
+        if (parsed.length) options = parsed;
+    }
+    let def = parseInt(raw?.default, 10);
+    if (!Number.isFinite(def) || !options.includes(def)) {
+        def = options.includes(DEFAULT_FLASH_BAUDRATE) ? DEFAULT_FLASH_BAUDRATE : options[0];
+    }
+    return { options, default: def };
+}
+
 function getSelectedFlashBaudrate() {
-    const flashBaudrateSelect = document.getElementById('flashBaudrateSelect');
-    const selected = flashBaudrateSelect ? parseInt(flashBaudrateSelect.value, 10) : NaN;
-    return Number.isFinite(selected) && selected > 0 ? selected : 921600;
+    const { options, default: def } = getFlashBaudrateConfig();
+    const root = document.getElementById('flashBaudrateDropdown');
+    if (!root) {
+        const saved = localStorage.getItem('flashBaudrate');
+        const n = parseInt(saved, 10);
+        if (Number.isFinite(n) && n > 0 && options.includes(n)) return n;
+        return def;
+    }
+    const v = parseInt(root.dataset.selectedBaudrate, 10);
+    if (Number.isFinite(v) && v > 0 && options.includes(v)) return v;
+    return def;
+}
+
+function closeFlashBaudrateDropdown() {
+    const root = document.getElementById('flashBaudrateDropdown');
+    const btn = document.getElementById('flashBaudrateDropdownBtn');
+    const list = document.getElementById('flashBaudrateDropdownList');
+    if (!root || !btn || !list) return;
+    root.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    list.hidden = true;
+}
+
+function openFlashBaudrateDropdown() {
+    const root = document.getElementById('flashBaudrateDropdown');
+    const btn = document.getElementById('flashBaudrateDropdownBtn');
+    const list = document.getElementById('flashBaudrateDropdownList');
+    if (!root || !btn || !list) return;
+    root.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    list.hidden = false;
+}
+
+function syncFlashBaudrateDropdownAriaSelected(rate) {
+    const list = document.getElementById('flashBaudrateDropdownList');
+    if (!list) return;
+    const key = String(rate);
+    list.querySelectorAll('[role="option"]').forEach(el => {
+        el.setAttribute('aria-selected', el.dataset.baudrate === key ? 'true' : 'false');
+    });
+}
+
+function setFlashBaudrateSelection(rate, opts = {}) {
+    const root = document.getElementById('flashBaudrateDropdown');
+    const btn = document.getElementById('flashBaudrateDropdownBtn');
+    const valueEl = document.getElementById('flashBaudrateDropdownValue');
+    if (!root || !valueEl) return;
+    const { options } = getFlashBaudrateConfig();
+    const useRate = options.includes(rate) ? rate : getFlashBaudrateConfig().default;
+    root.dataset.selectedBaudrate = String(useRate);
+    valueEl.textContent = String(useRate);
+    if (btn) {
+        btn.title = String(useRate);
+    }
+    syncFlashBaudrateDropdownAriaSelected(useRate);
+    if (opts.persist !== false) {
+        localStorage.setItem('flashBaudrate', String(useRate));
+    }
+}
+
+function attachFlashBaudrateDropdownShellOnce() {
+    if (attachFlashBaudrateDropdownShellOnce._done) return;
+    const btn = document.getElementById('flashBaudrateDropdownBtn');
+    const root = document.getElementById('flashBaudrateDropdown');
+    const list = document.getElementById('flashBaudrateDropdownList');
+    if (!btn || !root || !list) return;
+    attachFlashBaudrateDropdownShellOnce._done = true;
+
+    btn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (!root.classList.contains('open')) {
+            openFlashBaudrateDropdown();
+            const sel = list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]');
+            sel?.focus();
+        } else {
+            closeFlashBaudrateDropdown();
+        }
+    });
+
+    btn.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && root.classList.contains('open')) {
+            e.preventDefault();
+            closeFlashBaudrateDropdown();
+            return;
+        }
+        if (e.key === 'ArrowDown' && root.classList.contains('open')) {
+            e.preventDefault();
+            (list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]'))?.focus();
+            return;
+        }
+        if ((e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') && !root.classList.contains('open')) {
+            e.preventDefault();
+            openFlashBaudrateDropdown();
+            (list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]'))?.focus();
+        }
+    });
+
+    list.addEventListener('keydown', e => {
+        const items = [...list.querySelectorAll('[role="option"]')];
+        const i = items.indexOf(document.activeElement);
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeFlashBaudrateDropdown();
+            btn.focus();
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (items.length === 0) return;
+            const next = i >= 0 ? (i + 1) % items.length : 0;
+            items[next].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (items.length === 0) return;
+            const next = i <= 0 ? items.length - 1 : i - 1;
+            items[next].focus();
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            items[0]?.focus();
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            items[items.length - 1]?.focus();
+        }
+    });
+
+    document.addEventListener('click', () => {
+        if (root.classList.contains('open')) {
+            closeFlashBaudrateDropdown();
+        }
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape' || !root.classList.contains('open')) return;
+        const t = document.activeElement;
+        if (t && (t === btn || list.contains(t))) return;
+        closeFlashBaudrateDropdown();
+    });
 }
 
 function initFlashBaudrateSelector() {
-    const flashBaudrateSelect = document.getElementById('flashBaudrateSelect');
-    if (!flashBaudrateSelect) return;
+    const root = document.getElementById('flashBaudrateDropdown');
+    const btn = document.getElementById('flashBaudrateDropdownBtn');
+    const list = document.getElementById('flashBaudrateDropdownList');
+    if (!root || !btn || !list) return;
 
-    const savedBaudrate = localStorage.getItem('flashBaudrate');
-    if (savedBaudrate && Array.from(flashBaudrateSelect.options).some(opt => opt.value === savedBaudrate)) {
-        flashBaudrateSelect.value = savedBaudrate;
+    const { options, default: defaultBaud } = getFlashBaudrateConfig();
+
+    list.textContent = '';
+    options.forEach(rate => {
+        const li = document.createElement('li');
+        li.className = 'flash-baudrate-dropdown-item';
+        li.setAttribute('role', 'option');
+        li.tabIndex = -1;
+        li.dataset.baudrate = String(rate);
+        li.textContent = String(rate);
+
+        li.addEventListener('click', e => {
+            e.stopPropagation();
+            setFlashBaudrateSelection(rate);
+            closeFlashBaudrateDropdown();
+            btn.focus();
+        });
+
+        li.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setFlashBaudrateSelection(rate);
+                closeFlashBaudrateDropdown();
+                btn.focus();
+            }
+        });
+
+        list.appendChild(li);
+    });
+
+    const saved = localStorage.getItem('flashBaudrate');
+    const savedNum = parseInt(saved, 10);
+    let initial = defaultBaud;
+    if (Number.isFinite(savedNum) && options.includes(savedNum)) {
+        initial = savedNum;
+    } else if (saved) {
+        localStorage.setItem('flashBaudrate', String(defaultBaud));
     }
 
-    flashBaudrateSelect.addEventListener('change', () => {
-        localStorage.setItem('flashBaudrate', flashBaudrateSelect.value);
-    });
+    setFlashBaudrateSelection(initial, { persist: false });
+
+    attachFlashBaudrateDropdownShellOnce();
 }
 
 function isVersionSelectorEnabled() {
@@ -343,20 +531,152 @@ function applyProjectVersionDefaults() {
     });
 }
 
+const DEFAULT_VERSION_TAG_PRESETS = {
+    latest: { icon: '⭐', short: 'Latest' },
+    last: { icon: '⭐', short: 'Last' },
+    stable: { icon: '✓', short: 'Stable' },
+    new: { icon: '✨', short: 'New' },
+    preview: { icon: '🔭', short: 'Preview' },
+    beta: { icon: '🧪', short: 'Beta' },
+    legacy: { icon: '📦', short: 'Legacy' },
+    rc: { icon: '◉', short: 'RC' }
+};
+
+function normalizeOneTagPreset(key, val) {
+    if (typeof val === 'string') {
+        const icon = val.trim();
+        if (!icon) return null;
+        return { icon, short: key };
+    }
+    if (!val || typeof val !== 'object') return null;
+    const icon = typeof val.icon === 'string' ? val.icon.trim() : '';
+    const shortRaw = typeof val.short === 'string' ? val.short.trim()
+        : (typeof val.label === 'string' ? val.label.trim() : '');
+    if (!icon && !shortRaw) return null;
+    return {
+        icon: icon || '🏷',
+        short: shortRaw || key
+    };
+}
+
+function mergeVersionTagPresets(fromPage) {
+    const merged = { ...DEFAULT_VERSION_TAG_PRESETS };
+    if (!fromPage || typeof fromPage !== 'object') return merged;
+    Object.entries(fromPage).forEach(([key, val]) => {
+        const normalized = normalizeOneTagPreset(key, val);
+        if (normalized) merged[key] = normalized;
+    });
+    return merged;
+}
+
+function getVersionTagPresets() {
+    const fromPage = pageConfig?.firmware_versions?.tag_presets
+        ?? pageConfig?.firmware_version_tag_presets;
+    return mergeVersionTagPresets(fromPage);
+}
+
+function getVersionOptionTagDisplay(option) {
+    if (!option) return null;
+    const tagIcon = option.tagIcon ? String(option.tagIcon).trim() : '';
+    const tagLabel = option.tagLabel ? String(option.tagLabel).trim() : '';
+    const tag = option.tag ? String(option.tag).trim() : '';
+
+    if (tagIcon) {
+        return {
+            icon: tagIcon,
+            text: tagLabel,
+            title: [tagLabel, tag].filter(Boolean).join(' · ') || tagIcon
+        };
+    }
+    if (tag) {
+        const key = tag.toLowerCase();
+        const preset = getVersionTagPresets()[key];
+        if (preset) {
+            return {
+                icon: preset.icon,
+                text: tagLabel || preset.short,
+                title: tagLabel ? `${preset.short} (${tagLabel})` : preset.short
+            };
+        }
+        return {
+            icon: '🏷',
+            text: tagLabel || tag,
+            title: tag
+        };
+    }
+    if (tagLabel) {
+        return { icon: '🏷', text: tagLabel, title: tagLabel };
+    }
+    return null;
+}
+
+function fillFirmwareVersionTagPill(pillEl, display) {
+    if (!pillEl) return;
+    pillEl.textContent = '';
+    if (!display || (!display.icon && !display.text)) {
+        pillEl.hidden = true;
+        return;
+    }
+    pillEl.hidden = false;
+    if (display.icon) {
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'firmware-version-tag-icon';
+        iconSpan.setAttribute('aria-hidden', 'true');
+        iconSpan.textContent = display.icon;
+        pillEl.appendChild(iconSpan);
+    }
+    if (display.text) {
+        const textSpan = document.createElement('span');
+        textSpan.className = 'firmware-version-tag-text';
+        textSpan.textContent = display.text;
+        pillEl.appendChild(textSpan);
+    }
+}
+
 function collectAvailableVersionOptions(projects) {
     const map = new Map();
     (projects || []).forEach(project => {
         getProjectVersions(project).forEach((versionItem, index) => {
             const optionId = versionItem.id || versionItem.version || `v${index}`;
+            const tagRaw = versionItem.versionTag ?? versionItem.tag;
+            const tag = typeof tagRaw === 'string' ? tagRaw.trim() : (tagRaw || '');
+            const tagIconRaw = versionItem.versionTagIcon ?? versionItem.tagIcon;
+            const tagIcon = typeof tagIconRaw === 'string' ? tagIconRaw.trim() : (tagIconRaw || '');
+            const tagLabelRaw = versionItem.versionTagLabel ?? versionItem.tagLabel;
+            const tagLabel = typeof tagLabelRaw === 'string' ? tagLabelRaw.trim() : (tagLabelRaw || '');
+
+            const entry = {
+                id: optionId,
+                label: versionItem.label || versionItem.version || optionId,
+                tag: tag || null,
+                tagIcon: tagIcon || null,
+                tagLabel: tagLabel || null
+            };
+
             if (!map.has(optionId)) {
-                map.set(optionId, {
-                    id: optionId,
-                    label: versionItem.label || versionItem.version || optionId
-                });
+                map.set(optionId, entry);
+            } else {
+                const cur = map.get(optionId);
+                if (!cur.tag && !cur.tagIcon && !cur.tagLabel) {
+                    cur.tag = entry.tag;
+                    cur.tagIcon = entry.tagIcon;
+                    cur.tagLabel = entry.tagLabel;
+                }
             }
         });
     });
     return Array.from(map.values());
+}
+
+const VERSION_COLLATOR = new Intl.Collator(undefined, {
+    numeric: true,
+    sensitivity: 'base'
+});
+
+function compareCatalogVersionOptionsDesc(a, b) {
+    const aKey = String(a?.label || a?.id || '');
+    const bKey = String(b?.label || b?.id || '');
+    return VERSION_COLLATOR.compare(bKey, aKey);
 }
 
 function getDefaultCatalogVersionId(projects, options) {
@@ -390,42 +710,207 @@ function projectSupportsVersion(project, versionId) {
     return !!getVersionById(project, versionId);
 }
 
+function closeFirmwareVersionDropdown() {
+    const root = document.getElementById('firmwareVersionDropdown');
+    const btn = document.getElementById('firmwareVersionDropdownBtn');
+    const list = document.getElementById('firmwareVersionDropdownList');
+    if (!root || !btn || !list) return;
+    root.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    list.hidden = true;
+}
+
+function openFirmwareVersionDropdown() {
+    const root = document.getElementById('firmwareVersionDropdown');
+    const btn = document.getElementById('firmwareVersionDropdownBtn');
+    const list = document.getElementById('firmwareVersionDropdownList');
+    if (!root || !btn || !list) return;
+    root.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    list.hidden = false;
+}
+
+function syncFirmwareVersionDropdownButton(selectedOption) {
+    const valueEl = document.getElementById('firmwareVersionDropdownValue');
+    const pillEl = document.getElementById('firmwareVersionDropdownPill');
+    const btn = document.getElementById('firmwareVersionDropdownBtn');
+    if (!valueEl || !pillEl || !btn) return;
+    valueEl.textContent = selectedOption ? selectedOption.label : '';
+    const tagDisplay = getVersionOptionTagDisplay(selectedOption);
+    fillFirmwareVersionTagPill(pillEl, tagDisplay);
+    const titleParts = [selectedOption?.label, tagDisplay?.title].filter(Boolean);
+    btn.title = titleParts.join(' — ');
+}
+
+function refreshFirmwareVersionDropdownAriaSelected(selectedId) {
+    const list = document.getElementById('firmwareVersionDropdownList');
+    if (!list) return;
+    list.querySelectorAll('[role="option"]').forEach(optEl => {
+        optEl.setAttribute('aria-selected', optEl.dataset.versionId === selectedId ? 'true' : 'false');
+    });
+}
+
+function buildFirmwareVersionDropdownMenu(options, selectedId) {
+    const list = document.getElementById('firmwareVersionDropdownList');
+    if (!list) return;
+    list.textContent = '';
+
+    options.forEach(opt => {
+        const li = document.createElement('li');
+        li.className = 'firmware-version-dropdown-item';
+        li.setAttribute('role', 'option');
+        li.tabIndex = -1;
+        li.dataset.versionId = opt.id;
+        li.setAttribute('aria-selected', opt.id === selectedId ? 'true' : 'false');
+
+        const tagDisplay = getVersionOptionTagDisplay(opt);
+        if (tagDisplay && (tagDisplay.icon || tagDisplay.text)) {
+            const pill = document.createElement('span');
+            pill.className = 'firmware-version-dropdown-pill';
+            fillFirmwareVersionTagPill(pill, tagDisplay);
+            li.appendChild(pill);
+        }
+
+        const label = document.createElement('span');
+        label.className = 'firmware-version-dropdown-item-label';
+        label.textContent = opt.label;
+        li.appendChild(label);
+
+        li.addEventListener('click', e => {
+            e.stopPropagation();
+            applyFirmwareCatalogVersionChoice(opt.id);
+        });
+
+        li.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                applyFirmwareCatalogVersionChoice(opt.id);
+            }
+        });
+
+        list.appendChild(li);
+    });
+}
+
+function applyFirmwareCatalogVersionChoice(versionId) {
+    preferredVersionId = versionId || null;
+    initCarousel();
+    loadFlashCounts();
+    addLog(`🔁 Firmware version selected: ${preferredVersionId}`, 'info');
+    const opt = firmwareVersionCatalogOptions.find(o => o.id === versionId);
+    syncFirmwareVersionDropdownButton(opt || null);
+    refreshFirmwareVersionDropdownAriaSelected(versionId);
+    closeFirmwareVersionDropdown();
+    document.getElementById('firmwareVersionDropdownBtn')?.focus();
+}
+
+function initFirmwareVersionDropdownShellOnce() {
+    if (initFirmwareVersionDropdownShellOnce._done) return;
+    const btn = document.getElementById('firmwareVersionDropdownBtn');
+    const root = document.getElementById('firmwareVersionDropdown');
+    const list = document.getElementById('firmwareVersionDropdownList');
+    if (!btn || !root || !list) return;
+    initFirmwareVersionDropdownShellOnce._done = true;
+
+    btn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (!root.classList.contains('open')) {
+            openFirmwareVersionDropdown();
+            const sel = list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]');
+            sel?.focus();
+        } else {
+            closeFirmwareVersionDropdown();
+        }
+    });
+
+    btn.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && root.classList.contains('open')) {
+            e.preventDefault();
+            closeFirmwareVersionDropdown();
+            return;
+        }
+        if (e.key === 'ArrowDown' && root.classList.contains('open')) {
+            e.preventDefault();
+            (list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]'))?.focus();
+            return;
+        }
+        if ((e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') && !root.classList.contains('open')) {
+            e.preventDefault();
+            openFirmwareVersionDropdown();
+            (list.querySelector('[role="option"][aria-selected="true"]') || list.querySelector('[role="option"]'))?.focus();
+        }
+    });
+
+    list.addEventListener('keydown', e => {
+        const items = [...list.querySelectorAll('[role="option"]')];
+        const i = items.indexOf(document.activeElement);
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeFirmwareVersionDropdown();
+            btn.focus();
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (items.length === 0) return;
+            const next = i >= 0 ? (i + 1) % items.length : 0;
+            items[next].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (items.length === 0) return;
+            const next = i <= 0 ? items.length - 1 : i - 1;
+            items[next].focus();
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            items[0]?.focus();
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            items[items.length - 1]?.focus();
+        }
+    });
+
+    document.addEventListener('click', () => {
+        if (root.classList.contains('open')) {
+            closeFirmwareVersionDropdown();
+        }
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape' || !root.classList.contains('open')) return;
+        const t = document.activeElement;
+        if (t && (t === btn || list.contains(t))) return;
+        closeFirmwareVersionDropdown();
+    });
+}
+
 function updateFirmwareVersionSelector() {
     const wrapper = document.getElementById('firmwareVersionOption');
-    const select = document.getElementById('firmwareVersionSelect');
-    if (!wrapper || !select) return;
+    const root = document.getElementById('firmwareVersionDropdown');
+    if (!wrapper || !root) return;
 
-    const options = collectAvailableVersionOptions(allProjects);
+    const options = collectAvailableVersionOptions(allProjects).sort(compareCatalogVersionOptionsDesc);
     if (!isVersionSelectorEnabled() || options.length < 2) {
         wrapper.style.display = 'none';
         preferredVersionId = null;
-        select.innerHTML = '';
+        firmwareVersionCatalogOptions = [];
+        closeFirmwareVersionDropdown();
+        const list = document.getElementById('firmwareVersionDropdownList');
+        if (list) list.textContent = '';
         return;
     }
 
+    firmwareVersionCatalogOptions = options;
     wrapper.style.display = 'flex';
-    select.innerHTML = '';
-
-    options.forEach(versionItem => {
-        const option = document.createElement('option');
-        option.value = versionItem.id;
-        option.textContent = versionItem.label;
-        select.appendChild(option);
-    });
 
     const validPreferred = options.some(o => o.id === preferredVersionId);
     const selectedOptionId = validPreferred
         ? preferredVersionId
         : getDefaultCatalogVersionId(allProjects, options);
     preferredVersionId = selectedOptionId;
-    select.value = selectedOptionId;
 
-    select.onchange = () => {
-        preferredVersionId = select.value || null;
-        initCarousel();
-        loadFlashCounts();
-        addLog(`🔁 Firmware version selected: ${preferredVersionId}`, 'info');
-    };
+    buildFirmwareVersionDropdownMenu(options, selectedOptionId);
+    const selectedOpt = options.find(o => o.id === selectedOptionId);
+    syncFirmwareVersionDropdownButton(selectedOpt || null);
+
+    initFirmwareVersionDropdownShellOnce();
 }
 
 // Flash event logging to server

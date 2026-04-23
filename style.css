@@ -722,10 +722,184 @@ esp-web-install-button button:hover {
     color: #fff;
 }
 
-.firmware-version-header .flash-select {
-    min-width: 120px;
-    height: 30px;
+/* Firmware version custom dropdown (header) */
+.firmware-version-dropdown {
+    position: relative;
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+.firmware-version-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    min-width: 140px;
+    max-width: 260px;
+    min-height: 32px;
+    padding: 6px 10px;
     font-size: 0.9em;
+    font-family: inherit;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    text-align: left;
+}
+
+.firmware-version-dropdown-trigger:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.65);
+}
+
+.firmware-version-dropdown-trigger:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.firmware-version-dropdown-trigger-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+}
+
+.firmware-version-dropdown-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.firmware-version-dropdown-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    max-width: 108px;
+    padding: 2px 7px;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    color: #4c3d91;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 999px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.firmware-version-dropdown-pill .firmware-version-tag-icon {
+    /* Absolute size: pill text is 0.72em; em-based icons stay tiny without this */
+    font-size: 1.2rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.firmware-version-dropdown-pill .firmware-version-tag-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.firmware-version-header:hover .firmware-version-dropdown-trigger {
+    color: #24292f;
+    background: #fff;
+    border-color: #667eea;
+}
+
+.firmware-version-header:hover .firmware-version-dropdown-pill {
+    color: #fff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: none;
+}
+
+.firmware-version-dropdown-chevron {
+    flex-shrink: 0;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid currentColor;
+    opacity: 0.85;
+    transition: transform 0.2s ease;
+}
+
+.firmware-version-dropdown.open .firmware-version-dropdown-chevron {
+    transform: rotate(180deg);
+}
+
+.firmware-version-dropdown-list {
+    position: absolute;
+    z-index: 200;
+    right: 0;
+    top: calc(100% + 6px);
+    min-width: 100%;
+    max-width: min(320px, 92vw);
+    max-height: min(280px, 42vh);
+    overflow-y: auto;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid rgba(102, 126, 234, 0.25);
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.firmware-version-dropdown-list:focus {
+    outline: none;
+}
+
+.firmware-version-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 10px 12px;
+    font-size: 0.9em;
+    font-family: inherit;
+    font-weight: 600;
+    color: #24292f;
+    text-align: left;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    transition: background 0.15s ease;
+    list-style: none;
+}
+
+.firmware-version-dropdown-item:hover,
+.firmware-version-dropdown-item:focus {
+    outline: none;
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.firmware-version-dropdown-item[aria-selected="true"] {
+    background: rgba(102, 126, 234, 0.16);
+    color: #4c3d91;
+}
+
+.firmware-version-dropdown-item .firmware-version-dropdown-pill {
+    max-width: 96px;
+}
+
+.firmware-version-dropdown-item-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -1123,6 +1297,115 @@ esp-web-install-button button:hover {
     font-size: 0.95em;
 }
 
+/* Flash baudrate custom dropdown (flash options card) */
+.flash-baudrate-dropdown {
+    position: relative;
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+.flash-baudrate-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 140px;
+    max-width: 200px;
+    min-height: 34px;
+    padding: 6px 12px;
+    font-size: 0.95em;
+    font-family: inherit;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #24292f;
+    background: #fff;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    text-align: left;
+}
+
+.flash-baudrate-dropdown-trigger:hover {
+    background: rgba(102, 126, 234, 0.08);
+    border-color: #764ba2;
+}
+
+.flash-baudrate-dropdown-trigger:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.35);
+}
+
+.flash-baudrate-dropdown-value {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.flash-baudrate-dropdown-chevron {
+    flex-shrink: 0;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #667eea;
+    transition: transform 0.2s ease;
+}
+
+.flash-baudrate-dropdown.open .flash-baudrate-dropdown-chevron {
+    transform: rotate(180deg);
+}
+
+.flash-baudrate-dropdown-list {
+    position: absolute;
+    z-index: 150;
+    left: 0;
+    top: calc(100% + 6px);
+    min-width: 100%;
+    max-width: min(260px, 90vw);
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid rgba(102, 126, 234, 0.35);
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+.flash-baudrate-dropdown-list:focus {
+    outline: none;
+}
+
+.flash-baudrate-dropdown-item {
+    margin: 0;
+    padding: 10px 14px;
+    font-size: 0.95em;
+    font-family: inherit;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #24292f;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    background: transparent;
+    transition: background 0.15s ease;
+    list-style: none;
+}
+
+.flash-baudrate-dropdown-item:hover,
+.flash-baudrate-dropdown-item:focus {
+    outline: none;
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.flash-baudrate-dropdown-item[aria-selected="true"] {
+    background: rgba(102, 126, 234, 0.16);
+    color: #4c3d91;
+}
+
 .flash-checkbox {
     width: 20px;
     height: 20px;
@@ -1146,6 +1429,11 @@ esp-web-install-button button:hover {
 @media (max-width: 768px) {
     .flash-option-item {
         flex-wrap: wrap;
+    }
+
+    .flash-baudrate-dropdown-trigger {
+        max-width: none;
+        width: 100%;
     }
 
     .firmware-version-header {
@@ -1437,7 +1725,8 @@ esp-web-install-button button:hover {
         line-height: 1.2;
     }
 
-    .firmware-version-header .flash-select {
+    .firmware-version-dropdown-trigger {
+        max-width: none;
         width: 100%;
         min-width: 110px;
     }

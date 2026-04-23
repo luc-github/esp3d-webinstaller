@@ -34,8 +34,22 @@
     "show_warning": true,
     "supported_browsers": ["Chrome", "Edge", "Opera"]
   },
+  "flash_baudrate": {
+    "options": [921600, 460800, 230400, 115200],
+    "default": 921600
+  },
   "firmware_versions": {
-    "enabled": true
+    "enabled": true,
+    "tag_presets": {
+      "latest": { "icon": "⭐", "short": "Latest" },
+      "last": { "icon": "⭐", "short": "Last" },
+      "stable": { "icon": "✓", "short": "Stable" },
+      "new": { "icon": "✨", "short": "New" },
+      "preview": { "icon": "🔭", "short": "Preview" },
+      "beta": { "icon": "🧪", "short": "Beta" },
+      "legacy": { "icon": "📦", "short": "Legacy" },
+      "rc": { "icon": "◉", "short": "RC" }
+    }
   },
   "theme": {
     "primary_color": "#667eea",

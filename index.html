@@ -14,7 +14,7 @@
         <meta name="theme-color" content="#000000"> 
     <!--#endif -->
 
-    <link rel="stylesheet" href="style.css?v=1.0.0">
+    <link rel="stylesheet" href="style.css?v=1.0.3">
 </head>
 <body>
     <div class="container">
@@ -33,7 +33,16 @@
                         <span class="flash-option-label" id="firmwareVersionLabel">
                             Firmware version
                         </span>
-                        <select id="firmwareVersionSelect" class="flash-select"></select>
+                        <div class="firmware-version-dropdown" id="firmwareVersionDropdown">
+                            <button type="button" class="firmware-version-dropdown-trigger" id="firmwareVersionDropdownBtn" aria-haspopup="listbox" aria-expanded="false" aria-controls="firmwareVersionDropdownList">
+                                <span class="firmware-version-dropdown-trigger-main">
+                                    <span class="firmware-version-dropdown-pill" id="firmwareVersionDropdownPill" hidden></span>
+                                    <span class="firmware-version-dropdown-value" id="firmwareVersionDropdownValue"></span>
+                                </span>
+                                <span class="firmware-version-dropdown-chevron" aria-hidden="true"></span>
+                            </button>
+                            <ul class="firmware-version-dropdown-list" id="firmwareVersionDropdownList" role="listbox" aria-labelledby="firmwareVersionLabel" hidden></ul>
+                        </div>
                     </div>
                     <div class="language-selector">
                         <select id="languageSelect" onchange="changeLanguage()">
@@ -74,12 +83,13 @@
                         <span class="flash-option-label" id="flashBaudrateLabel">
                             Flash baudrate
                         </span>
-                        <select id="flashBaudrateSelect" class="flash-select">
-                            <option value="921600" selected>921600</option>
-                            <option value="460800">460800</option>
-                            <option value="230400">230400</option>
-                            <option value="115200">115200</option>
-                        </select>
+                        <div class="flash-baudrate-dropdown" id="flashBaudrateDropdown" data-selected-baudrate="">
+                            <button type="button" class="flash-baudrate-dropdown-trigger" id="flashBaudrateDropdownBtn" aria-haspopup="listbox" aria-expanded="false" aria-controls="flashBaudrateDropdownList">
+                                <span class="flash-baudrate-dropdown-value" id="flashBaudrateDropdownValue"></span>
+                                <span class="flash-baudrate-dropdown-chevron" aria-hidden="true"></span>
+                            </button>
+                            <ul class="flash-baudrate-dropdown-list" id="flashBaudrateDropdownList" role="listbox" aria-labelledby="flashBaudrateLabel" hidden></ul>
+                        </div>
                         <span class="flash-option-hint" id="flashBaudrateHint">
                             (higher is faster, lower if unstable)
                         </span>
@@ -188,6 +198,6 @@
         window.esptooljs = { Transport, ESPLoader };
     </script>
     <script src="js/version.js?v=1.0.2"></script>
-    <script src="js/script.js?v=1.0.2"></script>
+    <script src="js/script.js?v=1.0.5"></script>
 </body>
 </html>

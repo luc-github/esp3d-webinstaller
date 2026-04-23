@@ -37,6 +37,7 @@
           "id": "2.0.0a13",
           "version": "2.0.0a13",
           "active": true,
+          "versionTag": "preview",
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/releasenotes.html",
           "firmware": {
             "meta": {
