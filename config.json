@@ -38,7 +38,7 @@
           "id": "2.0.0a13",
           "version": "2.0.0a13",
           "active": true,
-          "versionTag": "preview",
+          "versionTag": "new",
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/releasenotes.html",
           "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
@@ -68,8 +68,8 @@
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
       "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
-        "en": "Ver 8MB Bluetooth 2026/03/16",
-        "fr": "Ver 8MB Bluetooth 2026/03/16"
+        "en": "Ver 8MB Bluetooth 2026/05/03",
+        "fr": "Ver 8MB Bluetooth 2026/05/03"
       }
     },
     {
@@ -109,6 +109,7 @@
           "id": "2.0.0a13",
           "version": "2.0.0a13",
           "active": true,
+          "versionTag": "new",
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13/releasenotes.html",
           "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
@@ -138,8 +139,8 @@
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
       "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_8MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
-        "en": "Version 8MB Wifi 2026/03/16",
-        "fr": "Version 8MB Wifi 2026/03/16"
+        "en": "Version 8MB Wifi 2026/05/03",
+        "fr": "Version 8MB Wifi 2026/05/03"
       }
     },
     {
@@ -179,6 +180,7 @@
           "id": "2.0.0a13",
           "version": "2.0.0a13",
           "active": true,
+          "versionTag": "new",
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13/releasenotes.html",
           "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
@@ -208,8 +210,8 @@
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
       "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_bt_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
-        "en": "Ver 4MB Bluetooth 2026/03/16",
-        "fr": "Ver 4MB WBluetoothifi 2026/03/16"
+        "en": "Ver 4MB Bluetooth 2026/05/03",
+        "fr": "Ver 4MB WBluetoothifi 2026/05/03"
       }
     },
         {
@@ -249,6 +251,7 @@
           "id": "2.0.0a13",
           "version": "2.0.0a13",
           "active": true,
+          "versionTag": "new",
           "releaseNotes": "https://webinstaller.esp3d.io/firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13/releasenotes.html",
           "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
           "firmware": {
@@ -278,8 +281,8 @@
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",
       "downloadFirmware": "firmware/ESP32_PIBOT_CNC_PENDANT_V1_4MB_wifi_fluidnc/2.0.0a13/esp3dfw.bin",
       "badge": {
-        "en": "Version 4MB Wifi 2026/03/16",
-        "fr": "Version 4MB Wifi 2026/03/16"
+        "en": "Version 4MB Wifi 2026/05/03",
+        "fr": "Version 4MB Wifi 2026/05/03"
       }
     },
     {

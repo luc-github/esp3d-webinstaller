@@ -1,57 +1,57 @@
 {
     "btpendantfluidnc8bt": {
         "name": "Firmware for\nPibot CNC pendant V4.0",
-        "total": 328,
-        "success": 94,
-        "failed": 234,
+        "total": 486,
+        "success": 114,
+        "failed": 372,
         "versions": {
             "2.0.0a12": {
                 "version": "2.0.0a12",
-                "total": 328,
-                "success": 94,
-                "failed": 234
+                "total": 486,
+                "success": 114,
+                "failed": 372
             }
         }
     },
     "btpendantfluidnc8wifi": {
         "name": "Firmware for\nPibot CNC pendant V4.0",
-        "total": 36,
-        "success": 15,
-        "failed": 21,
+        "total": 47,
+        "success": 21,
+        "failed": 26,
         "versions": {
             "2.0.0a12": {
                 "version": "2.0.0a12",
-                "total": 36,
-                "success": 15,
-                "failed": 21
+                "total": 47,
+                "success": 21,
+                "failed": 26
             }
         }
     },
     "btpendantfluidnc4bt": {
         "name": "Firmware for\nPibot CNC pendant V4.0",
-        "total": 33,
-        "success": 3,
-        "failed": 30,
+        "total": 51,
+        "success": 5,
+        "failed": 46,
         "versions": {
             "2.0.0a12": {
                 "version": "2.0.0a12",
-                "total": 33,
-                "success": 3,
-                "failed": 30
+                "total": 51,
+                "success": 5,
+                "failed": 46
             }
         }
     },
     "btpendantfluidnc4wifi": {
         "name": "Firmware for\nPibot CNC pendant V4.0",
-        "total": 22,
-        "success": 8,
-        "failed": 14,
+        "total": 27,
+        "success": 10,
+        "failed": 17,
         "versions": {
             "2.0.0a12": {
                 "version": "2.0.0a12",
-                "total": 22,
-                "success": 8,
-                "failed": 14
+                "total": 27,
+                "success": 10,
+                "failed": 17
             }
         }
     }

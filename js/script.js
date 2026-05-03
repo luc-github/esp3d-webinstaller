@@ -646,7 +646,7 @@ function updateInstallStepper() {
             }
             const leftDone = !!done[i];
             const rightDone = !!done[i + 1];
-            const rightCurrent = forcedErrorIndex < 0 && (i + 1) === currentIndex;
+            const rightCurrent = forcedErrorIndex < 0 && (i + 1) === currentIndex && !rightDone;
             const rightError = forcedErrorIndex >= 0 && (i + 1) === forcedErrorIndex;
 
             seg.classList.toggle('is-filled', leftDone && rightDone);
