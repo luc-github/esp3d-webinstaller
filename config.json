@@ -61,6 +61,7 @@
         }
       ],
       "image": "images/pibot_cnc_pendant_4.0.png",
+      "bootGuideImage": "images/boot-button-guide.svg",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/8MB.png",
       "icon_right": "images/bluetooth.png",
@@ -132,6 +133,7 @@
         }
       ],
       "image": "images/pibot_cnc_pendant_4.0.png",
+      "bootGuideImage": "images/boot-button-guide.svg",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/8MB.png",
       "icon_right": "images/wifi.png",
@@ -203,6 +205,7 @@
         }
       ],
       "image": "images/pibot_cnc_pendant_4.0.png",
+      "bootGuideImage": "images/boot-button-guide.svg",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/4MB.png",
       "icon_right": "images/bluetooth.png",
@@ -274,6 +277,7 @@
         }
       ],
       "image": "images/pibot_cnc_pendant_4.0.png",
+      "bootGuideImage": "images/boot-button-guide.svg",
       "icon_left": "images/fluidnc.svg",
       "badgeImage": "images/4MB.png",
       "icon_right": "images/wifi.png",
@@ -296,6 +300,7 @@
       "version": "1.0.0 for grblHAL",
       "firmware": "firmwaregrblhal.bin",
       "image": "images/pibot_cnc_pendant_4.0.png",
+      "bootGuideImage": "images/boot-button-guide.svg",
       "icon_left": "images/grblHAL.svg",
       "url": "https://www.pibot.com/pibot-cnc-pendant-v4",
       "documentation": "https://wiki.pibot.com/doku.php?id=pibot_cnc_laser_series:cnc_pendant_v4:start",

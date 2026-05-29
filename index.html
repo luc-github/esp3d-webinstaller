@@ -215,6 +215,7 @@
         <div id="bootModal" class="boot-modal">
             <div class="boot-modal-content">
                 <div class="boot-modal-icon">⚠️</div>
+                <img id="bootModalImage" class="boot-modal-image" src="" alt="Device" style="display:none;">
                 <h2 id="bootModalTitle">Press BOOT Button Now!</h2>
                 <p id="bootModalText">
                     <strong>Hold the BOOT button</strong> on your ESP32 board now.<br>
@@ -229,6 +230,7 @@
         <div id="noResetModal" class="boot-modal">
             <div class="boot-modal-content">
                 <div class="boot-modal-icon">🔧</div>
+                <img id="noResetModalImage" class="boot-modal-image" src="" alt="Device" style="display:none;">
                 <h2 id="noResetModalTitle">Put Device in Download Mode</h2>
                 <p id="noResetModalText">
                     <strong>1.</strong> Hold the <strong>BOOT</strong> button<br>
@@ -237,6 +239,22 @@
                     Your device should now be in download mode (no serial output).
                 </p>
                 <button class="boot-modal-close" id="noResetModalButton" onclick="confirmNoResetReady()">Done, Ready to Connect</button>
+            </div>
+        </div>
+
+        <!-- Port Busy Modal -->
+        <div id="portBusyModal" class="boot-modal">
+            <div class="boot-modal-content">
+                <div class="boot-modal-icon">🔌</div>
+                <h2 id="portBusyModalTitle">Port Busy</h2>
+                <p id="portBusyModalText">
+                    The selected port is already in use by another application.<br>
+                    Would you like to try again with a different port?
+                </p>
+                <div class="boot-modal-buttons">
+                    <button class="boot-modal-close boot-modal-yes" id="portBusyModalYes" onclick="confirmPortBusyRetry(true)">Yes, try again</button>
+                    <button class="boot-modal-close boot-modal-no" id="portBusyModalNo" onclick="confirmPortBusyRetry(false)">No, cancel</button>
+                </div>
             </div>
         </div>
         
@@ -255,6 +273,6 @@
         window.esptooljs = { Transport, ESPLoader };
     </script>
     <script src="js/version.js?v=1.0.2"></script>
-    <script src="js/script.js?v=1.0.7"></script>
+    <script src="js/script.js?v=1.0.8"></script>
 </body>
 </html>

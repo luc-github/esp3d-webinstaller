@@ -304,6 +304,15 @@ function validateInput($data) {
         ];
     }
     
+    // Sanitize baudrate if present
+    $baudrate = null;
+    if (isset($data['baudrate']) && is_numeric($data['baudrate'])) {
+        $baudrate = (int)$data['baudrate'];
+        if ($baudrate <= 0) {
+            $baudrate = null;
+        }
+    }
+    
     return [
         'valid' => true,
         'data' => [
@@ -316,6 +325,7 @@ function validateInput($data) {
             'error' => $error,
             'errorCategory' => $errorCategory,
             'context' => $context,
+            'baudrate' => $baudrate,
             'timestamp' => date('c'),
         ]
     ];
@@ -467,6 +477,25 @@ if ($cleanData['success']) {
     $counts[$projectId]['failed']++;
 }
 
+// Track per-baudrate counters
+$baudrate = $cleanData['baudrate'] ?? null;
+if ($baudrate) {
+    if (!isset($counts[$projectId]['baudrates']) || !is_array($counts[$projectId]['baudrates'])) {
+        $counts[$projectId]['baudrates'] = [];
+    }
+    if (!isset($counts[$projectId]['baudrates'][$baudrate])) {
+        $counts[$projectId]['baudrates'][$baudrate] = [
+            'success' => 0,
+            'failed' => 0
+        ];
+    }
+    if ($cleanData['success']) {
+        $counts[$projectId]['baudrates'][$baudrate]['success']++;
+    } else {
+        $counts[$projectId]['baudrates'][$baudrate]['failed']++;
+    }
+}
+
 // Track per-version counters when version is provided
 if ($projectVersionId) {
     if (!isset($counts[$projectId]['versions']) || !is_array($counts[$projectId]['versions'])) {
@@ -488,6 +517,24 @@ if ($projectVersionId) {
         $counts[$projectId]['versions'][$projectVersionId]['success']++;
     } else {
         $counts[$projectId]['versions'][$projectVersionId]['failed']++;
+    }
+    
+    // Track per-baudrate counters within version
+    if ($baudrate) {
+        if (!isset($counts[$projectId]['versions'][$projectVersionId]['baudrates']) || !is_array($counts[$projectId]['versions'][$projectVersionId]['baudrates'])) {
+            $counts[$projectId]['versions'][$projectVersionId]['baudrates'] = [];
+        }
+        if (!isset($counts[$projectId]['versions'][$projectVersionId]['baudrates'][$baudrate])) {
+            $counts[$projectId]['versions'][$projectVersionId]['baudrates'][$baudrate] = [
+                'success' => 0,
+                'failed' => 0
+            ];
+        }
+        if ($cleanData['success']) {
+            $counts[$projectId]['versions'][$projectVersionId]['baudrates'][$baudrate]['success']++;
+        } else {
+            $counts[$projectId]['versions'][$projectVersionId]['baudrates'][$baudrate]['failed']++;
+        }
     }
 }
 
@@ -537,7 +584,8 @@ if (!$cleanData['success'] && $cleanData['error'] && checkFileSize($config['erro
         'projectVersion' => $cleanData['projectVersion'],
         'action' => $cleanData['action'],
         'error' => $cleanData['error'],
-        'category' => $cleanData['errorCategory'] ?? 'unknown'
+        'category' => $cleanData['errorCategory'] ?? 'unknown',
+        'baudrate' => $cleanData['baudrate'] ?? null
     ];
     
     if ($cleanData['context']) {

@@ -168,6 +168,10 @@ function getFlashBaudrateConfig() {
     if (!Number.isFinite(def) || !options.includes(def)) {
         def = options.includes(DEFAULT_FLASH_BAUDRATE) ? DEFAULT_FLASH_BAUDRATE : options[0];
     }
+    // macOS override: lower default baudrate to improve flash stability
+    if (getBrowserInfo().os === 'macOS' && options.includes(115200)) {
+        def = 115200;
+    }
     return { options, default: def };
 }
 
@@ -1373,6 +1377,7 @@ async function logFlashEvent(projectId, projectName, action, success, errorMsg =
             projectName: projectName,
             action: action,
             success: success,
+            baudrate: getSelectedFlashBaudrate(),
             timestamp: new Date().toISOString()
         };
         if (selectedProjectVersion) {
@@ -2064,29 +2069,73 @@ async function startFlash() {
         return;
     }
 
-    // New flash attempt starts a fresh stepper run.
-    resetInstallWizardProgress();
-    syncInstallStepperLabels();
-    installStepSelection = true;
-    updateInstallStepper();
-
-    // Hide flash button and hide monitor button during process
     const flashBtn = document.getElementById('flashButton');
     const monitorBtn = document.getElementById('monitorButton');
-    flashBtn.style.display = 'none';
-    if (monitorBtn) monitorBtn.style.display = 'none';
     
-    // Play start sound
+    // Play start sound once
     playStartSound();
     
-    try {
-        await flashESP32();
-        flashBtn.style.display = 'block';
-    } catch (error) {
-        flashBtn.style.display = 'block';
-    } finally {
-        if (monitorBtn) monitorBtn.style.display = 'block';
+    let portBusyAttempts = 0;
+
+    while (true) {
+        // New flash attempt starts a fresh stepper run.
+        resetInstallWizardProgress();
+        syncInstallStepperLabels();
+        installStepSelection = true;
+        updateInstallStepper();
+
+        flashBtn.style.display = 'none';
+        if (monitorBtn) monitorBtn.style.display = 'none';
+        
+        try {
+            await flashESP32();
+            // Success
+            flashBtn.style.display = 'block';
+            break;
+        } catch (error) {
+            const category = categorizeError(error.message);
+            if (category === 'port_busy') {
+                portBusyAttempts++;
+                addLog(`🔌 Port busy (attempt ${portBusyAttempts})`, 'warning');
+                
+                // Show buttons temporarily while asking user
+                flashBtn.style.display = 'block';
+                if (monitorBtn) monitorBtn.style.display = 'block';
+                
+                const shouldRetry = await showPortBusyModal(portBusyAttempts);
+                
+                if (!shouldRetry) {
+                    addLog('❌ Flash cancelled by user', 'error');
+                    break;
+                }
+                
+                // User wants to retry - prepare for next iteration
+                addLog('🔄 Retrying with a different port...', 'info');
+                flashBtn.style.display = 'none';
+                if (monitorBtn) monitorBtn.style.display = 'none';
+                
+                // Log retry decision
+                logFlashEvent(
+                    selectedProject ? selectedProject.id : 'unknown',
+                    selectedProject ? selectedProject.name : 'Unknown',
+                    'flash_retry',
+                    false,
+                    `Port busy retry attempt ${portBusyAttempts}`,
+                    'port_busy'
+                );
+                
+                // Small delay before retry to let port settle
+                await new Promise(r => setTimeout(r, 500));
+                continue;
+            } else {
+                // Other error - show buttons and stop
+                flashBtn.style.display = 'block';
+                break;
+            }
+        }
     }
+    
+    if (monitorBtn) monitorBtn.style.display = 'block';
 }
 
 // ESPLoader.js flash implementation
@@ -2169,6 +2218,9 @@ async function flashESP32() {
             romBaudrate: 115200,
             debugLogging: false
         });
+        
+        // Increase connection timeout to give users more time to enter boot mode
+        esploader.DEFAULT_TIMEOUT = 10000;
         
         // Resolve firmware options from config (supports legacy + new format)
         const firmwareConfig = resolveFirmwareConfig(selectedProject);
@@ -2612,6 +2664,16 @@ function changeLanguage() {
     if (noResetModalText) noResetModalText.innerHTML = translate('noResetModalText');
     if (noResetModalButton) noResetModalButton.textContent = translate('noResetModalButton');
     
+    // Update port busy modal texts
+    const portBusyModalTitle = document.getElementById('portBusyModalTitle');
+    const portBusyModalText = document.getElementById('portBusyModalText');
+    const portBusyModalYes = document.getElementById('portBusyModalYes');
+    const portBusyModalNo = document.getElementById('portBusyModalNo');
+    if (portBusyModalTitle) portBusyModalTitle.textContent = translate('portBusyModalTitle');
+    if (portBusyModalText) portBusyModalText.innerHTML = translate('portBusyModalText');
+    if (portBusyModalYes) portBusyModalYes.textContent = translate('portBusyModalYes');
+    if (portBusyModalNo) portBusyModalNo.textContent = translate('portBusyModalNo');
+    
     // Update console toggle text
     const consoleToggleText = document.getElementById('consoleToggleText');
     if (consoleToggleText) {
@@ -2990,6 +3052,17 @@ function updateMonitorButton() {
 
 function showBootModal() {
     const modal = document.getElementById('bootModal');
+    const img = document.getElementById('bootModalImage');
+    if (img) {
+        const guideSrc = selectedProject?.bootGuideImage || selectedProject?.image;
+        if (guideSrc) {
+            img.src = guideSrc;
+            img.style.display = '';
+        } else {
+            img.src = '';
+            img.style.display = 'none';
+        }
+    }
     modal.classList.add('show');
 }
 
@@ -3016,6 +3089,17 @@ function showNoResetModal() {
     return new Promise((resolve) => {
         noResetModalResolve = resolve;
         const modal = document.getElementById('noResetModal');
+        const img = document.getElementById('noResetModalImage');
+        if (img) {
+            const guideSrc = selectedProject?.bootGuideImage || selectedProject?.image;
+            if (guideSrc) {
+                img.src = guideSrc;
+                img.style.display = '';
+            } else {
+                img.src = '';
+                img.style.display = 'none';
+            }
+        }
         modal.classList.add('show');
     });
 }
@@ -3027,6 +3111,40 @@ function confirmNoResetReady() {
     if (noResetModalResolve) {
         noResetModalResolve();
         noResetModalResolve = null;
+    }
+}
+
+// ===== PORT BUSY MODAL FUNCTIONS =====
+
+// Promise resolve callback - set when modal is shown, called when user clicks Yes/No
+let portBusyModalResolve = null;
+
+// Show port-busy modal and return a promise that resolves with true (retry) or false (cancel)
+function showPortBusyModal(attemptCount) {
+    return new Promise((resolve) => {
+        portBusyModalResolve = resolve;
+        const modal = document.getElementById('portBusyModal');
+        const title = document.getElementById('portBusyModalTitle');
+        const text = document.getElementById('portBusyModalText');
+        if (title) title.textContent = translate('portBusyModalTitle');
+        if (text) {
+            let baseText = translate('portBusyModalText');
+            if (baseText.includes('{attempt}')) {
+                baseText = baseText.replace('{attempt}', String(attemptCount));
+            }
+            text.innerHTML = baseText;
+        }
+        modal.classList.add('show');
+    });
+}
+
+// Called when user clicks "Yes, try again" (retry=true) or "No, cancel" (retry=false)
+function confirmPortBusyRetry(retry) {
+    const modal = document.getElementById('portBusyModal');
+    modal.classList.remove('show');
+    if (portBusyModalResolve) {
+        portBusyModalResolve(retry);
+        portBusyModalResolve = null;
     }
 }
 

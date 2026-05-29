@@ -1062,6 +1062,16 @@ esp-web-install-button button:hover {
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
+.boot-modal-image {
+    max-width: 100%;
+    max-height: 220px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    object-fit: contain;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .boot-modal h2 {
     color: white;
     font-size: 1.8em;
@@ -1099,6 +1109,33 @@ esp-web-install-button button:hover {
     background: #f0f0f0;
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.boot-modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.boot-modal-yes {
+    background: #00c853;
+    color: white;
+}
+
+.boot-modal-yes:hover {
+    background: #00b248;
+    color: white;
+}
+
+.boot-modal-no {
+    background: #ff5252;
+    color: white;
+}
+
+.boot-modal-no:hover {
+    background: #e04646;
+    color: white;
 }
 
 @keyframes fadeIn {

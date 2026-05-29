@@ -66,5 +66,9 @@
   "themeModeAuto": "🖥️",
   "themeModeDark": "🌙",
   "themeSwitchToDark": "Switch to dark mode",
-  "themeSwitchToLight": "Switch to light mode"
+  "themeSwitchToLight": "Switch to light mode",
+  "portBusyModalTitle": "Port Busy",
+  "portBusyModalText": "The selected port is already in use by another application.<br>Would you like to try again with a different port?",
+  "portBusyModalYes": "Yes, try again",
+  "portBusyModalNo": "No, cancel"
 }
