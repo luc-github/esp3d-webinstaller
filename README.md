@@ -770,6 +770,14 @@ chown www-data:www-data flash-counts.json flash-errors.json
 | Firefox | - | ❌ No Web Serial API |
 | Safari | - | ❌ No Web Serial API |
 
+### BOOT connection (10 second window)
+
+When the board needs a manual boot button, the installer shows a **10 second countdown** while trying to connect. **Hold BOOT during that window**—if you react in time, connection should succeed on the first try.
+
+If connection fails, a **Retry** dialog appears: you can try again with the **same COM port** (no need to re-select it in the browser). A second attempt after holding BOOT is common and expected.
+
+The UI timer is fixed at 10 seconds; exact reset/sync timing may vary slightly by OS, browser, or USB-serial chip. Use a recent **Chrome, Edge, or Opera** on a direct USB cable and close other apps using the same serial port.
+
 ## 🚀 Deployment
 
 ### GitHub Pages (Static)

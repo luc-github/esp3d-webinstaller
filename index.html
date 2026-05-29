@@ -83,6 +83,9 @@
                     <p id="instructionText1">
                         <!-- Text will be set by JavaScript translation -->
                     </p>
+                    <p id="instructionConnectNote" class="flash-instruction-note">
+                        <!-- Connection window / retry note (JavaScript translation) -->
+                    </p>
                 </div>
 
                 <!-- Flash Options -->
@@ -222,6 +225,12 @@
                     Keep holding until you see "Connected" message.<br><br>
                     The button may be labeled as <strong>BOOT</strong>, <strong>FLASH</strong>, or <strong>GPIO0</strong>.
                 </p>
+                <div id="bootModalCountdown" class="boot-modal-countdown" hidden>
+                    <p id="bootModalCountdownText" class="boot-modal-countdown-text"></p>
+                    <div class="boot-modal-progress-bg" aria-hidden="true">
+                        <div id="bootModalProgressFill" class="boot-modal-progress-fill"></div>
+                    </div>
+                </div>
                 <button class="boot-modal-close" onclick="closeBootModal()">I'm Holding It</button>
             </div>
         </div>
@@ -239,6 +248,22 @@
                     Your device should now be in download mode (no serial output).
                 </p>
                 <button class="boot-modal-close" id="noResetModalButton" onclick="confirmNoResetReady()">Done, Ready to Connect</button>
+            </div>
+        </div>
+
+        <!-- Boot connection timeout retry modal -->
+        <div id="bootTimeoutModal" class="boot-modal">
+            <div class="boot-modal-content">
+                <div class="boot-modal-icon">⏱️</div>
+                <h2 id="bootTimeoutModalTitle">Connection Timeout</h2>
+                <p id="bootTimeoutModalText">
+                    Could not connect to the ESP32 in time.<br>
+                    Do you want to retry with the same port?
+                </p>
+                <div class="boot-modal-buttons">
+                    <button class="boot-modal-close boot-modal-yes" id="bootTimeoutModalYes" onclick="confirmBootTimeoutRetry(true)">Yes, retry</button>
+                    <button class="boot-modal-close boot-modal-no" id="bootTimeoutModalNo" onclick="confirmBootTimeoutRetry(false)">No, cancel</button>
+                </div>
             </div>
         </div>
 

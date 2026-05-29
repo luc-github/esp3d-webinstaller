@@ -2078,7 +2078,6 @@ async function startFlash() {
     let portBusyAttempts = 0;
 
     while (true) {
-        // New flash attempt starts a fresh stepper run.
         resetInstallWizardProgress();
         syncInstallStepperLabels();
         installStepSelection = true;
@@ -2089,10 +2088,15 @@ async function startFlash() {
         
         try {
             await flashESP32();
-            // Success
             flashBtn.style.display = 'block';
             break;
         } catch (error) {
+            if (error.bootConnectionCancelled) {
+                addLog('❌ Flash cancelled by user', 'error');
+                flashBtn.style.display = 'block';
+                break;
+            }
+
             const category = categorizeError(error.message);
             if (category === 'port_busy') {
                 portBusyAttempts++;
@@ -2140,112 +2144,63 @@ async function startFlash() {
 
 // ESPLoader.js flash implementation
 async function flashESP32() {
-    // Show progress bar
     showProgress();
     updateProgress(0, 'Preparing...', 'Ready to start');
 
     installWizardFlashRunning = true;
     updateInstallStepper();
 
-    addLog('🔌 Requesting serial port access...', 'info');
-    addLog('⚠️ Browser will ask you to select a COM port', 'warning');
-    
-    // Audio: Dialog opening
-    playAudioFeedback('dialog_open');
-    
-    let transport = null;
-    
     try {
-        // Step 1: Request port from user (NO modal yet - let user select port first)
+        const noResetCheckbox = document.getElementById('noResetCheckbox');
+        const noResetMode = noResetCheckbox && noResetCheckbox.checked;
+
+        addLog('🔌 Requesting serial port access...', 'info');
+        addLog('⚠️ Browser will ask you to select a COM port', 'warning');
+        playAudioFeedback('dialog_open');
+
         currentStage = 'connecting';
         port = await navigator.serial.requestPort();
         installStepPort = true;
         updateInstallStepper();
         addLog('✅ Port selected', 'success');
         updateProgress(5, 'Port selected', 'Connecting to ESP32...');
-        
-        // Audio: Port selected
         playAudioFeedback('port_selected');
-        
-        // Check if no_reset mode is selected (device already in download mode)
-        const noResetCheckbox = document.getElementById('noResetCheckbox');
-        const noResetMode = noResetCheckbox && noResetCheckbox.checked;
-        
+
         if (noResetMode) {
-            // No reset mode: show instructions modal and wait for user to confirm
             addLog('🔧 No Reset mode selected', 'info');
             await showNoResetModal();
             addLog('🔧 User confirmed device is in download mode', 'info');
-        } else {
-            // Normal mode: show BOOT modal - user needs to hold BOOT for connection
-            showBootModal();
-            
-            // Audio: Boot button prompt
-            playAudioFeedback('boot_prompt');
         }
-        
-        // Step 2: Create transport (don't open port yet - ESPLoader will do it)
-        transport = new esptooljs.Transport(port);
-        
-        // Step 3: Create ESPLoader with custom terminal for our console
+
         const terminal = {
             clean() {
                 // Optional: could clear console here
             },
             write(data) {
-                // Write raw data to console
                 if (data && data.trim()) {
                     addLog(data.trim(), 'info');
                 }
             },
             writeLine(data) {
-                // Write line to console
                 if (data && data.trim()) {
                     addLog(data.trim(), 'info');
                 }
             }
         };
-        
+
         const flashBaudrate = getSelectedFlashBaudrate();
         addLog(`⚙️ Flash baudrate: ${flashBaudrate}`, 'info');
 
-        // Step 4: Create ESPLoader
-        // IMPORTANT: ESPLoader will open the port automatically
-        esploader = new esptooljs.ESPLoader({
-            transport: transport,
-            baudrate: flashBaudrate,
-            terminal: terminal,
-            romBaudrate: 115200,
-            debugLogging: false
-        });
-        
-        // Increase connection timeout to give users more time to enter boot mode
-        esploader.DEFAULT_TIMEOUT = 10000;
-        
-        // Resolve firmware options from config (supports legacy + new format)
         const firmwareConfig = resolveFirmwareConfig(selectedProject);
         const firmwareMeta = firmwareConfig.meta || {};
-
-        // Step 5: Connect to chip
         const connectMode = noResetMode ? "no_reset" : (firmwareMeta.before || "default_reset");
-        addLog('🔌 Connecting to ESP32...', 'info');
-        if (noResetMode) {
-            addLog('🔧 No Reset: hold BOOT + press RESET before clicking flash, then release BOOT', 'warning');
-        } else {
-            addLog('⚠️ HOLD the BOOT button NOW until you see "Connected"!', 'warning');
-        }
-        updateProgress(10, 'Connecting...', noResetMode ? 'No Reset mode' : 'Hold BOOT button now!');
-        
-        // Audio: Connecting
-        playAudioFeedback('connecting');
 
-        const chip = await esploader.main(connectMode);
+        const chip = await connectEsp32WithBootUserRetry(port, terminal, flashBaudrate, connectMode, noResetMode);
+        closeBootModal();
+
         if (firmwareMeta.chip && !String(chip).toLowerCase().includes(String(firmwareMeta.chip).toLowerCase())) {
             addLog(`⚠️ Config chip "${firmwareMeta.chip}" does not match detected "${chip}"`, 'warning');
         }
-        
-        // Close modal on successful connection
-        closeBootModal();
         
         addLog(`✅ Connected to ${chip}!`, 'success');
         addLog('👍 You can release the BOOT button now', 'success');
@@ -2439,9 +2394,11 @@ async function flashESP32() {
             // Fallback: manual RTS toggle for hard reset
         }
         try {
-            await transport.setRTS(true);
-            await new Promise(r => setTimeout(r, 100));
-            await transport.setRTS(false);
+            if (esploader?.transport) {
+                await esploader.transport.setRTS(true);
+                await new Promise(r => setTimeout(r, 100));
+                await esploader.transport.setRTS(false);
+            }
         } catch (e) {
             // RTS toggle failed - user will need to manually reset
         }
@@ -2454,7 +2411,9 @@ async function flashESP32() {
         
         // Step 9: Cleanup - disconnect transport first to release reader/writer locks
         try {
-            await transport.disconnect();
+            if (esploader?.transport) {
+                await esploader.transport.disconnect();
+            }
         } catch (e) {
             // Transport may already be disconnected
         }
@@ -2473,10 +2432,12 @@ async function flashESP32() {
         installStepErrorIndex = computeInstallStepErrorIndex();
         updateInstallStepper();
 
-        // Close modals on error
         closeBootModal();
+        closeBootTimeoutRetryModal();
         confirmNoResetReady();
-        
+
+        const errorCategory = categorizeError(error.message);
+
         addLog(`❌ Error: ${error.message}`, 'error');
         console.error('Flash error:', error);
         
@@ -2507,14 +2468,14 @@ async function flashESP32() {
             addLog('💡 Try again and hold BOOT earlier', 'warning');
         }
         
-        // Try to cleanup
         try {
-            if (typeof transport !== 'undefined' && transport) {
-                await transport.disconnect();
+            if (esploader?.transport) {
+                await esploader.transport.disconnect();
             }
         } catch (e) {
-            // Transport cleanup failed, try direct port close
+            // Transport may already be closed
         }
+
         try {
             if (port) {
                 await port.close();
@@ -2523,7 +2484,7 @@ async function flashESP32() {
             // Port may already be closed
         }
         port = null;
-        
+
         throw error;
     } finally {
         installWizardFlashRunning = false;
@@ -2637,6 +2598,8 @@ function changeLanguage() {
     // Update instruction text (if element exists)
     const instructionText1 = document.getElementById('instructionText1');
     if (instructionText1) instructionText1.innerHTML = translate('instructionText1');
+    const instructionConnectNote = document.getElementById('instructionConnectNote');
+    if (instructionConnectNote) instructionConnectNote.innerHTML = translate('instructionConnectNote');
     
     // Update console ready message
     const consoleReady = document.getElementById('consoleReady');
@@ -2673,6 +2636,15 @@ function changeLanguage() {
     if (portBusyModalText) portBusyModalText.innerHTML = translate('portBusyModalText');
     if (portBusyModalYes) portBusyModalYes.textContent = translate('portBusyModalYes');
     if (portBusyModalNo) portBusyModalNo.textContent = translate('portBusyModalNo');
+
+    const bootTimeoutModalTitle = document.getElementById('bootTimeoutModalTitle');
+    const bootTimeoutModalText = document.getElementById('bootTimeoutModalText');
+    const bootTimeoutModalYes = document.getElementById('bootTimeoutModalYes');
+    const bootTimeoutModalNo = document.getElementById('bootTimeoutModalNo');
+    if (bootTimeoutModalTitle) bootTimeoutModalTitle.textContent = translate('bootTimeoutModalTitle');
+    if (bootTimeoutModalText) bootTimeoutModalText.innerHTML = translate('bootTimeoutModalText');
+    if (bootTimeoutModalYes) bootTimeoutModalYes.textContent = translate('bootTimeoutModalYes');
+    if (bootTimeoutModalNo) bootTimeoutModalNo.textContent = translate('bootTimeoutModalNo');
     
     // Update console toggle text
     const consoleToggleText = document.getElementById('consoleToggleText');
@@ -3050,7 +3022,285 @@ function updateMonitorButton() {
 
 // ===== BOOT MODAL FUNCTIONS =====
 
+const BOOT_CONNECTION_TIMEOUT_MS = 10000;
+/** Max reset/sync cycles spread across BOOT_CONNECTION_TIMEOUT_MS */
+const BOOT_CONNECT_ATTEMPTS = 12;
+/** Short per-try timeout so attempts fit inside the 10s window when spread */
+const BOOT_CONNECT_ATTEMPT_TIMEOUT_MS = 1000;
+let bootCountdownTimer = null;
+let bootConnectDeadline = null;
+let bootConnectActive = false;
+let bootTimeoutModalResolve = null;
+
+function formatBootCountdownText(seconds) {
+    return translate('bootModalCountdown').replace('{seconds}', String(seconds));
+}
+
+async function waitForBootConnectWindowEnd(noResetMode) {
+    if (noResetMode || !bootConnectDeadline) {
+        return;
+    }
+    const remaining = bootConnectDeadline - Date.now();
+    if (remaining > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+    }
+}
+
+function getBootConnectPauseMs() {
+    return Math.floor(BOOT_CONNECTION_TIMEOUT_MS / BOOT_CONNECT_ATTEMPTS);
+}
+
+/** One esptool connect() attempt at a time, spaced across the 10s BOOT countdown. */
+async function connectEspSpreadAcrossBootWindow(esploader, connectMode) {
+    const deadline = bootConnectDeadline || (Date.now() + BOOT_CONNECTION_TIMEOUT_MS);
+    const originalConnect = esploader.connect.bind(esploader);
+    const pauseMs = getBootConnectPauseMs();
+    let lastError = null;
+
+    while (Date.now() < deadline) {
+        try {
+            await originalConnect(connectMode, 1);
+            return;
+        } catch (error) {
+            lastError = error;
+            try {
+                await esploader.transport.disconnect();
+            } catch (_) {
+                // Port may already be closed
+            }
+
+            const remaining = deadline - Date.now();
+            if (remaining <= 0) {
+                break;
+            }
+            await new Promise((resolve) => setTimeout(resolve, Math.min(pauseMs, remaining)));
+        }
+    }
+
+    throw lastError || new Error('Failed to connect with the device');
+}
+
+function startBootConnectionCountdownToDeadline(deadline) {
+    stopBootConnectionCountdown();
+
+    const container = document.getElementById('bootModalCountdown');
+    const textEl = document.getElementById('bootModalCountdownText');
+    const fillEl = document.getElementById('bootModalProgressFill');
+    if (!container || !textEl || !fillEl) {
+        return;
+    }
+
+    container.hidden = false;
+    const totalMs = BOOT_CONNECTION_TIMEOUT_MS;
+
+    const tick = () => {
+        const remaining = Math.max(0, deadline - Date.now());
+        const seconds = Math.ceil(remaining / 1000);
+        const percent = (remaining / totalMs) * 100;
+
+        textEl.textContent = formatBootCountdownText(seconds);
+        fillEl.style.width = `${percent}%`;
+
+        if (remaining <= 0) {
+            stopBootConnectionCountdown();
+        }
+    };
+
+    tick();
+    bootCountdownTimer = setInterval(tick, 100);
+}
+
+function stopBootConnectionCountdown() {
+    if (bootCountdownTimer) {
+        clearInterval(bootCountdownTimer);
+        bootCountdownTimer = null;
+    }
+
+    const container = document.getElementById('bootModalCountdown');
+    const fillEl = document.getElementById('bootModalProgressFill');
+    if (container) {
+        container.hidden = true;
+    }
+    if (fillEl) {
+        fillEl.style.width = '100%';
+    }
+}
+
+async function disconnectEspTransport(transport) {
+    if (!transport) {
+        return;
+    }
+    try {
+        await transport.disconnect();
+    } catch (_) {
+        // Transport may already be closed
+    }
+}
+
+async function preparePortForReconnect() {
+    try {
+        if (port && port.readable) {
+            await port.close();
+        }
+    } catch (_) {
+        // Port may already be closed
+    }
+}
+
+async function completeEspLoaderAfterConnect(esploader) {
+    esploader.info('Detecting chip type... ', false);
+    esploader.info(esploader.chip ? esploader.chip.CHIP_NAME : 'unknown!');
+
+    const chipDescription = await esploader.chip.getChipDescription(esploader);
+    esploader.info('Chip is ' + chipDescription);
+    esploader.info('Features: ' + (await esploader.chip.getChipFeatures(esploader)));
+    esploader.info('Crystal is ' + (await esploader.chip.getCrystalFreq(esploader)) + 'MHz');
+    esploader.info('MAC: ' + (await esploader.chip.readMac(esploader)));
+    await esploader.chip.readMac(esploader);
+    if (esploader.chip.postConnect !== undefined) {
+        await esploader.chip.postConnect(esploader);
+    }
+    await esploader.runStub();
+    if (esploader.romBaudrate !== esploader.baudrate) {
+        await esploader.changeBaud();
+    }
+    return chipDescription;
+}
+
+async function attemptEsp32BootConnectionOnce(esploader, connectMode, noResetMode) {
+    if (!noResetMode) {
+        showBootModal();
+        playAudioFeedback('boot_prompt');
+    }
+
+    addLog('🔌 Connecting to ESP32...', 'info');
+    if (noResetMode) {
+        addLog('🔧 No Reset: hold BOOT + press RESET before clicking flash, then release BOOT', 'warning');
+    } else {
+        addLog('⚠️ HOLD the BOOT button NOW until you see "Connected"!', 'warning');
+    }
+    updateProgress(10, 'Connecting...', noResetMode ? 'No Reset mode' : 'Hold BOOT button now!');
+    playAudioFeedback('connecting');
+
+    bootConnectActive = true;
+    try {
+        if (noResetMode) {
+            return await esploader.main(connectMode);
+        }
+
+        await connectEspSpreadAcrossBootWindow(esploader, connectMode);
+        return await completeEspLoaderAfterConnect(esploader);
+    } finally {
+        bootConnectActive = false;
+    }
+}
+
+async function connectEsp32WithBootUserRetry(serialPort, terminal, flashBaudrate, connectMode, noResetMode) {
+    let connectRetries = 0;
+
+    for (;;) {
+        const transport = new esptooljs.Transport(serialPort);
+        const loader = new esptooljs.ESPLoader({
+            transport: transport,
+            baudrate: flashBaudrate,
+            terminal: terminal,
+            romBaudrate: 115200,
+            debugLogging: false
+        });
+        loader.DEFAULT_TIMEOUT = noResetMode
+            ? BOOT_CONNECTION_TIMEOUT_MS
+            : BOOT_CONNECT_ATTEMPT_TIMEOUT_MS;
+        esploader = loader;
+
+        try {
+            const chip = await attemptEsp32BootConnectionOnce(loader, connectMode, noResetMode);
+            if (!chip) {
+                throw new Error('Failed to connect with the device');
+            }
+            return chip;
+        } catch (error) {
+            await disconnectEspTransport(transport);
+
+            await waitForBootConnectWindowEnd(noResetMode);
+
+            connectRetries++;
+            addLog(`⏱️ Connection failed (attempt ${connectRetries})`, 'warning');
+
+            const shouldRetry = await showBootTimeoutRetryModal();
+            if (!shouldRetry) {
+                addLog('❌ Flash cancelled by user', 'error');
+                const cancelled = error;
+                cancelled.bootConnectionCancelled = true;
+                throw cancelled;
+            }
+
+            addLog('🔄 Retrying connection with the same port...', 'info');
+            logFlashEvent(
+                selectedProject ? selectedProject.id : 'unknown',
+                selectedProject ? selectedProject.name : 'Unknown',
+                'flash_retry',
+                false,
+                error.message,
+                'connection_timeout'
+            );
+            await preparePortForReconnect();
+            await new Promise((resolve) => setTimeout(resolve, 300));
+        }
+    }
+}
+
+function showBootTimeoutRetryModal() {
+    closeBootModal();
+
+    return new Promise((resolve) => {
+        bootTimeoutModalResolve = resolve;
+        const modal = document.getElementById('bootTimeoutModal');
+        const title = document.getElementById('bootTimeoutModalTitle');
+        const text = document.getElementById('bootTimeoutModalText');
+        if (title) {
+            title.textContent = translate('bootTimeoutModalTitle');
+        }
+        if (text) {
+            text.innerHTML = translate('bootTimeoutModalText');
+        }
+        if (modal) {
+            modal.classList.add('show');
+        } else {
+            const plainText = translate('bootTimeoutModalText')
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<[^>]+>/g, '');
+            resolve(window.confirm(`${translate('bootTimeoutModalTitle')}\n\n${plainText}`));
+        }
+    });
+}
+
+function closeBootTimeoutRetryModal() {
+    const modal = document.getElementById('bootTimeoutModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+    if (bootTimeoutModalResolve) {
+        bootTimeoutModalResolve(false);
+        bootTimeoutModalResolve = null;
+    }
+}
+
+function confirmBootTimeoutRetry(retry) {
+    const modal = document.getElementById('bootTimeoutModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+    if (bootTimeoutModalResolve) {
+        bootTimeoutModalResolve(retry);
+        bootTimeoutModalResolve = null;
+    }
+}
+
 function showBootModal() {
+    stopBootConnectionCountdown();
+    bootConnectDeadline = Date.now() + BOOT_CONNECTION_TIMEOUT_MS;
+    startBootConnectionCountdownToDeadline(bootConnectDeadline);
+
     const modal = document.getElementById('bootModal');
     const img = document.getElementById('bootModalImage');
     if (img) {
@@ -3067,14 +3317,16 @@ function showBootModal() {
 }
 
 function closeBootModal() {
+    stopBootConnectionCountdown();
+    bootConnectDeadline = null;
     const modal = document.getElementById('bootModal');
-    modal.classList.remove('show');
+    if (modal) modal.classList.remove('show');
 }
 
-// Close modal when clicking outside
+// Close modal when clicking outside (not while a connection attempt is running)
 document.addEventListener('click', (e) => {
     const modal = document.getElementById('bootModal');
-    if (e.target === modal) {
+    if (e.target === modal && !bootConnectActive) {
         closeBootModal();
     }
 });

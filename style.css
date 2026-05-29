@@ -664,6 +664,13 @@ body {
     font-size: 1.1em;
 }
 
+.flash-instruction-note {
+    font-size: 0.95em;
+    margin-top: 12px;
+    margin-bottom: 0;
+    line-height: 1.55;
+}
+
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.02); }
@@ -1043,6 +1050,10 @@ esp-web-install-button button:hover {
     display: flex;
 }
 
+#bootTimeoutModal.boot-modal {
+    z-index: 10001;
+}
+
 .boot-modal-content {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 16px;
@@ -1090,6 +1101,34 @@ esp-web-install-button button:hover {
     color: #ffeb3b;
     font-weight: 700;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.boot-modal-countdown {
+    margin-bottom: 24px;
+}
+
+.boot-modal-countdown-text {
+    font-size: 1.35em;
+    font-weight: 700;
+    color: #ffeb3b;
+    margin-bottom: 12px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.boot-modal-progress-bg {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    height: 14px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.boot-modal-progress-fill {
+    background: linear-gradient(90deg, #ffeb3b 0%, #ffc107 100%);
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+    transition: width 0.1s linear;
 }
 
 .boot-modal-close {
